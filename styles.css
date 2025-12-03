@@ -687,30 +687,160 @@ footer {
     .contact-form-card {
         position: static;
     }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 768px) {
+    .hero {
+        padding: 160px 0 100px;
+    }
+
     .hero h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        margin-bottom: 16px;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+        margin-bottom: 35px;
     }
 
     .nav-links {
         display: none;
     }
 
+    .search-box-wrapper {
+        padding: 8px;
+        border-radius: 30px;
+    }
+
     .search-box {
         flex-direction: column;
-        padding: 15px;
+        padding: 12px;
         border-radius: 20px;
+        gap: 10px;
+    }
+
+    .search-icon {
+        display: none;
     }
 
     .search-box select {
         width: 100%;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #eee;
+        padding: 14px 12px;
+        font-size: 0.95rem;
+        border-radius: 12px;
+        background-color: #f8fafc;
+        border: 1px solid #e2e8f0;
     }
 
     .search-box button {
         width: 100%;
+        padding: 14px 30px;
+        font-size: 0.95rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .category-card {
+        padding: 30px 20px;
+    }
+
+    .category-icon {
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 2rem;
+    }
+
+    .category-title {
+        font-size: 1rem;
+    }
+
+    .house-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .house-image {
+        height: 220px;
+    }
+
+    .house-content {
+        padding: 24px;
+    }
+
+    .house-title {
+        font-size: 1.2rem;
+    }
+
+    .house-specs {
+        font-size: 0.9rem;
+        gap: 15px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .disclaimer-box {
+        padding: 30px 20px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .search-box select {
+        font-size: 0.9rem;
+        padding: 12px 10px;
+    }
+
+    .search-box button {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
     }
 }
