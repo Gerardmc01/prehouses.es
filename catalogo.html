@@ -21,16 +21,16 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="catalogo.html" style="color: var(--primary);">Catálogo de Casas</a></li>
-                <li><a href="#">Materiales</a></li>
-                <li><a href="#">Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 8px 20px;">Acceso Usuarios</a></li>
+                <li><a href="catalogo.html" style="color: var(--primary);">Catálogo</a></li>
+                <li><a href="usuarios.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px;">Acceso Usuarios</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Page Header -->
-    <section class="hero" style="padding: 140px 0 60px; min-height: auto;">
+    <section class="hero"
+        style="padding: 140px 0 60px; min-height: auto; background-image: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80');">
         <div class="container hero-content">
             <h1>Catálogo de <br><span>Casas Prefabricadas</span></h1>
             <p>Encuentra la casa que se adapta a ti entre cientos de opciones.</p>
@@ -54,54 +54,72 @@
                 <!-- House 1 -->
                 <div class="house-card">
                     <div class="house-image">
+                        <span class="house-badge">Más Vendida</span>
                         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
                             alt="Casa Prefabricada Moderna">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 45.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">45.000€</div>
+                        </div>
                         <h3 class="house-title">Modelo Nordic Eco</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 80m²</span>
                             <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa-nordic.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- House 2 -->
                 <div class="house-card">
                     <div class="house-image">
+                        <span class="house-badge">Premium</span>
                         <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
                             alt="Casa Prefabricada de Lujo">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 120.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">120.000€</div>
+                        </div>
                         <h3 class="house-title">Villa Modular Premium</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 150m²</span>
                             <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa-villa.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- House 3 -->
                 <div class="house-card">
                     <div class="house-image">
+                        <span class="house-badge">Oferta</span>
                         <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
                             alt="Casa Prefabricada Rústica">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 35.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">35.000€</div>
+                        </div>
                         <h3 class="house-title">Cabaña Prefabricada Wood</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 60m²</span>
                             <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa-wood.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
 
@@ -112,14 +130,19 @@
                             alt="Casa Prefabricada Diseño">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 89.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">89.000€</div>
+                        </div>
                         <h3 class="house-title">Modelo Horizon</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 110m²</span>
                             <span><i class="fa-solid fa-bed"></i> 3 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
+                                Completa</a>
+                        </div>
                     </div>
                 </div>
 
@@ -130,14 +153,19 @@
                             alt="Tiny House Prefabricada">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 25.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">25.000€</div>
+                        </div>
                         <h3 class="house-title">Tiny House Mobile</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 30m²</span>
                             <span><i class="fa-solid fa-bed"></i> 1 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
+                                Completa</a>
+                        </div>
                     </div>
                 </div>
 
@@ -148,14 +176,19 @@
                             alt="Casa Modular">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 150.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">150.000€</div>
+                        </div>
                         <h3 class="house-title">Residencia Elite</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 200m²</span>
                             <span><i class="fa-solid fa-bed"></i> 5 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 3 Baños</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
+                                Completa</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,6 +198,22 @@
     <!-- Footer -->
     <footer>
         <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Prehouses</h4>
+                    <p style="color: var(--text-light); margin-bottom: 20px;">
+                        El portal líder de casas prefabricadas en España.
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
+                        <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
             <div class="copyright">
                 <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
             </div>
