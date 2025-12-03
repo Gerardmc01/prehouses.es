@@ -7,6 +7,12 @@
     <title>Acceso Usuarios | Prehouses</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <style>
         .auth-container {
             min-height: 100vh;
@@ -40,11 +46,20 @@
             font-weight: 600;
             color: var(--text-light);
             border-bottom: 2px solid transparent;
+            transition: all 0.3s;
         }
 
         .auth-tab.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
         }
 
         .form-group {
@@ -59,7 +74,8 @@
             color: var(--secondary);
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
             padding: 12px;
             border: 1px solid #e2e8f0;
@@ -68,7 +84,8 @@
             outline: none;
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             border-color: var(--primary);
         }
 
@@ -80,7 +97,7 @@
 
         .social-btn {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             background: white;
@@ -92,6 +109,46 @@
             gap: 10px;
             font-weight: 500;
             color: var(--text-main);
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background: #f8fafc;
+            border-color: var(--primary);
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .forgot-password {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        .forgot-password a {
+            color: var(--primary);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -107,42 +164,208 @@
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="blog.html">Blog</a></li>
                 <li><a href="usuarios.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px;">Acceso Usuarios</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="usuarios.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
+    </div>
+
     <div class="auth-container">
         <div class="auth-box">
+            <h2 style="margin-bottom: 10px; color: var(--secondary);">Bienvenido a Prehouses</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">Accede a tu cuenta o crea una nueva</p>
+
+            <div class="error-message" id="errorMessage"></div>
+            <div class="success-message" id="successMessage"></div>
+
             <div class="auth-tabs">
-                <div class="auth-tab active">Iniciar Sesión</div>
-                <div class="auth-tab">Registrarse</div>
+                <div class="auth-tab active" onclick="switchTab('login')">Iniciar Sesión</div>
+                <div class="auth-tab" onclick="switchTab('register')">Registrarse</div>
             </div>
 
-            <form>
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" placeholder="tu@email.com">
+                    <input type="email" id="loginEmail" placeholder="tu@email.com" required>
                 </div>
                 <div class="form-group">
                     <label>Contraseña</label>
-                    <input type="password" placeholder="********">
+                    <input type="password" id="loginPassword" placeholder="********" required>
                 </div>
-                <button type="button" class="btn btn-primary" style="width: 100%;">Entrar</button>
+                <div class="forgot-password">
+                    <a href="#" onclick="handleForgotPassword(event)">¿Olvidaste tu contraseña?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="registerName" placeholder="Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="tu@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required
+                        minlength="6">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Cuenta</label>
+                    <select id="registerUserType" required>
+                        <option value="individual">Usuario Individual</option>
+                        <option value="empresa">Empresa / Fabricante</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Crear Cuenta</button>
             </form>
 
             <div class="social-login">
-                <button class="social-btn">
+                <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem;">O continúa con</p>
+                <button class="social-btn" onclick="handleGoogleLogin()">
                     <i class="fa-brands fa-google"></i> Continuar con Google
                 </button>
-                <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-light);">
-                    ¿Eres una empresa? <a href="#" style="color: var(--primary);">Regístrate como profesional</a>
-                </p>
             </div>
         </div>
     </div>
+
+    <!-- Firebase Config & Auth -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        // Switch between login and register tabs
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+
+            hideMessages();
+        }
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            hideMessages();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                await loginWithEmail(email, password);
+            } catch (error) {
+                // Error handling is done in auth.js
+            }
+        }
+
+        // Handle register
+        async function handleRegister(event) {
+            event.preventDefault();
+            hideMessages();
+
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const userType = document.getElementById('registerUserType').value;
+
+            try {
+                await registerWithEmail(email, password, name, userType);
+            } catch (error) {
+                // Error handling is done in auth.js
+            }
+        }
+
+        // Handle Google login
+        async function handleGoogleLogin() {
+            hideMessages();
+            try {
+                await loginWithGoogle();
+            } catch (error) {
+                // Error handling is done in auth.js
+            }
+        }
+
+        // Handle forgot password
+        async function handleForgotPassword(event) {
+            event.preventDefault();
+            const email = prompt('Introduce tu email para recuperar la contraseña:');
+            if (email) {
+                await resetPassword(email);
+            }
+        }
+
+        // Show/hide messages
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Override showError and showSuccess from auth.js
+        window.showError = function (message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => errorDiv.style.display = 'none', 5000);
+        };
+
+        window.showSuccess = function (message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            setTimeout(() => successDiv.style.display = 'none', 5000);
+        };
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, redirect to dashboard
+                db.collection('users').doc(user.uid).get().then((doc) => {
+                    const userType = doc.exists ? doc.data().userType : 'individual';
+                    const redirectUrl = userType === 'empresa' ? 'dashboard-empresa.html' : 'dashboard-usuario.html';
+                    window.location.href = redirectUrl;
+                });
+            }
+        });
+    </script>
 
 </body>
 
