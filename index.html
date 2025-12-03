@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prehouses | Casas Prefabricadas en España</title>
-    <meta name="description" content="En Prehouses te ayudamos a encontrar la casa prefabricada perfecta. El mayor marketplace de casas prefabricadas en España. Comparativa de precios y modelos.">
+    <meta name="description"
+        content="En Prehouses te ayudamos a encontrar la casa prefabricada perfecta. El mayor marketplace de casas prefabricadas en España. Comparativa de precios y modelos.">
     <link rel="stylesheet" href="styles.css">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
     <!-- Navbar -->
@@ -22,7 +25,7 @@
                 <li><a href="catalogo.html">Catálogo de Casas</a></li>
                 <li><a href="#">Materiales</a></li>
                 <li><a href="#">Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 8px 20px;">Acceso Usuarios</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px;">Acceso Usuarios</a></li>
             </ul>
         </div>
     </nav>
@@ -31,11 +34,23 @@
     <section class="hero">
         <div class="container hero-content">
             <h1>Encuentra tu <br><span>Casa Prefabricada</span> en España</h1>
-            <p>En Prehouses te ayudamos a encontrar la casa prefabricada perfecta para tu estilo de vida y presupuesto. Explora cientos de modelos modernos y eficientes.</p>
-            
-            <div class="search-box">
-                <input type="text" placeholder="¿Qué tipo de casa prefabricada buscas? (Ej: Hormigón, Madera...)">
-                <button>Buscar Casa</button>
+            <p>En Prehouses te ayudamos a encontrar la casa prefabricada perfecta para tu estilo de vida y presupuesto.
+                Explora cientos de modelos modernos y eficientes.</p>
+
+            <div class="search-box-wrapper">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <select>
+                        <option value="" disabled selected>¿Qué tipo de casa buscas?</option>
+                        <option value="madera">Casa Prefabricada de Madera</option>
+                        <option value="hormigon">Casa Prefabricada de Hormigón</option>
+                        <option value="acero">Casa Prefabricada de Acero</option>
+                        <option value="modular">Casa Modular Moderna</option>
+                        <option value="container">Casa Contenedor</option>
+                        <option value="tiny">Tiny House</option>
+                    </select>
+                    <button>Buscar Casa</button>
+                </div>
             </div>
         </div>
     </section>
@@ -44,8 +59,9 @@
     <section class="categories">
         <div class="container">
             <h2 class="section-title">Tipos de Casas Prefabricadas</h2>
-            <p class="section-subtitle">Explora nuestro catálogo por materiales y estilos. La casa prefabricada de tus sueños está aquí.</p>
-            
+            <p class="section-subtitle">Explora nuestro catálogo por materiales y estilos. La casa prefabricada de tus
+                sueños está aquí.</p>
+
             <div class="category-grid">
                 <div class="category-card">
                     <div class="category-icon"><i class="fa-solid fa-cubes"></i></div>
@@ -75,63 +91,86 @@
     <section class="featured">
         <div class="container">
             <h2 class="section-title">Casas Prefabricadas Destacadas</h2>
-            <p class="section-subtitle">Descubre las últimas novedades en el mercado de casas prefabricadas en España.</p>
-            
+            <p class="section-subtitle">Descubre las últimas novedades en el mercado de casas prefabricadas en España.
+            </p>
+
             <div class="house-grid">
                 <!-- House 1 -->
                 <div class="house-card">
                     <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80" alt="Casa Prefabricada Moderna">
+                        <span class="house-badge">Más Vendida</span>
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
+                            alt="Casa Prefabricada Moderna">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 45.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">45.000€</div>
+                        </div>
                         <h3 class="house-title">Modelo Nordic Eco</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 80m²</span>
                             <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- House 2 -->
                 <div class="house-card">
                     <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80" alt="Casa Prefabricada de Lujo">
+                        <span class="house-badge">Premium</span>
+                        <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
+                            alt="Casa Prefabricada de Lujo">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 120.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">120.000€</div>
+                        </div>
                         <h3 class="house-title">Villa Modular Premium</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 150m²</span>
                             <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
 
                 <!-- House 3 -->
                 <div class="house-card">
                     <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80" alt="Casa Prefabricada Rústica">
+                        <span class="house-badge">Oferta</span>
+                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
+                            alt="Casa Prefabricada Rústica">
                     </div>
                     <div class="house-content">
-                        <div class="house-price">Desde 35.000€</div>
+                        <div class="house-header">
+                            <div class="house-price">35.000€</div>
+                        </div>
                         <h3 class="house-title">Cabaña Prefabricada Wood</h3>
                         <div class="house-specs">
                             <span><i class="fa-solid fa-ruler-combined"></i> 60m²</span>
                             <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
                             <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
                         </div>
-                        <a href="#" class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</a>
+                        <div class="house-footer">
+                            <a href="detalle-casa.html" class="btn btn-outline"
+                                style="width: 100%; text-align: center;">Ver Ficha Completa</a>
+                        </div>
                     </div>
                 </div>
             </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
-                <a href="catalogo.html" class="btn btn-primary">Ver Catálogo Completo</a>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="catalogo.html" class="btn btn-primary">Ver Catálogo Completo <i
+                        class="fa-solid fa-arrow-right"></i></a>
             </div>
         </div>
     </section>
@@ -142,8 +181,10 @@
             <div class="disclaimer-box">
                 <h3><i class="fa-solid fa-circle-info"></i> Información Importante</h3>
                 <p style="margin-top: 15px; opacity: 0.9;">
-                    En <strong>Prehouses</strong> queremos ser transparentes: <strong>No vendemos casas directamente</strong>. 
-                    Somos un portal marketplace que conecta a usuarios con las mejores empresas de casas prefabricadas en España. 
+                    En <strong>Prehouses</strong> queremos ser transparentes: <strong>No vendemos casas
+                        directamente</strong>.
+                    Somos un portal marketplace que conecta a usuarios con las mejores empresas de casas prefabricadas
+                    en España.
                     Subimos y clasificamos los modelos para facilitarte la búsqueda de tu casa prefabricada ideal.
                 </p>
             </div>
@@ -159,6 +200,11 @@
                     <p style="color: var(--text-light); margin-bottom: 20px;">
                         El portal líder de casas prefabricadas en España. Encuentra tu hogar ideal hoy mismo.
                     </p>
+                    <div style="display: flex; gap: 15px; font-size: 1.2rem; color: var(--primary);">
+                        <i class="fa-brands fa-instagram"></i>
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-twitter"></i>
+                    </div>
                 </div>
                 <div class="footer-col">
                     <h4>Explorar</h4>
@@ -186,4 +232,5 @@
     </footer>
 
 </body>
+
 </html>
