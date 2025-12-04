@@ -1,25 +1,21 @@
-// Firebase Configuration
-// IMPORTANTE: Reemplaza estos valores con los de tu proyecto Firebase
-// Los obtendrás desde: Firebase Console > Project Settings > Your apps > Web app
+// Firebase Configuration for Prehouses
+// Configuración de Firebase para el sistema de autenticación
 
 const firebaseConfig = {
-    apiKey: "TU_API_KEY_AQUI",
-    authDomain: "TU_PROJECT_ID.firebaseapp.com",
-    projectId: "TU_PROJECT_ID",
-    storageBucket: "TU_PROJECT_ID.appspot.com",
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
-    appId: "TU_APP_ID"
+    apiKey: "AIzaSyA9cOlnbxJv9t-bEgiPQJOPgj7gR0v5xwc",
+    authDomain: "prehouses-b224d.firebaseapp.com",
+    projectId: "prehouses-b224d",
+    storageBucket: "prehouses-b224d.firebasestorage.app",
+    messagingSenderId: "996192688774",
+    appId: "1:996192688774:web:00bdafc2e2ddc26bcd8f07",
+    measurementId: "G-0PL4DH2ZGL"
 };
 
 // Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 
-// Servicios de Firebase
+// Exportar servicios
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Configurar proveedor de Google
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-googleProvider.setCustomParameters({
-    prompt: 'select_account'
-});
+console.log('✅ Firebase inicializado correctamente para Prehouses');
