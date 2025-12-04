@@ -263,23 +263,60 @@
         let allCompanies = [];
         let currentFilter = 'all';
 
-        // Protect admin page
+        // Auth check without redirects/alerts
         auth.onAuthStateChanged((user) => {
-            if (!user) {
-                alert('⚠️ Debes iniciar sesión para acceder a esta página');
-                window.location.href = 'usuarios.html';
-                return;
-            }
+            const container = document.querySelector('.admin-container');
 
-            if (user.email !== ADMIN_EMAIL) {
-                alert('⚠️ Acceso denegado. Solo administradores.');
-                auth.signOut();
-                window.location.href = 'index.html';
-                return;
+            if (user && user.email === ADMIN_EMAIL) {
+                // Admin verified
+                loadCompanies();
+            } else if (user) {
+                // Logged in but not admin
+                container.innerHTML = `
+                    <div class="admin-header" style="background: #ef4444;">
+                        <h1><i class="fa-solid fa-lock"></i> Acceso Denegado</h1>
+                        <p>Has iniciado sesión como <strong>${user.email}</strong>, pero no eres administrador.</p>
+                        <button onclick="auth.signOut()" class="btn" style="background: white; color: #ef4444; margin-top: 20px;">
+                            Cerrar Sesión
+                        </button>
+                    </div>
+                `;
+            } else {
+                // Not logged in - Show login form directly
+                container.innerHTML = `
+                    <div class="admin-header">
+                        <h1><i class="fa-solid fa-shield-halved"></i> Panel de Administración</h1>
+                        <p>Debes iniciar sesión para acceder.</p>
+                    </div>
+                    
+                    <div style="max-width: 400px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px;">Email</label>
+                            <input type="email" id="inlineEmail" value="prehouses24h@gmail.com" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px;">Contraseña</label>
+                            <input type="password" id="inlinePassword" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                        </div>
+                        <button onclick="inlineLogin()" class="btn btn-primary" style="width: 100%; background: #dc2626;">
+                            Iniciar Sesión
+                        </button>
+                    </div>
+                `;
             }
-
-            loadCompanies();
         });
+
+        async function inlineLogin() {
+            const email = document.getElementById('inlineEmail').value;
+            const password = document.getElementById('inlinePassword').value;
+
+            try {
+                await auth.signInWithEmailAndPassword(email, password);
+                // Page will auto-reload due to onAuthStateChanged
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
 
         // Load all companies
         async function loadCompanies() {
