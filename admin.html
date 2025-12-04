@@ -298,8 +298,11 @@
                             <label style="display: block; margin-bottom: 8px;">Contraseña</label>
                             <input type="password" id="inlinePassword" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
                         </div>
-                        <button onclick="inlineLogin()" class="btn btn-primary" style="width: 100%; background: #dc2626;">
+                        <button onclick="inlineLogin()" class="btn btn-primary" style="width: 100%; background: #dc2626; margin-bottom: 10px;">
                             Iniciar Sesión
+                        </button>
+                        <button onclick="resetInlinePassword()" class="btn" style="width: 100%; background: transparent; color: #666; font-size: 0.9rem;">
+                            ¿Olvidaste tu contraseña?
                         </button>
                     </div>
                 `;
@@ -314,7 +317,21 @@
                 await auth.signInWithEmailAndPassword(email, password);
                 // Page will auto-reload due to onAuthStateChanged
             } catch (error) {
-                alert('Error: ' + error.message);
+                alert('Error: Contraseña incorrecta o usuario no encontrado.');
+            }
+        }
+
+        async function resetInlinePassword() {
+            const email = document.getElementById('inlineEmail').value;
+            if (!email) {
+                alert('Por favor, escribe tu email primero.');
+                return;
+            }
+            try {
+                await auth.sendPasswordResetEmail(email);
+                alert('✅ Email de recuperación enviado a ' + email + '. Revisa tu bandeja de entrada (y SPAM).');
+            } catch (error) {
+                alert('Error al enviar email: ' + error.message);
             }
         }
 
