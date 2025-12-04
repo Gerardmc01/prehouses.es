@@ -149,6 +149,9 @@
             </div>
         </div>
 
+        <!-- Status Banner -->
+        <div id="statusBanner" style="display: none;"></div>
+
         <!-- Estadísticas -->
         <div class="dashboard-grid">
             <div class="dashboard-card">
@@ -266,14 +269,91 @@
                 document.getElementById('companyInfo').innerHTML = `
                     <p><strong>Nombre de la empresa:</strong> ${userData.name || 'No especificado'}</p>
                     <p><strong>Email de contacto:</strong> ${currentUser.email}</p>
+                    <p><strong>CIF/NIF:</strong> ${userData.cif || 'No especificado'}</p>
+                    <p><strong>Teléfono:</strong> ${userData.phone || 'No especificado'}</p>
+                    <p><strong>Sitio web:</strong> ${userData.website ? `<a href="${userData.website}" target="_blank">${userData.website}</a>` : 'No especificado'}</p>
                     <p><strong>Tipo de cuenta:</strong> Empresa / Fabricante</p>
                     <p><strong>Miembro desde:</strong> ${fechaRegistro}</p>
                     <p><strong>Estado del email:</strong> ${currentUser.emailVerified ? '✅ Verificado' : '⚠️ Pendiente de verificación'}</p>
+                    <p><strong>Estado de la cuenta:</strong> ${getStatusText(userData.status)}</p>
                     <p><strong>Plan actual:</strong> Gratuito</p>
                 `;
 
+                // Show status banner
+                showStatusBanner(userData.status);
+
             } catch (error) {
                 console.error('Error cargando datos:', error);
+            }
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            switch (status) {
+                case 'approved': return '✅ Aprobada';
+                case 'rejected': return '❌ Rechazada';
+                case 'pending':
+                default: return '🟡 Pendiente de aprobación';
+            }
+        }
+
+        // Show status banner
+        function showStatusBanner(status) {
+            const banner = document.getElementById('statusBanner');
+
+            if (status === 'pending') {
+                banner.innerHTML = `
+                    <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <h3 style="color: #92400e; margin-bottom: 10px;">
+                            <i class="fa-solid fa-clock"></i> Cuenta en Revisión
+                        </h3>
+                        <p style="color: #92400e; margin: 0; line-height: 1.6;">
+                            Tu solicitud de empresa está siendo revisada por nuestro equipo. 
+                            Te contactaremos en las próximas 24-48 horas para agendar una breve videollamada de presentación.
+                            Mientras tanto, puedes explorar el catálogo y familiarizarte con la plataforma.
+                        </p>
+                    </div>
+                `;
+                banner.style.display = 'block';
+
+                // Disable quick actions
+                document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                    btn.style.opacity = '0.5';
+                    btn.style.pointerEvents = 'none';
+                });
+
+            } else if (status === 'rejected') {
+                banner.innerHTML = `
+                    <div style="background: #fee2e2; border-left: 4px solid #ef4444; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <h3 style="color: #991b1b; margin-bottom: 10px;">
+                            <i class="fa-solid fa-times-circle"></i> Solicitud Rechazada
+                        </h3>
+                        <p style="color: #991b1b; margin: 0; line-height: 1.6;">
+                            Lamentablemente, tu solicitud de empresa no ha sido aprobada en este momento.
+                            Si crees que esto es un error, por favor contacta con nosotros en prehouses24h@gmail.com
+                        </p>
+                    </div>
+                `;
+                banner.style.display = 'block';
+
+                // Disable quick actions
+                document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                    btn.style.opacity = '0.5';
+                    btn.style.pointerEvents = 'none';
+                });
+
+            } else if (status === 'approved') {
+                banner.innerHTML = `
+                    <div style="background: #d1fae5; border-left: 4px solid #10b981; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                        <h3 style="color: #065f46; margin-bottom: 10px;">
+                            <i class="fa-solid fa-check-circle"></i> ¡Cuenta Aprobada!
+                        </h3>
+                        <p style="color: #065f46; margin: 0; line-height: 1.6;">
+                            Tu empresa ha sido verificada y aprobada. Ya puedes empezar a publicar tus casas en el catálogo.
+                        </p>
+                    </div>
+                `;
+                banner.style.display = 'block';
             }
         }
 

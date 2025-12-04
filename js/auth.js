@@ -26,7 +26,7 @@ function showSuccess(message) {
 }
 
 // Register with email and password
-async function registerWithEmail(email, password, name, userType) {
+async function registerWithEmail(email, password, name, userType, companyData = null) {
     try {
         // Create user in Firebase Auth
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
@@ -37,8 +37,8 @@ async function registerWithEmail(email, password, name, userType) {
             displayName: name
         });
 
-        // Save additional data in Firestore
-        await db.collection('users').doc(user.uid).set({
+        // Prepare user data
+        const userData = {
             name: name,
             email: email,
             userType: userType, // 'individual' or 'empresa'
@@ -46,12 +46,30 @@ async function registerWithEmail(email, password, name, userType) {
             favoritos: [],
             consultas: 0,
             alertas: 0
-        });
+        };
+
+        // Add company-specific data and status
+        if (userType === 'empresa' && companyData) {
+            userData.cif = companyData.cif;
+            userData.phone = companyData.phone;
+            userData.website = companyData.website;
+            userData.status = 'pending'; // pending, approved, rejected
+            userData.casasPublicadas = 0;
+            userData.visualizaciones = 0;
+        }
+
+        // Save additional data in Firestore
+        await db.collection('users').doc(user.uid).set(userData);
 
         // Send verification email
         await user.sendEmailVerification();
 
-        showSuccess('✅ Cuenta creada! Revisa tu email (y carpeta de SPAM) para verificar tu cuenta.');
+        // Different messages based on user type
+        if (userType === 'empresa') {
+            showSuccess('✅ Solicitud enviada! Revisaremos tu empresa y te contactaremos en 24-48h. Revisa tu email (y SPAM) para verificar tu cuenta.');
+        } else {
+            showSuccess('✅ Cuenta creada! Revisa tu email (y carpeta de SPAM) para verificar tu cuenta.');
+        }
 
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {

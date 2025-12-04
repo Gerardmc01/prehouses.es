@@ -221,8 +221,8 @@
             <!-- Register Form -->
             <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
                 <div class="form-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" id="registerName" placeholder="Juan Pérez" required>
+                    <label>Nombre Completo / Empresa</label>
+                    <input type="text" id="registerName" placeholder="Juan Pérez / Mi Empresa SL" required>
                 </div>
                 <div class="form-group">
                     <label>Email</label>
@@ -235,11 +235,35 @@
                 </div>
                 <div class="form-group">
                     <label>Tipo de Cuenta</label>
-                    <select id="registerUserType" required>
-                        <option value="individual">Usuario Individual</option>
+                    <select id="registerUserType" required onchange="toggleCompanyFields()">
+                        <option value="individual">Usuario Particular</option>
                         <option value="empresa">Empresa / Fabricante</option>
                     </select>
                 </div>
+
+                <!-- Campos adicionales para empresas (ocultos por defecto) -->
+                <div id="companyFields" style="display: none;">
+                    <div class="form-group">
+                        <label>CIF / NIF de la Empresa</label>
+                        <input type="text" id="registerCIF" placeholder="B12345678">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono de Contacto</label>
+                        <input type="tel" id="registerPhone" placeholder="+34 600 000 000">
+                    </div>
+                    <div class="form-group">
+                        <label>Sitio Web (opcional)</label>
+                        <input type="url" id="registerWebsite" placeholder="https://www.tuempresa.com">
+                    </div>
+                    <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                        <p style="margin: 0; font-size: 0.85rem; color: #075985; line-height: 1.6;">
+                            <strong><i class="fa-solid fa-info-circle"></i> Verificación de empresa:</strong><br>
+                            Tu cuenta será revisada por nuestro equipo. Te contactaremos en 24-48h para una breve
+                            videollamada de presentación.
+                        </p>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Crear Cuenta</button>
             </form>
 
@@ -296,6 +320,24 @@
             hideMessages();
         }
 
+        // Toggle company fields visibility
+        function toggleCompanyFields() {
+            const userType = document.getElementById('registerUserType').value;
+            const companyFields = document.getElementById('companyFields');
+
+            if (userType === 'empresa') {
+                companyFields.style.display = 'block';
+                // Make company fields required
+                document.getElementById('registerCIF').required = true;
+                document.getElementById('registerPhone').required = true;
+            } else {
+                companyFields.style.display = 'none';
+                // Make company fields optional
+                document.getElementById('registerCIF').required = false;
+                document.getElementById('registerPhone').required = false;
+            }
+        }
+
         // Handle login
         async function handleLogin(event) {
             event.preventDefault();
@@ -321,8 +363,18 @@
             const password = document.getElementById('registerPassword').value;
             const userType = document.getElementById('registerUserType').value;
 
+            // Collect company data if empresa
+            let companyData = null;
+            if (userType === 'empresa') {
+                companyData = {
+                    cif: document.getElementById('registerCIF').value,
+                    phone: document.getElementById('registerPhone').value,
+                    website: document.getElementById('registerWebsite').value || ''
+                };
+            }
+
             try {
-                await registerWithEmail(email, password, name, userType);
+                await registerWithEmail(email, password, name, userType, companyData);
             } catch (error) {
                 // Error handling is done in auth.js
             }
