@@ -171,6 +171,25 @@
         </div>
     </footer>
 
+    <script>
+        // Gallery Functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.querySelector('.main-image img');
+
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', function () {
+                    // Remove active class from all
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    // Add active to clicked
+                    this.classList.add('active');
+                    // Update main image
+                    const newSrc = this.querySelector('img').src;
+                    mainImage.src = newSrc;
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
