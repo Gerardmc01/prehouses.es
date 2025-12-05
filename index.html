@@ -88,11 +88,23 @@
                         <option value="container">Casa Contenedor</option>
                         <option value="ecologica">Casa Ecológica</option>
                     </select>
-                    <button onclick="window.location.href='catalogo.html'">Buscar Casa</button>
+                    <button onclick="searchHouses()">Buscar Casa</button>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        function searchHouses() {
+            const select = document.getElementById('search-select');
+            const category = select.value;
+            if (category) {
+                window.location.href = `catalogo.html?category=${category}`;
+            } else {
+                window.location.href = 'catalogo.html';
+            }
+        }
+    </script>
 
     <!-- Categories -->
     <section class="categories">

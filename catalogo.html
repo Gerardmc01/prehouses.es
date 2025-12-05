@@ -256,28 +256,47 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             const houseCards = document.querySelectorAll('.house-card');
 
-            filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    filterBtns.forEach(b => {
+            // Function to apply filter
+            function applyFilter(filterValue) {
+                // Update buttons
+                filterBtns.forEach(b => {
+                    if (b.getAttribute('data-filter') === filterValue) {
+                        b.classList.remove('btn-outline');
+                        b.classList.add('btn-primary');
+                    } else {
                         b.classList.remove('btn-primary');
                         b.classList.add('btn-outline');
-                    });
-                    // Add active class to clicked button
-                    btn.classList.remove('btn-outline');
-                    btn.classList.add('btn-primary');
+                    }
+                });
 
-                    const filterValue = btn.getAttribute('data-filter');
+                // Filter cards
+                houseCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
 
-                    houseCards.forEach(card => {
-                        if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                            card.style.display = 'flex';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    });
+            // Add click events
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    applyFilter(btn.getAttribute('data-filter'));
                 });
             });
+
+            // Check URL parameters on load
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+
+            if (category) {
+                // Find button with this category
+                const targetBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+                if (targetBtn) {
+                    applyFilter(category);
+                }
+            }
         });
     </script>
 
