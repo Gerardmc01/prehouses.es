@@ -248,7 +248,103 @@
     <section class="featured" style="padding-top: 40px; background: white;">
         <div class="container">
 
-            <!-- Filters -->
+            <!-- Advanced Filters -->
+            <div class="advanced-filters"
+                style="background: #f8fafc; padding: 30px; border-radius: 16px; margin-bottom: 40px;">
+                <h3 style="margin-bottom: 25px; color: var(--secondary); text-align: center;">
+                    <i class="fa-solid fa-sliders"></i> Búsqueda Avanzada
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+
+                    <!-- Price Range Slider -->
+                    <div class="filter-group">
+                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
+                            <i class="fa-solid fa-euro-sign"></i> Precio
+                        </label>
+                        <div style="padding: 0 10px;">
+                            <input type="range" id="priceMin" min="0" max="200000" value="0" step="5000"
+                                style="width: 100%;" oninput="updatePriceLabel()">
+                            <div
+                                style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.9rem; color: var(--text-light);">
+                                <span id="priceMinLabel">0€</span>
+                                <span>-</span>
+                                <span id="priceMaxLabel">200.000€</span>
+                            </div>
+                            <input type="range" id="priceMax" min="0" max="200000" value="200000" step="5000"
+                                style="width: 100%; margin-top: 10px;" oninput="updatePriceLabel()">
+                        </div>
+                    </div>
+
+                    <!-- Square Meters -->
+                    <div class="filter-group">
+                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
+                            <i class="fa-solid fa-ruler-combined"></i> Metros Cuadrados
+                        </label>
+                        <div style="padding: 0 10px;">
+                            <input type="range" id="areaMin" min="0" max="300" value="0" step="10" style="width: 100%;"
+                                oninput="updateAreaLabel()">
+                            <div
+                                style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.9rem; color: var(--text-light);">
+                                <span id="areaMinLabel">0m²</span>
+                                <span>-</span>
+                                <span id="areaMaxLabel">300m²</span>
+                            </div>
+                            <input type="range" id="areaMax" min="0" max="300" value="300" step="10"
+                                style="width: 100%; margin-top: 10px;" oninput="updateAreaLabel()">
+                        </div>
+                    </div>
+
+                    <!-- Bedrooms -->
+                    <div class="filter-group">
+                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
+                            <i class="fa-solid fa-bed"></i> Habitaciones
+                        </label>
+                        <select id="bedroomsFilter"
+                            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 1rem;">
+                            <option value="all">Todas</option>
+                            <option value="1">1 Habitación</option>
+                            <option value="2">2 Habitaciones</option>
+                            <option value="3">3 Habitaciones</option>
+                            <option value="4">4 Habitaciones</option>
+                            <option value="5">5+ Habitaciones</option>
+                        </select>
+                    </div>
+
+                    <!-- Province -->
+                    <div class="filter-group">
+                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
+                            <i class="fa-solid fa-location-dot"></i> Provincia
+                        </label>
+                        <select id="provinceFilter"
+                            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 1rem;">
+                            <option value="all">Toda España</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="barcelona">Barcelona</option>
+                            <option value="valencia">Valencia</option>
+                            <option value="sevilla">Sevilla</option>
+                            <option value="malaga">Málaga</option>
+                            <option value="alicante">Alicante</option>
+                            <option value="murcia">Murcia</option>
+                            <option value="cadiz">Cádiz</option>
+                            <option value="otras">Otras</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Apply Filters Button -->
+                <div style="text-align: center; margin-top: 25px;">
+                    <button onclick="applyAdvancedFilters()" class="btn btn-primary" style="padding: 12px 40px;">
+                        <i class="fa-solid fa-filter"></i> Aplicar Filtros
+                    </button>
+                    <button onclick="resetFilters()" class="btn btn-outline"
+                        style="padding: 12px 40px; margin-left: 10px;">
+                        <i class="fa-solid fa-rotate-right"></i> Limpiar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Category Filters -->
             <div class="filter-container"
                 style="margin-bottom: 40px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
                 <button class="btn btn-primary filter-btn" data-filter="all">Todos</button>
@@ -260,7 +356,8 @@
 
             <div class="house-grid">
                 <!-- House 1: Madera -->
-                <a href="detalle-casa-nordic.html" class="house-card" data-category="madera" id="card_house_nordic">
+                <a href="detalle-casa-nordic.html" class="house-card" data-category="madera" data-price="45000"
+                    data-area="80" data-bedrooms="2" data-province="madrid" id="card_house_nordic">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_nordic')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -286,7 +383,8 @@
                 </a>
 
                 <!-- House 2: Hormigon -->
-                <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon" id="card_house_villa">
+                <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon" data-price="120000"
+                    data-area="150" data-bedrooms="4" data-province="barcelona" id="card_house_villa">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_villa')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -312,7 +410,8 @@
                 </a>
 
                 <!-- House 3: Madera -->
-                <a href="detalle-casa-wood.html" class="house-card" data-category="madera" id="card_house_wood">
+                <a href="detalle-casa-wood.html" class="house-card" data-category="madera" data-price="35000"
+                    data-area="60" data-bedrooms="1" data-province="valencia" id="card_house_wood">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_wood')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -338,7 +437,8 @@
                 </a>
 
                 <!-- House 4: Acero -->
-                <a href="#" class="house-card" data-category="acero" id="card_house_horizon">
+                <a href="#" class="house-card" data-category="acero" data-price="89000" data-area="120"
+                    data-bedrooms="3" data-province="malaga" id="card_house_horizon">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_horizon')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -363,7 +463,8 @@
                 </a>
 
                 <!-- House 5: Movil -->
-                <a href="#" class="house-card" data-category="movil" id="card_house_tiny">
+                <a href="#" class="house-card" data-category="movil" data-price="25000" data-area="30" data-bedrooms="1"
+                    data-province="alicante" id="card_house_tiny">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_tiny')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -388,7 +489,8 @@
                 </a>
 
                 <!-- House 6: Hormigon -->
-                <a href="#" class="house-card" data-category="hormigon" id="card_house_elite">
+                <a href="#" class="house-card" data-category="hormigon" data-price="150000" data-area="200"
+                    data-bedrooms="5" data-province="sevilla" id="card_house_elite">
                     <button class="fav-btn" onclick="toggleFav(event, 'house_elite')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -621,6 +723,116 @@
 
         function closeComparison() {
             document.getElementById('comparisonModal').classList.remove('active');
+        }
+
+        // Advanced Filters Functions
+        function updatePriceLabel() {
+            const min = document.getElementById('priceMin').value;
+            const max = document.getElementById('priceMax').value;
+            document.getElementById('priceMinLabel').textContent = parseInt(min).toLocaleString('es-ES') + '€';
+            document.getElementById('priceMaxLabel').textContent = parseInt(max).toLocaleString('es-ES') + '€';
+        }
+
+        function updateAreaLabel() {
+            const min = document.getElementById('areaMin').value;
+            const max = document.getElementById('areaMax').value;
+            document.getElementById('areaMinLabel').textContent = min + 'm²';
+            document.getElementById('areaMaxLabel').textContent = max + 'm²';
+        }
+
+        function applyAdvancedFilters() {
+            const priceMin = parseInt(document.getElementById('priceMin').value);
+            const priceMax = parseInt(document.getElementById('priceMax').value);
+            const areaMin = parseInt(document.getElementById('areaMin').value);
+            const areaMax = parseInt(document.getElementById('areaMax').value);
+            const bedrooms = document.getElementById('bedroomsFilter').value;
+            const province = document.getElementById('provinceFilter').value;
+
+            const houseCards = document.querySelectorAll('.house-card');
+            let visibleCount = 0;
+
+            houseCards.forEach(card => {
+                const cardPrice = parseInt(card.getAttribute('data-price'));
+                const cardArea = parseInt(card.getAttribute('data-area'));
+                const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
+                const cardProvince = card.getAttribute('data-province');
+
+                let show = true;
+
+                // Price filter
+                if (cardPrice < priceMin || cardPrice > priceMax) {
+                    show = false;
+                }
+
+                // Area filter
+                if (cardArea < areaMin || cardArea > areaMax) {
+                    show = false;
+                }
+
+                // Bedrooms filter
+                if (bedrooms !== 'all') {
+                    if (bedrooms === '5' && cardBedrooms < 5) {
+                        show = false;
+                    } else if (bedrooms !== '5' && cardBedrooms !== parseInt(bedrooms)) {
+                        show = false;
+                    }
+                }
+
+                // Province filter
+                if (province !== 'all' && cardProvince !== province) {
+                    show = false;
+                }
+
+                card.style.display = show ? 'flex' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Show message if no results
+            const grid = document.querySelector('.house-grid');
+            let noResultsMsg = document.getElementById('noResultsMessage');
+
+            if (visibleCount === 0) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.id = 'noResultsMessage';
+                    noResultsMsg.style.cssText = 'grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-light);';
+                    noResultsMsg.innerHTML = `
+                        <i class="fa-solid fa-house-circle-xmark" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px;"></i>
+                        <h3>No se encontraron casas con estos filtros</h3>
+                        <p>Prueba a ajustar los criterios de búsqueda</p>
+                        <button onclick="resetFilters()" class="btn btn-primary" style="margin-top: 20px;">Limpiar Filtros</button>
+                    `;
+                    grid.appendChild(noResultsMsg);
+                }
+                noResultsMsg.style.display = 'block';
+            } else {
+                if (noResultsMsg) {
+                    noResultsMsg.style.display = 'none';
+                }
+            }
+
+            // Scroll to results
+            document.querySelector('.house-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetFilters() {
+            document.getElementById('priceMin').value = 0;
+            document.getElementById('priceMax').value = 200000;
+            document.getElementById('areaMin').value = 0;
+            document.getElementById('areaMax').value = 300;
+            document.getElementById('bedroomsFilter').value = 'all';
+            document.getElementById('provinceFilter').value = 'all';
+
+            updatePriceLabel();
+            updateAreaLabel();
+
+            const houseCards = document.querySelectorAll('.house-card');
+            houseCards.forEach(card => card.style.display = 'flex');
+
+            const noResultsMsg = document.getElementById('noResultsMessage');
+            if (noResultsMsg) {
+                noResultsMsg.style.display = 'none';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
