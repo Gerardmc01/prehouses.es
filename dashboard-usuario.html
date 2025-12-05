@@ -285,34 +285,77 @@
             }
         }
 
+        // Datos estáticos de casas (para mapear IDs)
+        const staticHouses = {
+            'house_nordic': { title: 'Modelo Nordic Eco', price: '45.000€', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-nordic.html' },
+            'house_villa': { title: 'Villa Modular Premium', price: '120.000€', img: 'https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-villa.html' },
+            'house_wood': { title: 'Cabaña Prefabricada Wood', price: '35.000€', img: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-wood.html' },
+            'house_horizon': { title: 'Modelo Horizon', price: '89.000€', img: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80', link: '#' },
+            'house_tiny': { title: 'Tiny House Mobile', price: '25.000€', img: 'https://images.unsplash.com/photo-1625573134318-c583c18e3c64?auto=format&fit=crop&w=800&q=80', link: '#' },
+            'house_elite': { title: 'Residencia Elite', price: '150.000€', img: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80', link: '#' }
+        };
+
         // Cargar casas favoritas
-        function loadFavorites() {
+        async function loadFavorites() {
             const favoritesList = document.getElementById('favoritesList');
 
-            if (!userData.favoritos || userData.favoritos.length === 0) {
-                favoritesList.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fa-solid fa-heart-crack"></i>
-                        <p>Aún no tienes casas favoritas</p>
-                        <button onclick="window.location.href='catalogo.html'" class="btn btn-primary" style="margin-top: 20px;">
-                            Explorar Catálogo
-                        </button>
-                    </div>
-                `;
-                return;
-            }
+            try {
+                const snapshot = await db.collection('favorites')
+                    .where('userId', '==', currentUser.uid)
+                    .orderBy('createdAt', 'desc')
+                    .get();
 
-            // Aquí cargarías las casas favoritas desde Firestore
-            // Por ahora mostramos un mensaje
-            favoritesList.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa-solid fa-heart"></i>
-                    <p>Tienes ${userData.favoritos.length} casa(s) favorita(s)</p>
-                    <p style="font-size: 0.9rem; color: var(--text-light); margin-top: 10px;">
-                        La funcionalidad de favoritos se completará próximamente
-                    </p>
-                </div>
-            `;
+                if (snapshot.empty) {
+                    favoritesList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-heart-crack"></i>
+                            <p>Aún no tienes casas favoritas</p>
+                            <button onclick="window.location.href='catalogo.html'" class="btn btn-primary" style="margin-top: 20px;">
+                                Explorar Catálogo
+                            </button>
+                        </div>
+                    `;
+                    document.getElementById('favoritosCount').textContent = 0;
+                    return;
+                }
+
+                document.getElementById('favoritosCount').textContent = snapshot.size;
+                let html = '';
+
+                snapshot.forEach(doc => {
+                    const houseId = doc.data().houseId;
+                    const house = staticHouses[houseId];
+
+                    if (house) {
+                        html += `
+                            <div class="favorite-item">
+                                <img src="${house.img}" alt="${house.title}">
+                                <div style="flex: 1;">
+                                    <h4 style="margin-bottom: 5px;">${house.title}</h4>
+                                    <p style="color: var(--primary); font-weight: 700;">${house.price}</p>
+                                </div>
+                                <a href="${house.link}" class="btn btn-outline" style="padding: 8px 15px;">Ver</a>
+                                <button onclick="removeFavorite('${doc.id}')" class="btn" style="color: #ef4444; background: transparent;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                    }
+                });
+
+                favoritesList.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+                favoritesList.innerHTML = '<p>Error al cargar favoritos</p>';
+            }
+        }
+
+        async function removeFavorite(docId) {
+            if (confirm('¿Eliminar de favoritos?')) {
+                await db.collection('favorites').doc(docId).delete();
+                loadFavorites(); // Reload
+            }
         }
 
         // Verificar email

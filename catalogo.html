@@ -256,9 +256,6 @@
             <div class="house-grid">
                 <!-- House 1: Madera -->
                 <a href="detalle-casa-nordic.html" class="house-card" data-category="madera" id="card_house_nordic">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_nordic')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_nordic')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -285,9 +282,6 @@
 
                 <!-- House 2: Hormigon -->
                 <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon" id="card_house_villa">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_villa')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_villa')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -314,9 +308,6 @@
 
                 <!-- House 3: Madera -->
                 <a href="detalle-casa-wood.html" class="house-card" data-category="madera" id="card_house_wood">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_wood')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_wood')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -343,9 +334,6 @@
 
                 <!-- House 4: Acero -->
                 <a href="#" class="house-card" data-category="acero" id="card_house_horizon">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_horizon')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_horizon')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -371,9 +359,6 @@
 
                 <!-- House 5: Movil -->
                 <a href="#" class="house-card" data-category="movil" id="card_house_tiny">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_tiny')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_tiny')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -399,9 +384,6 @@
 
                 <!-- House 6: Hormigon -->
                 <a href="#" class="house-card" data-category="hormigon" id="card_house_elite">
-                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
-                        <input type="checkbox" onchange="toggleCompare(this, 'house_elite')"> Comparar
-                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_elite')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -427,26 +409,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Comparison Floating Bar -->
-    <div class="comparison-bar" id="comparisonBar">
-        <div class="comparison-count" id="comparisonCount">0</div>
-        <span style="font-weight: 600;">Casas seleccionadas</span>
-        <button class="btn btn-primary" onclick="openComparison()" style="padding: 8px 20px;">Comparar Ahora</button>
-        <button class="btn btn-outline" onclick="clearComparison()"
-            style="padding: 8px 15px; border: none; color: #64748b;"><i class="fa-solid fa-times"></i></button>
-    </div>
-
-    <!-- Comparison Modal -->
-    <div class="comparison-modal" id="comparisonModal">
-        <div class="comparison-content">
-            <i class="fa-solid fa-times close-modal" onclick="closeComparison()"></i>
-            <h2 style="margin-bottom: 20px; color: var(--secondary);">Comparativa de Modelos</h2>
-            <div id="comparisonTableContainer">
-                <!-- Table will be injected here -->
-            </div>
-        </div>
-    </div>
 
     <!-- Footer -->
     <footer>

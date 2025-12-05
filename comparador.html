@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparador de Casas | Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .comparison-container {
+            max-width: 1200px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+        }
+
+        .comparison-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .comparison-table-wrapper {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            color: #64748b;
+            font-weight: 600;
+            width: 200px;
+            background: #f8fafc;
+            position: sticky;
+            left: 0;
+        }
+
+        .comparison-table img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .house-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+
+        .house-price {
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .remove-btn {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="favicon_prehouses_1764872622091.png" alt="Logo Prehouses"
+                    style="width: 30px; height: 30px; margin-right: 10px; border-radius: 4px;">
+                Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="usuarios.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="comparison-container">
+        <div class="comparison-header">
+            <h1>Comparador de Modelos</h1>
+            <p>Analiza las diferencias y elige la mejor opción para ti.</p>
+        </div>
+
+        <div class="comparison-table-wrapper" id="tableContainer">
+            <!-- Table injected via JS -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            renderTable();
+        });
+
+        function renderTable() {
+            const container = document.getElementById('tableContainer');
+            const comparisonList = JSON.parse(localStorage.getItem('comparisonList') || '[]');
+
+            if (comparisonList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                        <h2>No hay casas para comparar</h2>
+                        <p>Añade modelos desde sus fichas para verlos aquí.</p>
+                        <a href="catalogo.html" class="btn btn-primary" style="margin-top: 20px;">Ir al Catálogo</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<table class="comparison-table"><tbody>';
+
+            // Image Row
+            html += '<tr><th>Modelo</th>';
+            comparisonList.forEach(house => {
+                html += `
+                    <td>
+                        <img src="${house.image}" alt="${house.title}">
+                        <div class="house-title">${house.title}</div>
+                        <button class="remove-btn" onclick="removeItem('${house.id}')"><i class="fa-solid fa-trash"></i> Quitar</button>
+                    </td>
+                `;
+            });
+            html += '</tr>';
+
+            // Price Row
+            html += '<tr><th>Precio</th>';
+            comparisonList.forEach(house => {
+                html += `<td><div class="house-price">${house.price}</div></td>`;
+            });
+            html += '</tr>';
+
+            // Specs Rows
+            const specs = [
+                { label: 'Superficie', key: 'area' },
+                { label: 'Habitaciones', key: 'rooms' },
+                { label: 'Baños', key: 'baths' },
+                { label: 'Categoría', key: 'category' }
+            ];
+
+            specs.forEach(spec => {
+                html += `<tr><th>${spec.label}</th>`;
+                comparisonList.forEach(house => {
+                    let val = house[spec.key];
+                    if (spec.key === 'category') val = val.charAt(0).toUpperCase() + val.slice(1);
+                    html += `<td>${val}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            // Action Row
+            html += '<tr><th>Acción</th>';
+            comparisonList.forEach(house => {
+                html += `<td><a href="${house.link}" class="btn btn-primary">Ver Ficha</a></td>`;
+            });
+            html += '</tr>';
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function removeItem(id) {
+            let list = JSON.parse(localStorage.getItem('comparisonList') || '[]');
+            list = list.filter(item => item.id !== id);
+            localStorage.setItem('comparisonList', JSON.stringify(list));
+            renderTable();
+        }
+    </script>
+
+</body>
+
+</html>
