@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modelo Granito 70m² - Prehouses</title>
+    <meta name="description"
+        content="Casa prefabricada de hormigón Granito 70m². Vivienda económica y duradera con 3 habitaciones y 1 baño. Ideal para familias.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="usuarios.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso Usuarios</a></li>
+            </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="usuarios.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso Usuarios</a></li>
+        </ul>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
+
+    <!-- Product Detail -->
+    <div class="container detail-container">
+        <div class="detail-grid">
+
+            <!-- Left Column: Gallery & Info -->
+            <div class="detail-content">
+                <div class="detail-gallery">
+                    <div class="main-image">
+                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+                            alt="Modelo Granito 70m2">
+                    </div>
+                    <div class="thumbnail-grid">
+                        <div class="thumbnail active">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=300&q=80"
+                                alt="Vista Exterior">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=300&q=80"
+                                alt="Interiores">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=300&q=80"
+                                alt="Salón">
+                        </div>
+                        <div class="thumbnail">
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=300&q=80"
+                                alt="Cocina">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-info" style="margin-top: 40px;">
+                    <div class="detail-tags">
+                        <span class="tag">Hormigón</span>
+                        <span class="tag">Económica</span>
+                        <span class="tag">Familiar</span>
+                    </div>
+                    <h1>Modelo Granito 70m²</h1>
+                    <div class="detail-price">Consultar Precio <span
+                            style="font-size: 1rem; color: var(--text-light); font-weight: 400;">(IVA no
+                            incluido)</span></div>
+
+                    <div class="features-box">
+                        <h3 style="margin-bottom: 20px; color: var(--secondary);">Características Principales</h3>
+                        <div class="features-grid">
+                            <div class="feature-item"><i class="fa-solid fa-ruler-combined"></i> 70 m² construidos
+                            </div>
+                            <div class="feature-item"><i class="fa-solid fa-bed"></i> 3 Habitaciones</div>
+                            <div class="feature-item"><i class="fa-solid fa-bath"></i> 1 Baño</div>
+                            <div class="feature-item"><i class="fa-solid fa-clock"></i> Construcción rápida</div>
+                            <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> Alta durabilidad</div>
+                            <div class="feature-item"><i class="fa-solid fa-leaf"></i> Eficiencia energética</div>
+                        </div>
+                    </div>
+
+                    <div class="detail-description">
+                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Descripción del Modelo</h3>
+                        <p>
+                            Nuestra casa prefabricada de hormigón <strong>Granito</strong> está diseñada para ofrecer una vivienda económica y duradera.
+                            Su estructura sólida garantiza una larga vida útil con un mantenimiento mínimo.
+                        </p>
+                        <br>
+                        <p>
+                            Con <strong>3 estancias y 1 baño</strong> distribuidos en 70 m², es la elección ideal para parejas o pequeñas familias que buscan calidad al mejor precio sin renunciar al confort.
+                        </p>
+                        <br>
+                        <p>
+                            <strong>Personalización:</strong> Las características mostradas son del modelo estándar. Pregúntanos por opciones de personalización para adaptar la vivienda a tus necesidades específicas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Contact Form -->
+            <div class="detail-sidebar">
+                <div class="contact-form-card">
+                    <h3>Contactar Fabricante</h3>
+                    <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">
+                        Solicita más información o un presupuesto personalizado para el modelo Granito.
+                    </p>
+                    <form>
+                        <div class="form-group">
+                            <label>Nombre Completo</label>
+                            <input type="text" placeholder="Tu nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="tu@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono</label>
+                            <input type="tel" placeholder="+34 600 000 000">
+                        </div>
+                        <div class="form-group">
+                            <label>Mensaje</label>
+                            <textarea rows="4"
+                                placeholder="Hola, estoy interesado en el modelo Granito 70m2..."></textarea>
+                        </div>
+                        <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Solicitud</button>
+                        <p style="margin-top: 15px; font-size: 0.8rem; text-align: center; color: var(--text-light);">
+                            Al enviar aceptas nuestra política de privacidad.
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>
