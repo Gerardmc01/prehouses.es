@@ -13,6 +13,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
     <style>
         .dashboard-container {
             max-width: 1400px;
@@ -202,6 +205,50 @@
             </div>
         </div>
 
+        <!-- Analytics Section -->
+        <div class="dashboard-card" style="margin-bottom: 30px;">
+            <h3><i class="fa-solid fa-chart-line"></i> Analíticas y Rendimiento</h3>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-top: 30px;">
+
+                <!-- Leads Chart -->
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
+                    <h4 style="margin-bottom: 15px; color: var(--secondary);">
+                        <i class="fa-solid fa-envelope-open-text"></i> Consultas Recibidas (Últimos 7 días)
+                    </h4>
+                    <canvas id="leadsChart" style="max-height: 250px;"></canvas>
+                </div>
+
+                <!-- Views Chart -->
+                <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
+                    <h4 style="margin-bottom: 15px; color: var(--secondary);">
+                        <i class="fa-solid fa-eye"></i> Visualizaciones (Últimos 7 días)
+                    </h4>
+                    <canvas id="viewsChart" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
+
+            <!-- Conversion Rate -->
+            <div
+                style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%); border-radius: 12px; color: white;">
+                <div
+                    style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 800;" id="conversionRate">0%</div>
+                        <div style="opacity: 0.9; margin-top: 5px;">Tasa de Conversión</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 800;" id="avgResponseTime">-</div>
+                        <div style="opacity: 0.9; margin-top: 5px;">Tiempo Medio de Respuesta</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; font-weight: 800;" id="popularHouse">-</div>
+                        <div style="opacity: 0.9; margin-top: 5px;">Casa Más Popular</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Leads Recibidos -->
         <div class="dashboard-card" style="margin-bottom: 30px;">
             <h3><i class="fa-solid fa-envelope-open-text"></i> Consultas Recibidas</h3>
@@ -295,6 +342,9 @@
 
                 // Load leads
                 loadLeads();
+
+                // Load analytics
+                loadAnalytics();
 
             } catch (error) {
                 console.error('Error cargando datos:', error);
@@ -441,6 +491,101 @@
             } catch (error) {
                 console.error('Error loading leads:', error);
                 leadsList.innerHTML = '<p style="color: #ef4444;">Error al cargar consultas</p>';
+            }
+        }
+
+        // Load Analytics
+        async function loadAnalytics() {
+            try {
+                // Generate mock data for last 7 days
+                const labels = [];
+                const leadsData = [];
+                const viewsData = [];
+
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    labels.push(date.toLocaleDateString('es-ES', { weekday: 'short' }));
+
+                    // Mock data (in production, fetch from Firestore)
+                    leadsData.push(Math.floor(Math.random() * 10) + 1);
+                    viewsData.push(Math.floor(Math.random() * 50) + 10);
+                }
+
+                // Leads Chart
+                const leadsCtx = document.getElementById('leadsChart').getContext('2d');
+                new Chart(leadsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Consultas',
+                            data: leadsData,
+                            borderColor: '#2563eb',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Views Chart
+                const viewsCtx = document.getElementById('viewsChart').getContext('2d');
+                new Chart(viewsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Visualizaciones',
+                            data: viewsData,
+                            backgroundColor: '#10b981',
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Calculate metrics
+                const totalLeads = leadsData.reduce((a, b) => a + b, 0);
+                const totalViews = viewsData.reduce((a, b) => a + b, 0);
+                const conversionRate = totalViews > 0 ? ((totalLeads / totalViews) * 100).toFixed(1) : 0;
+
+                document.getElementById('conversionRate').textContent = conversionRate + '%';
+                document.getElementById('avgResponseTime').textContent = '< 24h';
+                document.getElementById('popularHouse').textContent = 'Nordic Eco';
+
+            } catch (error) {
+                console.error('Error loading analytics:', error);
             }
         }
 
