@@ -54,6 +54,135 @@
         .fav-btn.active i {
             color: #ef4444;
         }
+
+        /* Compare Checkbox */
+        .compare-checkbox {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .compare-checkbox:hover {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .compare-checkbox input {
+            cursor: pointer;
+        }
+
+        /* Floating Bar */
+        .comparison-bar {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e2e8f0;
+        }
+
+        .comparison-bar.active {
+            bottom: 30px;
+        }
+
+        .comparison-count {
+            background: var(--primary);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        /* Comparison Modal */
+        .comparison-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .comparison-modal.active {
+            display: flex;
+        }
+
+        .comparison-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: 30px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            color: #64748b;
+            font-weight: 600;
+            width: 20%;
+        }
+
+        .comparison-table img {
+            width: 100px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
@@ -126,7 +255,10 @@
 
             <div class="house-grid">
                 <!-- House 1: Madera -->
-                <a href="detalle-casa-nordic.html" class="house-card" data-category="madera">
+                <a href="detalle-casa-nordic.html" class="house-card" data-category="madera" id="card_house_nordic">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_nordic')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_nordic')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -152,7 +284,10 @@
                 </a>
 
                 <!-- House 2: Hormigon -->
-                <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon">
+                <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon" id="card_house_villa">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_villa')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_villa')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -178,7 +313,10 @@
                 </a>
 
                 <!-- House 3: Madera -->
-                <a href="detalle-casa-wood.html" class="house-card" data-category="madera">
+                <a href="detalle-casa-wood.html" class="house-card" data-category="madera" id="card_house_wood">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_wood')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_wood')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -204,7 +342,10 @@
                 </a>
 
                 <!-- House 4: Acero -->
-                <a href="#" class="house-card" data-category="acero">
+                <a href="#" class="house-card" data-category="acero" id="card_house_horizon">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_horizon')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_horizon')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -229,7 +370,10 @@
                 </a>
 
                 <!-- House 5: Movil -->
-                <a href="#" class="house-card" data-category="movil">
+                <a href="#" class="house-card" data-category="movil" id="card_house_tiny">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_tiny')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_tiny')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -254,7 +398,10 @@
                 </a>
 
                 <!-- House 6: Hormigon -->
-                <a href="#" class="house-card" data-category="hormigon">
+                <a href="#" class="house-card" data-category="hormigon" id="card_house_elite">
+                    <div class="compare-checkbox" onclick="event.stopPropagation(); event.preventDefault();">
+                        <input type="checkbox" onchange="toggleCompare(this, 'house_elite')"> Comparar
+                    </div>
                     <button class="fav-btn" onclick="toggleFav(event, 'house_elite')"><i
                             class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
@@ -280,6 +427,26 @@
             </div>
         </div>
     </section>
+
+    <!-- Comparison Floating Bar -->
+    <div class="comparison-bar" id="comparisonBar">
+        <div class="comparison-count" id="comparisonCount">0</div>
+        <span style="font-weight: 600;">Casas seleccionadas</span>
+        <button class="btn btn-primary" onclick="openComparison()" style="padding: 8px 20px;">Comparar Ahora</button>
+        <button class="btn btn-outline" onclick="clearComparison()"
+            style="padding: 8px 15px; border: none; color: #64748b;"><i class="fa-solid fa-times"></i></button>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="comparison-modal" id="comparisonModal">
+        <div class="comparison-content">
+            <i class="fa-solid fa-times close-modal" onclick="closeComparison()"></i>
+            <h2 style="margin-bottom: 20px; color: var(--secondary);">Comparativa de Modelos</h2>
+            <div id="comparisonTableContainer">
+                <!-- Table will be injected here -->
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>
@@ -384,6 +551,109 @@
             } catch (error) {
                 console.error('Error loading favorites:', error);
             }
+        }
+
+        // Comparison Logic
+        let selectedHouses = [];
+
+        function toggleCompare(checkbox, houseId) {
+            const card = document.getElementById('card_' + houseId);
+
+            if (checkbox.checked) {
+                if (selectedHouses.length >= 3) {
+                    alert('Máximo 3 casas para comparar.');
+                    checkbox.checked = false;
+                    return;
+                }
+
+                // Extract Data from DOM
+                const houseData = {
+                    id: houseId,
+                    title: card.querySelector('.house-title').textContent,
+                    price: card.querySelector('.house-price').textContent,
+                    image: card.querySelector('img').src,
+                    area: card.querySelectorAll('.house-specs span')[0].textContent,
+                    rooms: card.querySelectorAll('.house-specs span')[1].textContent,
+                    baths: card.querySelectorAll('.house-specs span')[2].textContent,
+                    category: card.getAttribute('data-category')
+                };
+
+                selectedHouses.push(houseData);
+            } else {
+                selectedHouses = selectedHouses.filter(h => h.id !== houseId);
+            }
+
+            updateComparisonBar();
+        }
+
+        function updateComparisonBar() {
+            const bar = document.getElementById('comparisonBar');
+            const count = document.getElementById('comparisonCount');
+
+            count.textContent = selectedHouses.length;
+
+            if (selectedHouses.length > 0) {
+                bar.classList.add('active');
+            } else {
+                bar.classList.remove('active');
+            }
+        }
+
+        function clearComparison() {
+            selectedHouses = [];
+            document.querySelectorAll('.compare-checkbox input').forEach(cb => cb.checked = false);
+            updateComparisonBar();
+        }
+
+        function openComparison() {
+            const modal = document.getElementById('comparisonModal');
+            const container = document.getElementById('comparisonTableContainer');
+
+            // Build Table
+            let html = '<table class="comparison-table"><tbody>';
+
+            // Rows
+            const rows = [
+                { label: 'Imagen', key: 'image', type: 'image' },
+                { label: 'Modelo', key: 'title', type: 'text' },
+                { label: 'Precio', key: 'price', type: 'text', style: 'font-weight: 700; color: var(--primary); font-size: 1.2rem;' },
+                { label: 'Superficie', key: 'area', type: 'text' },
+                { label: 'Habitaciones', key: 'rooms', type: 'text' },
+                { label: 'Baños', key: 'baths', type: 'text' },
+                { label: 'Categoría', key: 'category', type: 'text', transform: (val) => val.charAt(0).toUpperCase() + val.slice(1) }
+            ];
+
+            rows.forEach(row => {
+                html += `<tr><th>${row.label}</th>`;
+                selectedHouses.forEach(house => {
+                    let content = house[row.key];
+
+                    if (row.type === 'image') {
+                        content = `<img src="${content}" alt="Casa">`;
+                    } else if (row.transform) {
+                        content = row.transform(content);
+                    }
+
+                    const style = row.style ? `style="${row.style}"` : '';
+                    html += `<td ${style}>${content}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '<tr><th>Acción</th>';
+            selectedHouses.forEach(house => {
+                html += `<td><a href="detalle-casa-${house.id.replace('house_', '')}.html" class="btn btn-primary" style="padding: 5px 15px; font-size: 0.9rem;">Ver Ficha</a></td>`;
+            });
+            html += '</tr>';
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+
+            modal.classList.add('active');
+        }
+
+        function closeComparison() {
+            document.getElementById('comparisonModal').classList.remove('active');
         }
 
         document.addEventListener('DOMContentLoaded', function () {
