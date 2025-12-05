@@ -202,6 +202,17 @@
             </div>
         </div>
 
+        <!-- Leads Recibidos -->
+        <div class="dashboard-card" style="margin-bottom: 30px;">
+            <h3><i class="fa-solid fa-envelope-open-text"></i> Consultas Recibidas</h3>
+            <div id="leadsList">
+                <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                    <i class="fa-solid fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 15px;"></i>
+                    <p>Cargando consultas...</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Información de la empresa -->
         <div class="dashboard-card">
             <h3><i class="fa-solid fa-building-circle-check"></i> Información de la Empresa</h3>
@@ -281,6 +292,9 @@
 
                 // Show status banner
                 showStatusBanner(userData.status);
+
+                // Load leads
+                loadLeads();
 
             } catch (error) {
                 console.error('Error cargando datos:', error);
@@ -365,6 +379,68 @@
             } catch (error) {
                 console.error('Error:', error);
                 alert('❌ Error al enviar email: ' + error.message);
+            }
+        }
+
+        // Cargar leads recibidos
+        async function loadLeads() {
+            const leadsList = document.getElementById('leadsList');
+
+            try {
+                // For now, using DEMO_COMPANY as companyId
+                // In production, this would be currentUser.uid
+                const snapshot = await db.collection('leads')
+                    .where('companyId', '==', 'DEMO_COMPANY')
+                    .orderBy('createdAt', 'desc')
+                    .limit(20)
+                    .get();
+
+                if (snapshot.empty) {
+                    leadsList.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                            <i class="fa-solid fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 15px;"></i>
+                            <p>No has recibido consultas todavía</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+
+                snapshot.forEach(doc => {
+                    const lead = doc.data();
+                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'Fecha desconocida';
+                    const statusBadge = lead.status === 'nuevo' ?
+                        '<span style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">NUEVO</span>' :
+                        '<span style="background: #e2e8f0; color: #64748b; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">LEÍDO</span>';
+
+                    html += `
+                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                                <div>
+                                    <h4 style="margin: 0 0 5px 0; color: var(--secondary);">${lead.userName}</h4>
+                                    <p style="margin: 0; font-size: 0.9rem; color: var(--text-light);">
+                                        <i class="fa-solid fa-envelope"></i> ${lead.userEmail} | 
+                                        <i class="fa-solid fa-phone"></i> ${lead.userPhone}
+                                    </p>
+                                </div>
+                                ${statusBadge}
+                            </div>
+                            <p style="margin: 10px 0; color: var(--secondary);"><strong>Interesado en:</strong> ${lead.houseTitle}</p>
+                            <p style="margin: 10px 0; padding: 10px; background: white; border-radius: 6px;">${lead.message}</p>
+                            <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--text-light);">
+                                <i class="fa-solid fa-calendar"></i> ${date}
+                            </p>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                leadsList.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading leads:', error);
+                leadsList.innerHTML = '<p style="color: #ef4444;">Error al cargar consultas</p>';
             }
         }
 
