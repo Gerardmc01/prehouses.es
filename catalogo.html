@@ -12,6 +12,49 @@
     <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        .house-card {
+            position: relative;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .fav-btn i {
+            color: #cbd5e1;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .fav-btn.active i {
+            color: #ef4444;
+        }
+    </style>
 </head>
 
 <body>
@@ -84,6 +127,8 @@
             <div class="house-grid">
                 <!-- House 1: Madera -->
                 <a href="detalle-casa-nordic.html" class="house-card" data-category="madera">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_nordic')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <span class="house-badge">Más Vendida</span>
                         <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
@@ -108,6 +153,8 @@
 
                 <!-- House 2: Hormigon -->
                 <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_villa')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <span class="house-badge">Premium</span>
                         <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
@@ -132,6 +179,8 @@
 
                 <!-- House 3: Madera -->
                 <a href="detalle-casa-wood.html" class="house-card" data-category="madera">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_wood')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <span class="house-badge">Oferta</span>
                         <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
@@ -156,6 +205,8 @@
 
                 <!-- House 4: Acero -->
                 <a href="#" class="house-card" data-category="acero">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_horizon')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
                             alt="Casa Prefabricada Diseño">
@@ -179,6 +230,8 @@
 
                 <!-- House 5: Movil -->
                 <a href="#" class="house-card" data-category="movil">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_tiny')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <img src="https://images.unsplash.com/photo-1625573134318-c583c18e3c64?auto=format&fit=crop&w=800&q=80"
                             alt="Tiny House Prefabricada">
@@ -202,6 +255,8 @@
 
                 <!-- House 6: Hormigon -->
                 <a href="#" class="house-card" data-category="hormigon">
+                    <button class="fav-btn" onclick="toggleFav(event, 'house_elite')"><i
+                            class="fa-solid fa-heart"></i></button>
                     <div class="house-image">
                         <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80"
                             alt="Casa Modular">
@@ -251,7 +306,86 @@
         </div>
     </footer>
 
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
     <script>
+        let currentUser = null;
+
+        // Check Auth State
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                loadFavorites();
+            }
+        });
+
+        // Toggle Favorite
+        async function toggleFav(event, houseId) {
+            event.preventDefault(); // Prevent navigation
+            event.stopPropagation(); // Stop bubbling
+
+            if (!currentUser) {
+                alert('Debes iniciar sesión para guardar favoritos.');
+                window.location.href = 'usuarios.html';
+                return;
+            }
+
+            const btn = event.currentTarget;
+            const isFav = btn.classList.contains('active');
+
+            try {
+                if (isFav) {
+                    // Remove favorite
+                    const snapshot = await db.collection('favorites')
+                        .where('userId', '==', currentUser.uid)
+                        .where('houseId', '==', houseId)
+                        .get();
+
+                    snapshot.forEach(doc => doc.ref.delete());
+                    btn.classList.remove('active');
+                } else {
+                    // Add favorite
+                    await db.collection('favorites').add({
+                        userId: currentUser.uid,
+                        houseId: houseId,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    btn.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error updating favorite:', error);
+                alert('Error al actualizar favorito');
+            }
+        }
+
+        // Load Favorites on startup
+        async function loadFavorites() {
+            if (!currentUser) return;
+
+            try {
+                const snapshot = await db.collection('favorites')
+                    .where('userId', '==', currentUser.uid)
+                    .get();
+
+                const favIds = [];
+                snapshot.forEach(doc => favIds.push(doc.data().houseId));
+
+                // Update UI
+                document.querySelectorAll('.fav-btn').forEach(btn => {
+                    // Get house ID from onclick attribute (hacky but works for static)
+                    const onclick = btn.getAttribute('onclick');
+                    const houseId = onclick.match(/'([^']+)'/)[1];
+
+                    if (favIds.includes(houseId)) {
+                        btn.classList.add('active');
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading favorites:', error);
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const filterBtns = document.querySelectorAll('.filter-btn');
             const houseCards = document.querySelectorAll('.house-card');
