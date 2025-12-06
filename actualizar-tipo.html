@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Tipo de Usuario | Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body
+    style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px;">
+
+    <div
+        style="background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 500px; width: 100%;">
+        <h1 style="text-align: center; margin-bottom: 30px;">🔧 Actualizar Tipo de Usuario</h1>
+
+        <div id="userInfo" style="background: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+            <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+            <p><strong>Tipo actual:</strong> <span id="currentType">-</span></p>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 10px;">Cambiar a:</label>
+            <select id="newUserType"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                <option value="individual">👤 Usuario Individual</option>
+                <option value="empresa">🏢 Empresa</option>
+            </select>
+        </div>
+
+        <div id="companyFields" style="display: none; margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 10px;">CIF:</label>
+            <input type="text" id="cif"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 15px;">
+
+            <label style="display: block; font-weight: 600; margin-bottom: 10px;">Teléfono:</label>
+            <input type="tel" id="phone"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; margin-bottom: 15px;">
+
+            <label style="display: block; font-weight: 600; margin-bottom: 10px;">Web (opcional):</label>
+            <input type="url" id="website"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px;">
+        </div>
+
+        <button onclick="updateUserType()"
+            style="width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin-bottom: 15px;">
+            Actualizar
+        </button>
+
+        <button onclick="window.location.href='usuarios.html'"
+            style="width: 100%; padding: 15px; background: #e2e8f0; color: #334155; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            Volver
+        </button>
+
+        <div id="message" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+    </div>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        let currentUser = null;
+
+        // Show/hide company fields
+        document.getElementById('newUserType').addEventListener('change', function () {
+            const companyFields = document.getElementById('companyFields');
+            if (this.value === 'empresa') {
+                companyFields.style.display = 'block';
+            } else {
+                companyFields.style.display = 'none';
+            }
+        });
+
+        // Load current user data
+        auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+                window.location.href = 'usuarios.html';
+                return;
+            }
+
+            currentUser = user;
+            document.getElementById('userEmail').textContent = user.email;
+
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    const userData = doc.data();
+                    document.getElementById('currentType').textContent = userData.userType === 'empresa' ? '🏢 Empresa' : '👤 Individual';
+                    document.getElementById('newUserType').value = userData.userType || 'individual';
+
+                    // Pre-fill company data if exists
+                    if (userData.cif) document.getElementById('cif').value = userData.cif;
+                    if (userData.phone) document.getElementById('phone').value = userData.phone;
+                    if (userData.website) document.getElementById('website').value = userData.website;
+
+                    // Show company fields if empresa
+                    if (userData.userType === 'empresa') {
+                        document.getElementById('companyFields').style.display = 'block';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        });
+
+        async function updateUserType() {
+            if (!currentUser) return;
+
+            const newType = document.getElementById('newUserType').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const updateData = {
+                    userType: newType
+                };
+
+                // If changing to empresa, add company fields
+                if (newType === 'empresa') {
+                    const cif = document.getElementById('cif').value.trim();
+                    const phone = document.getElementById('phone').value.trim();
+                    const website = document.getElementById('website').value.trim();
+
+                    if (!cif || !phone) {
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.background = '#fee2e2';
+                        messageDiv.style.color = '#991b1b';
+                        messageDiv.textContent = '⚠️ CIF y Teléfono son obligatorios para empresas';
+                        return;
+                    }
+
+                    updateData.cif = cif;
+                    updateData.phone = phone;
+                    updateData.website = website;
+                    updateData.status = 'pending';
+                    updateData.casasPublicadas = 0;
+                    updateData.visualizaciones = 0;
+                } else {
+                    // If changing to individual, remove company fields
+                    updateData.cif = firebase.firestore.FieldValue.delete();
+                    updateData.phone = firebase.firestore.FieldValue.delete();
+                    updateData.website = firebase.firestore.FieldValue.delete();
+                    updateData.status = firebase.firestore.FieldValue.delete();
+                    updateData.casasPublicadas = firebase.firestore.FieldValue.delete();
+                    updateData.visualizaciones = firebase.firestore.FieldValue.delete();
+                }
+
+                await db.collection('users').doc(currentUser.uid).update(updateData);
+
+                messageDiv.style.display = 'block';
+                messageDiv.style.background = '#d1fae5';
+                messageDiv.style.color = '#065f46';
+                messageDiv.textContent = '✅ Tipo de usuario actualizado correctamente!';
+
+                setTimeout(() => {
+                    const redirectUrl = newType === 'empresa' ? 'dashboard-empresa.html' : 'dashboard-usuario.html';
+                    window.location.href = redirectUrl;
+                }, 2000);
+
+            } catch (error) {
+                console.error('Error updating user type:', error);
+                messageDiv.style.display = 'block';
+                messageDiv.style.background = '#fee2e2';
+                messageDiv.style.color = '#991b1b';
+                messageDiv.textContent = '❌ Error al actualizar: ' + error.message;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

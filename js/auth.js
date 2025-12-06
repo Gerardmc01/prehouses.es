@@ -50,6 +50,7 @@ async function registerWithEmail(email, password, name, userType, companyData = 
 
         // Add company-specific data and status
         if (userType === 'empresa' && companyData) {
+            console.log('Registering as EMPRESA with data:', companyData);
             userData.cif = companyData.cif;
             userData.phone = companyData.phone;
             userData.website = companyData.website;
@@ -58,8 +59,12 @@ async function registerWithEmail(email, password, name, userType, companyData = 
             userData.visualizaciones = 0;
         }
 
+        console.log('Saving user data to Firestore:', userData);
+
         // Save additional data in Firestore
         await db.collection('users').doc(user.uid).set(userData);
+
+        console.log('User data saved successfully!');
 
         // Send verification email
         await user.sendEmailVerification();
