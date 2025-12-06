@@ -306,7 +306,12 @@
 
             <!-- Tab: Houses -->
             <div class="tab-content" id="tab-houses">
-                <h2>Casas Publicadas</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Casas Publicadas</h2>
+                    <button onclick="initializeCatalog()" class="btn btn-outline" style="font-size: 0.9rem;">
+                        <i class="fa-solid fa-cloud-upload"></i> Importar Casas de Ejemplo
+                    </button>
+                </div>
                 <div id="housesList">Cargando...</div>
             </div>
 
@@ -315,6 +320,47 @@
                 <h2>Todos los Leads</h2>
                 <div id="leadsList">Cargando...</div>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit House Modal -->
+    <div id="editHouseModal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000;">
+        <div
+            style="background: white; width: 90%; max-width: 600px; margin: 50px auto; padding: 30px; border-radius: 16px; max-height: 90vh; overflow-y: auto;">
+            <h2 style="margin-bottom: 20px;">Editar Casa</h2>
+            <form id="editHouseForm" onsubmit="handleEditHouse(event)">
+                <input type="hidden" id="editHouseId">
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Título</label>
+                    <input type="text" id="editTitle" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Precio (€)</label>
+                    <input type="number" id="editPrice" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Descripción</label>
+                    <textarea id="editDescription" rows="4"
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Imagen URL</label>
+                    <input type="url" id="editImage"
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                    <button type="button" onclick="closeEditModal()" class="btn btn-outline">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -327,7 +373,18 @@
 
         // Auth Check
         auth.onAuthStateChanged(async (user) => {
-            if (!user || user.email !== ADMIN_EMAIL) {
+            // Allow admin email OR user with admin role
+            let isAdmin = false;
+
+            if (user) {
+                if (user.email === ADMIN_EMAIL) isAdmin = true;
+                else {
+                    const doc = await db.collection('users').doc(user.uid).get();
+                    if (doc.exists && doc.data().userType === 'admin') isAdmin = true;
+                }
+            }
+
+            if (!isAdmin) {
                 document.querySelector('.admin-container').innerHTML = `
                     <div style="text-align: center; padding: 100px 20px;">
                         <i class="fa-solid fa-lock" style="font-size: 5rem; color: #cbd5e1; margin-bottom: 30px;"></i>
@@ -398,6 +455,7 @@
                             <td>
                                 ${status !== 'approved' ? `<button class="btn-small btn-approve" onclick="updateCompanyStatus('${doc.id}', 'approved')">Aprobar</button>` : ''}
                                 ${status !== 'rejected' ? `<button class="btn-small btn-reject" onclick="updateCompanyStatus('${doc.id}', 'rejected')">Rechazar</button>` : ''}
+                                <button class="btn-small btn-delete" onclick="deleteUser('${doc.id}')" style="margin-left: 5px;"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     `;
@@ -431,7 +489,7 @@
                     return;
                 }
 
-                let html = '<table class="data-table"><thead><tr><th>Nombre</th><th>Email</th><th>Tipo</th><th>Fecha</th></tr></thead><tbody>';
+                let html = '<table class="data-table"><thead><tr><th>Nombre</th><th>Email</th><th>Tipo</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>';
 
                 regularUsers.forEach(user => {
                     const date = user.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
@@ -442,6 +500,9 @@
                             <td>${user.email || user.id}</td>
                             <td>${user.userType || 'usuario'}</td>
                             <td>${date}</td>
+                            <td>
+                                <button class="btn-small btn-delete" onclick="deleteUser('${user.id}')"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -470,6 +531,8 @@
                 snapshot.forEach(doc => {
                     const house = doc.data();
                     const date = house.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+                    // Escape quotes for onclick
+                    const safeHouse = JSON.stringify(house).replace(/"/g, '&quot;');
 
                     html += `
                         <tr>
@@ -478,6 +541,7 @@
                             <td>${house.companyName || 'N/A'}</td>
                             <td>${date}</td>
                             <td>
+                                <button class="btn-small btn-primary" onclick="openEditModal('${doc.id}')" style="margin-right: 5px;">Editar</button>
                                 <button class="btn-small btn-delete" onclick="deleteHouse('${doc.id}')">Eliminar</button>
                             </td>
                         </tr>
@@ -549,6 +613,22 @@
             }
         }
 
+        // Delete User/Company
+        async function deleteUser(userId) {
+            if (!confirm('¿ESTÁS SEGURO? Esta acción eliminará al usuario permanentemente.')) return;
+
+            try {
+                await db.collection('users').doc(userId).delete();
+                alert('✅ Usuario eliminado');
+                loadUsers();
+                loadCompanies();
+                loadStats();
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                alert('❌ Error al eliminar usuario: ' + error.message);
+            }
+        }
+
         // Delete House
         async function deleteHouse(houseId) {
             if (!confirm('¿Eliminar esta casa?')) return;
@@ -561,6 +641,118 @@
             } catch (error) {
                 console.error('Error:', error);
                 alert('❌ Error al eliminar');
+            }
+        }
+
+        // EDIT HOUSE FUNCTIONS
+        async function openEditModal(houseId) {
+            try {
+                const doc = await db.collection('houses').doc(houseId).get();
+                if (!doc.exists) return alert('Casa no encontrada');
+
+                const house = doc.data();
+                document.getElementById('editHouseId').value = houseId;
+                document.getElementById('editTitle').value = house.title;
+                document.getElementById('editPrice').value = house.price;
+                document.getElementById('editDescription').value = house.description || '';
+                document.getElementById('editImage').value = house.images ? house.images[0] : '';
+
+                document.getElementById('editHouseModal').style.display = 'block';
+            } catch (error) {
+                console.error('Error opening modal:', error);
+                alert('Error al cargar datos de la casa');
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editHouseModal').style.display = 'none';
+        }
+
+        async function handleEditHouse(event) {
+            event.preventDefault();
+            const houseId = document.getElementById('editHouseId').value;
+
+            const updates = {
+                title: document.getElementById('editTitle').value,
+                price: Number(document.getElementById('editPrice').value),
+                description: document.getElementById('editDescription').value,
+                images: [document.getElementById('editImage').value], // Simple single image update for now
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('houses').doc(houseId).update(updates);
+                alert('✅ Casa actualizada correctamente');
+                closeEditModal();
+                loadHouses();
+            } catch (error) {
+                console.error('Error updating house:', error);
+                alert('❌ Error al actualizar casa: ' + error.message);
+            }
+        }
+
+        // Initialize Catalog with Sample Data
+        async function initializeCatalog() {
+            if (!confirm('¿Importar casas de ejemplo a la base de datos? Esto creará copias si ya existen.')) return;
+
+            const sampleHouses = [
+                {
+                    title: "Modelo Nordic Eco",
+                    price: 45000,
+                    area: 80,
+                    bedrooms: 2,
+                    bathrooms: 1,
+                    description: "Casa de madera estilo nórdico, eficiente y ecológica.",
+                    images: ["https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"],
+                    category: "madera",
+                    province: "madrid",
+                    companyName: "Prehouses Admin",
+                    companyId: currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                },
+                {
+                    title: "Villa Moderna Hormigón",
+                    price: 120000,
+                    area: 150,
+                    bedrooms: 4,
+                    bathrooms: 2,
+                    description: "Elegancia y solidez en hormigón prefabricado.",
+                    images: ["https://images.unsplash.com/photo-1613490493576-4f7217909641?auto=format&fit=crop&w=800&q=80"],
+                    category: "hormigon",
+                    province: "barcelona",
+                    companyName: "Prehouses Admin",
+                    companyId: currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                },
+                {
+                    title: "Tiny House Móvil",
+                    price: 25000,
+                    area: 30,
+                    bedrooms: 1,
+                    bathrooms: 1,
+                    description: "Libertad total. Llévala donde quieras.",
+                    images: ["https://images.unsplash.com/photo-1525113990976-399835c43838?auto=format&fit=crop&w=800&q=80"],
+                    category: "movil",
+                    province: "valencia",
+                    companyName: "Prehouses Admin",
+                    companyId: currentUser.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                }
+            ];
+
+            try {
+                const batch = db.batch();
+                sampleHouses.forEach(house => {
+                    const docRef = db.collection('houses').doc();
+                    batch.set(docRef, house);
+                });
+                await batch.commit();
+                alert('✅ Casas importadas correctamente');
+                loadHouses();
+                loadStats();
+            } catch (error) {
+                console.error('Error importing houses:', error);
+                alert('❌ Error al importar: ' + error.message);
             }
         }
 

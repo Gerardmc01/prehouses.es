@@ -129,7 +129,7 @@
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="dashboard-empresa.html" class="btn btn-primary"
-                        style="padding: 10px 24px; background: #059669;">Panel Empresa</a></li>
+                        style="padding: 10px 24px; background: #059669; color: white !important;">Panel Empresa</a></li>
             </ul>
         </div>
     </nav>
@@ -190,13 +190,14 @@
                     <i class="fa-solid fa-plus-circle"></i>
                     <p style="font-weight: 600; margin-top: 10px;">Publicar Casa</p>
                 </div>
-                <div class="quick-action-btn" onclick="alert('Funcionalidad próximamente disponible')">
+                <div class="quick-action-btn" onclick="window.location.href='catalogo.html?company=' + currentUser.uid">
                     <i class="fa-solid fa-list"></i>
                     <p style="font-weight: 600; margin-top: 10px;">Mis Publicaciones</p>
                 </div>
-                <div class="quick-action-btn" onclick="alert('Funcionalidad próximamente disponible')">
+                <div class="quick-action-btn"
+                    onclick="document.getElementById('leadsSection').scrollIntoView({behavior: 'smooth'})">
                     <i class="fa-solid fa-inbox"></i>
-                    <p style="font-weight: 600; margin-top: 10px;">Consultas Recibidas</p>
+                    <p style="font-weight: 600; margin-top: 10px;">Mensajes</p>
                 </div>
                 <div class="quick-action-btn" onclick="alert('Funcionalidad próximamente disponible')">
                     <i class="fa-solid fa-chart-line"></i>
