@@ -233,6 +233,26 @@
                 alert('❌ Error al enviar la solicitud. Inténtalo de nuevo.');
             }
         }
+
+        // Track page view for analytics
+        async function trackView() {
+            try {
+                await db.collection('views').add({
+                    houseId: 'house_nordic',
+                    houseTitle: 'Modelo Nordic Eco',
+                    companyId: 'DEMO_COMPANY',
+                    userId: currentUser ? currentUser.uid : null,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    userAgent: navigator.userAgent,
+                    referrer: document.referrer || 'direct'
+                });
+            } catch (error) {
+                console.error('Error tracking view:', error);
+            }
+        }
+
+        // Track view on page load
+        trackView();
     </script>
 
 </body>
