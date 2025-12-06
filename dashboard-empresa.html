@@ -276,29 +276,43 @@
 
         // Proteger página - solo empresas
         auth.onAuthStateChanged(async (user) => {
+            console.log('Auth state changed:', user);
+
             if (!user) {
+                console.log('No user logged in');
                 alert('⚠️ Debes iniciar sesión para acceder a esta página');
-                window.location.href = 'usuarios.html';
+                window.location.href = 'empresas.html';
                 return;
             }
 
             currentUser = user;
-            await loadCompanyData();
+            console.log('Loading company data for user:', user.uid);
+
+            try {
+                await loadCompanyData();
+            } catch (error) {
+                console.error('Error in loadCompanyData:', error);
+                alert('Error cargando datos: ' + error.message);
+            }
         });
 
         // Cargar datos de la empresa
         async function loadCompanyData() {
             try {
+                console.log('Fetching user document...');
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 userData = userDoc.exists ? userDoc.data() : {};
+                console.log('User data:', userData);
 
                 // Verificar que es una empresa
                 if (userData.userType !== 'empresa') {
+                    console.log('Not a company user, redirecting...');
                     alert('⚠️ Esta página es solo para empresas');
                     window.location.href = 'dashboard-usuario.html';
                     return;
                 }
 
+                console.log('Updating UI...');
                 // Actualizar UI
                 document.getElementById('companyName').textContent = `¡Bienvenido, ${userData.name || currentUser.displayName || 'Empresa'}!`;
                 document.getElementById('userEmail').textContent = currentUser.email;
@@ -337,17 +351,23 @@
                     <p><strong>Plan actual:</strong> Gratuito</p>
                 `;
 
+                console.log('Showing status banner for status:', userData.status);
                 // Show status banner
                 showStatusBanner(userData.status);
 
+                console.log('Loading leads...');
                 // Load leads
                 loadLeads();
 
+                console.log('Loading analytics...');
                 // Load analytics
                 loadAnalytics();
 
+                console.log('Dashboard loaded successfully!');
+
             } catch (error) {
                 console.error('Error cargando datos:', error);
+                alert('Error: ' + error.message);
             }
         }
 
