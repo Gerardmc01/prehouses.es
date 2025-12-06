@@ -17,11 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
-        body {
-            display: none;
-            /* Hidden until auth completes */
-        }
-
         .dashboard-container {
             max-width: 1400px;
             margin: 140px auto 60px;
@@ -304,9 +299,6 @@
                     window.location.href = 'dashboard-usuario.html';
                     return;
                 }
-
-                // MOSTRAR CONTENIDO INMEDIATAMENTE
-                document.body.style.display = 'block';
 
                 // Cargar datos
                 await loadCompanyData();
