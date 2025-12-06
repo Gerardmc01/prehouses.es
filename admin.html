@@ -535,13 +535,17 @@
             if (!confirm(`¿Confirmar ${status === 'approved' ? 'aprobación' : 'rechazo'}?`)) return;
 
             try {
-                await db.collection('users').doc(companyId).update({ status });
-                alert('✅ Estado actualizado');
-                loadCompanies();
-                loadStats();
+                console.log('Updating company:', companyId, 'to status:', status);
+                await db.collection('users').doc(companyId).update({
+                    status: status,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert('✅ Estado actualizado correctamente');
+                await loadCompanies();
+                await loadStats();
             } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Error al actualizar');
+                console.error('Error updating company status:', error);
+                alert('❌ Error: ' + error.message);
             }
         }
 
