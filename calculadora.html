@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Costes Totales | Prehouses</title>
+    <meta name="description"
+        content="Calcula el coste real total de tu casa prefabricada en España: precio base, terreno, cimentación, permisos, transporte y conexiones.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .calculator-container {
+            max-width: 1200px;
+            margin: 140px auto 60px;
+            padding: 0 20px;
+        }
+
+        .calculator-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .calculator-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .calculator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .info-tooltip {
+            display: inline-block;
+            margin-left: 5px;
+            color: var(--primary);
+            cursor: help;
+        }
+
+        .results-section {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 140px;
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+
+        .cost-label {
+            font-weight: 500;
+        }
+
+        .cost-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .total-cost {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .total-cost .cost-label {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .total-cost .cost-value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .breakdown-details {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .breakdown-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .breakdown-item h4 {
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .breakdown-item p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="calculadora.html" class="btn btn-primary"
+                        style="padding: 10px 24px; color: white;">Calculadora</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1><i class="fa-solid fa-calculator"></i> Calculadora de Costes Totales</h1>
+            <p style="color: var(--text-light); font-size: 1.1rem;">Descubre el coste real de tu casa prefabricada en
+                España</p>
+        </div>
+
+        <div class="calculator-grid">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h3 style="margin-bottom: 25px; color: var(--secondary);">Introduce tus datos</h3>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-home"></i> Precio de la Casa
+                        <span class="info-tooltip" title="Precio base de la casa prefabricada sin instalación">ℹ️</span>
+                    </label>
+                    <input type="number" id="housePrice" value="80000" min="20000" max="500000" step="1000"
+                        oninput="calculate()">
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-ruler-combined"></i> Superficie de la Casa (m²)
+                    </label>
+                    <input type="number" id="houseArea" value="100" min="30" max="300" step="10" oninput="calculate()">
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-map-location-dot"></i> ¿Tienes terreno?
+                    </label>
+                    <select id="hasLand" onchange="toggleLandInputs(); calculate();">
+                        <option value="yes">Sí, ya tengo terreno</option>
+                        <option value="no">No, necesito comprar terreno</option>
+                    </select>
+                </div>
+
+                <div class="input-group" id="landInputs" style="display: none;">
+                    <label>
+                        <i class="fa-solid fa-euro-sign"></i> Precio del terreno (€/m²)
+                    </label>
+                    <input type="number" id="landPrice" value="150" min="50" max="1000" step="10" oninput="calculate()">
+                    <small style="color: var(--text-light); display: block; margin-top: 5px;">Media España:
+                        100-300€/m²</small>
+                </div>
+
+                <div class="input-group" id="landSizeInput" style="display: none;">
+                    <label>
+                        <i class="fa-solid fa-ruler"></i> Tamaño del terreno (m²)
+                    </label>
+                    <input type="number" id="landSize" value="500" min="200" max="5000" step="50" oninput="calculate()">
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-truck"></i> Distancia de transporte (km)
+                    </label>
+                    <input type="number" id="distance" value="100" min="0" max="1000" step="50" oninput="calculate()">
+                    <small style="color: var(--text-light); display: block; margin-top: 5px;">Desde la fábrica hasta tu
+                        terreno</small>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-layer-group"></i> Tipo de cimentación
+                    </label>
+                    <select id="foundationType" onchange="calculate()">
+                        <option value="basic">Básica (losa superficial)</option>
+                        <option value="standard">Estándar (hormigón armado)</option>
+                        <option value="advanced">Avanzada (terreno complicado)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        <i class="fa-solid fa-plug"></i> Conexiones disponibles
+                    </label>
+                    <select id="connections" onchange="calculate()">
+                        <option value="all">Todas (agua, luz, alcantarillado)</option>
+                        <option value="partial">Parciales (necesito algunas)</option>
+                        <option value="none">Ninguna (terreno sin servicios)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                <h3 style="margin-bottom: 25px;"><i class="fa-solid fa-chart-pie"></i> Desglose de Costes</h3>
+
+                <div class="cost-item">
+                    <span class="cost-label">Precio de la casa</span>
+                    <span class="cost-value" id="displayHousePrice">80.000€</span>
+                </div>
+
+                <div class="cost-item" id="landCostRow" style="display: none;">
+                    <span class="cost-label">Terreno</span>
+                    <span class="cost-value" id="displayLandCost">0€</span>
+                </div>
+
+                <div class="cost-item">
+                    <span class="cost-label">Cimentación</span>
+                    <span class="cost-value" id="displayFoundation">12.000€</span>
+                </div>
+
+                <div class="cost-item">
+                    <span class="cost-label">Permisos y licencias</span>
+                    <span class="cost-value" id="displayPermits">4.500€</span>
+                </div>
+
+                <div class="cost-item">
+                    <span class="cost-label">Transporte e instalación</span>
+                    <span class="cost-value" id="displayTransport">8.000€</span>
+                </div>
+
+                <div class="cost-item">
+                    <span class="cost-label">Conexiones (agua, luz, etc.)</span>
+                    <span class="cost-value" id="displayConnections">6.000€</span>
+                </div>
+
+                <div class="cost-item">
+                    <span class="cost-label">IVA (10%)</span>
+                    <span class="cost-value" id="displayIVA">8.000€</span>
+                </div>
+
+                <div class="total-cost">
+                    <div class="cost-item">
+                        <span class="cost-label">COSTE TOTAL</span>
+                        <span class="cost-value" id="displayTotal">118.500€</span>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 25px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px; text-align: center;">
+                    <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Coste por m²</p>
+                    <p style="margin: 5px 0 0 0; font-size: 1.5rem; font-weight: 700;" id="displayPricePerM2">1.185€/m²
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Breakdown Details -->
+        <div class="breakdown-details">
+            <h3 style="margin-bottom: 25px; color: var(--secondary);"><i class="fa-solid fa-info-circle"></i> Detalles
+                de cada coste</h3>
+
+            <div class="breakdown-item">
+                <h4><i class="fa-solid fa-hammer"></i> Cimentación</h4>
+                <p>Incluye excavación, hormigón armado y preparación del terreno. El coste varía según el tipo de suelo
+                    (200-350€/m²).</p>
+            </div>
+
+            <div class="breakdown-item">
+                <h4><i class="fa-solid fa-file-contract"></i> Permisos y Licencias</h4>
+                <p>Licencia de obra mayor (~4% del PEM), estudio geotécnico (600-1.000€), topográfico (250-600€), ICIO
+                    (2,75%), tasa urbanística (0,55%) y cédula de habitabilidad (59€).</p>
+            </div>
+
+            <div class="breakdown-item">
+                <h4><i class="fa-solid fa-truck-moving"></i> Transporte e Instalación</h4>
+                <p>Varía según distancia: 0-100km (4.000-8.000€), 100-300km (8.000-15.000€), +300km (15.000-30.000€).
+                    Incluye grúa y montaje.</p>
+            </div>
+
+            <div class="breakdown-item">
+                <h4><i class="fa-solid fa-droplet"></i> Conexiones de Suministros</h4>
+                <p>Agua (1.500-3.000€), electricidad (2.000-4.000€), alcantarillado (2.000-5.000€). Depende de la
+                    distancia a las redes existentes.</p>
+            </div>
+
+            <div class="breakdown-item">
+                <h4><i class="fa-solid fa-percent"></i> IVA</h4>
+                <p>Las viviendas de nueva construcción tienen un IVA reducido del 10% sobre el precio base de la casa.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLandInputs() {
+            const hasLand = document.getElementById('hasLand').value;
+            const landInputs = document.getElementById('landInputs');
+            const landSizeInput = document.getElementById('landSizeInput');
+            const landCostRow = document.getElementById('landCostRow');
+
+            if (hasLand === 'no') {
+                landInputs.style.display = 'block';
+                landSizeInput.style.display = 'block';
+                landCostRow.style.display = 'flex';
+            } else {
+                landInputs.style.display = 'none';
+                landSizeInput.style.display = 'none';
+                landCostRow.style.display = 'none';
+            }
+        }
+
+        function calculate() {
+            // Get inputs
+            const housePrice = parseFloat(document.getElementById('housePrice').value) || 0;
+            const houseArea = parseFloat(document.getElementById('houseArea').value) || 100;
+            const hasLand = document.getElementById('hasLand').value;
+            const landPrice = parseFloat(document.getElementById('landPrice').value) || 0;
+            const landSize = parseFloat(document.getElementById('landSize').value) || 0;
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            const foundationType = document.getElementById('foundationType').value;
+            const connections = document.getElementById('connections').value;
+
+            // Calculate land cost
+            let landCost = 0;
+            if (hasLand === 'no') {
+                landCost = landPrice * landSize;
+            }
+
+            // Calculate foundation (200-350€/m²)
+            let foundationCostPerM2 = 250; // Default
+            if (foundationType === 'basic') foundationCostPerM2 = 200;
+            if (foundationType === 'standard') foundationCostPerM2 = 275;
+            if (foundationType === 'advanced') foundationCostPerM2 = 350;
+            const foundationCost = foundationCostPerM2 * houseArea;
+
+            // Calculate permits (4% of house price + fixed costs)
+            const permitsCost = (housePrice * 0.04) + 1500; // 4% + estudios
+
+            // Calculate transport
+            let transportCost = 5000; // Base
+            if (distance > 100 && distance <= 300) transportCost = 8000 + (distance - 100) * 30;
+            if (distance > 300) transportCost = 15000 + (distance - 300) * 40;
+
+            // Calculate connections
+            let connectionsCost = 3000; // Basic
+            if (connections === 'partial') connectionsCost = 6000;
+            if (connections === 'none') connectionsCost = 10000;
+
+            // Calculate IVA (10% on house price only)
+            const ivaCost = housePrice * 0.10;
+
+            // Total
+            const total = housePrice + landCost + foundationCost + permitsCost + transportCost + connectionsCost + ivaCost;
+            const pricePerM2 = total / houseArea;
+
+            // Update display
+            document.getElementById('displayHousePrice').textContent = housePrice.toLocaleString('es-ES') + '€';
+            document.getElementById('displayLandCost').textContent = landCost.toLocaleString('es-ES') + '€';
+            document.getElementById('displayFoundation').textContent = Math.round(foundationCost).toLocaleString('es-ES') + '€';
+            document.getElementById('displayPermits').textContent = Math.round(permitsCost).toLocaleString('es-ES') + '€';
+            document.getElementById('displayTransport').textContent = Math.round(transportCost).toLocaleString('es-ES') + '€';
+            document.getElementById('displayConnections').textContent = Math.round(connectionsCost).toLocaleString('es-ES') + '€';
+            document.getElementById('displayIVA').textContent = Math.round(ivaCost).toLocaleString('es-ES') + '€';
+            document.getElementById('displayTotal').textContent = Math.round(total).toLocaleString('es-ES') + '€';
+            document.getElementById('displayPricePerM2').textContent = Math.round(pricePerM2).toLocaleString('es-ES') + '€/m²';
+        }
+
+        // Initial calculation
+        calculate();
+    </script>
+
+</body>
+
+</html>
