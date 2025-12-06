@@ -909,6 +909,8 @@
                     const bedrooms = house.bedrooms || 2;
                     const province = house.province || 'otras';
 
+                    const imgUrl = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || house.imageUrl || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80');
+
                     html += `
                         <a href="detalle-casa.html?id=${houseId}" class="house-card dynamic-house" 
                            data-category="${category}" 
@@ -922,8 +924,7 @@
                             </button>
                             <div class="house-image">
                                 <span class="house-badge" style="background: #10b981;">Nueva</span>
-                                <img src="${house.imageUrl || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'}" 
-                                     alt="${house.title}">
+                                <img src="${imgUrl}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Sin+Imagen'">
                             </div>
                             <div class="house-content">
                                 <div class="house-header">

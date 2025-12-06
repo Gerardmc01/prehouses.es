@@ -286,7 +286,7 @@
                     bathrooms: Number(document.getElementById('houseBathrooms').value),
                     deliveryTime: document.getElementById('houseDelivery').value,
                     description: document.getElementById('houseDescription').value,
-                    image: document.getElementById('houseImage').value,
+                    images: [document.getElementById('houseImage').value], // Store as array
 
                     // Metadata
                     companyId: currentUser.uid,
@@ -316,6 +316,7 @@
             }
         }
     </script>
+    <script src="js/support.js"></script>
 
 </body>
 

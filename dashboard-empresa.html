@@ -493,7 +493,7 @@
                 // For now, using DEMO_COMPANY as companyId
                 // In production, this would be currentUser.uid
                 const snapshot = await db.collection('leads')
-                    .where('companyId', '==', 'DEMO_COMPANY')
+                    .where('companyId', '==', currentUser.uid)
                     .orderBy('createdAt', 'desc')
                     .limit(20)
                     .get();
@@ -566,12 +566,12 @@
                 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6); // Start of the 7-day period
 
                 const leadsSnapshot = await db.collection('leads')
-                    .where('companyId', '==', 'DEMO_COMPANY')
+                    .where('companyId', '==', currentUser.uid)
                     .where('createdAt', '>=', sevenDaysAgo)
                     .get();
 
                 const viewsSnapshot = await db.collection('views')
-                    .where('companyId', '==', 'DEMO_COMPANY')
+                    .where('companyId', '==', currentUser.uid)
                     .where('timestamp', '>=', sevenDaysAgo)
                     .get();
 

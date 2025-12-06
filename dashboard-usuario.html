@@ -325,24 +325,27 @@
                 let html = '';
 
                 snapshot.forEach(doc => {
-                    const houseId = doc.data().houseId;
-                    const house = staticHouses[houseId];
+                    const data = doc.data();
+                    // Use stored data OR fallback to static map (for old favorites)
+                    const title = data.houseTitle || (staticHouses[data.houseId] ? staticHouses[data.houseId].title : 'Casa no disponible');
+                    const price = data.housePrice || (staticHouses[data.houseId] ? staticHouses[data.houseId].price : '-');
+                    const img = data.houseImage || (staticHouses[data.houseId] ? staticHouses[data.houseId].img : '');
+                    const link = `detalle-casa.html?id=${data.houseId}`;
+                    const displayPrice = typeof price === 'number' ? price.toLocaleString() + '€' : price;
 
-                    if (house) {
-                        html += `
-                            <div class="favorite-item">
-                                <img src="${house.img}" alt="${house.title}">
-                                <div style="flex: 1;">
-                                    <h4 style="margin-bottom: 5px;">${house.title}</h4>
-                                    <p style="color: var(--primary); font-weight: 700;">${house.price}</p>
-                                </div>
-                                <a href="${house.link}" class="btn btn-outline" style="padding: 8px 15px;">Ver</a>
-                                <button onclick="removeFavorite('${doc.id}')" class="btn" style="color: #ef4444; background: transparent;">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                    html += `
+                        <div class="favorite-item">
+                            <img src="${img}" alt="${title}" onerror="this.style.display='none'">
+                            <div style="flex: 1;">
+                                <h4 style="margin-bottom: 5px;">${title}</h4>
+                                <p style="color: var(--primary); font-weight: 700;">${displayPrice}</p>
                             </div>
-                        `;
-                    }
+                            <a href="${link}" class="btn btn-outline" style="padding: 8px 15px;">Ver</a>
+                            <button onclick="removeFavorite('${doc.id}')" class="btn" style="color: #ef4444; background: transparent;">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
                 });
 
                 favoritesList.innerHTML = html;
