@@ -263,8 +263,100 @@
 
         <!-- Información de la empresa -->
         <div class="dashboard-card">
-            <h3><i class="fa-solid fa-building-circle-check"></i> Información de la Empresa</h3>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3><i class="fa-solid fa-building-circle-check"></i> Información de la Empresa</h3>
+                <button onclick="openProfileModal()" class="btn btn-outline btn-sm">
+                    <i class="fa-solid fa-pen"></i> Editar Datos
+                </button>
+            </div>
             <div id="companyInfo" style="line-height: 2;"></div>
+        </div>
+
+        <!-- Mis Propiedades (Inventory Management) -->
+        <div class="dashboard-card" style="margin-top: 30px;" id="inventorySection">
+            <h3><i class="fa-solid fa-list-check"></i> Gestión de Inventario</h3>
+            <div id="myHousesList">
+                <div class="empty-state" style="text-align: center; padding: 40px; color: #94a3b8;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem;"></i>
+                    <p>Cargando tu inventario...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Perfil -->
+    <div id="profileModal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content"
+            style="background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 500px; position: relative;">
+            <span onclick="closeProfileModal()"
+                style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem;">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--secondary);">Editar Perfil de Empresa</h2>
+            <form id="profileForm" onsubmit="handleUpdateProfile(event)">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nombre Comercial</label>
+                    <input type="text" id="editName" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Teléfono de Contacto</label>
+                    <input type="tel" id="editPhone" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">CIF / NIF</label>
+                    <input type="text" id="editCif"
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Sitio Web</label>
+                    <input type="url" id="editWebsite" placeholder="https://..."
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Casa -->
+    <div id="editHouseModal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content"
+            style="background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 600px; position: relative; max-height: 90vh; overflow-y: auto;">
+            <span onclick="closeEditHouseModal()"
+                style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem;">&times;</span>
+            <h2 style="margin-bottom: 20px; color: var(--secondary);">Editar Propiedad</h2>
+            <form id="editHouseForm" onsubmit="handleUpdateHouse(event)">
+                <input type="hidden" id="editHouseId">
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Título</label>
+                    <input type="text" id="editHouseTitle" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Precio (€)</label>
+                        <input type="number" id="editHousePrice" required
+                            style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 5px; font-weight: 600;">Superficie (m²)</label>
+                        <input type="number" id="editHouseArea" required
+                            style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Imagen Principal (URL)</label>
+                    <input type="url" id="editHouseImage" required
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600;">Descripción</label>
+                    <textarea id="editHouseDesc" rows="4"
+                        style="width: 100%; padding: 10px; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Actualizar Propiedad</button>
+            </form>
         </div>
     </div>
 
@@ -392,8 +484,9 @@
                 // console.log('Loading analytics...'); // Removed
                 try {
                     await loadAnalytics();
+                    await loadInventory();
                 } catch (e) {
-                    console.error('Error loading analytics:', e);
+                    console.error('Error loading analytics/inventory:', e);
                 }
 
                 // console.log('Dashboard loaded successfully!'); // Removed
@@ -401,6 +494,143 @@
             } catch (error) {
                 console.error('Error in loadCompanyData:', error);
                 // alert('Error: ' + error.message); // Removed, as the outer try-catch handles this
+            }
+        }
+
+        // --- PROFILE MANAGEMENT ---
+        function openProfileModal() {
+            document.getElementById('editName').value = userData.name || '';
+            document.getElementById('editPhone').value = userData.phone || '';
+            document.getElementById('editCif').value = userData.cif || '';
+            document.getElementById('editWebsite').value = userData.website || '';
+            document.getElementById('profileModal').style.display = 'flex';
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        async function handleUpdateProfile(e) {
+            e.preventDefault();
+            const updates = {
+                name: document.getElementById('editName').value,
+                phone: document.getElementById('editPhone').value,
+                cif: document.getElementById('editCif').value,
+                website: document.getElementById('editWebsite').value
+            };
+
+            try {
+                await db.collection('users').doc(currentUser.uid).update(updates);
+                alert('✅ Perfil actualizado correctamente');
+                closeProfileModal();
+                loadCompanyData(); // Reload UI
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error al actualizar perfil');
+            }
+        }
+
+        // --- INVENTORY MANAGEMENT ---
+        async function loadInventory() {
+            const container = document.getElementById('myHousesList');
+            try {
+                const snapshot = await db.collection('houses')
+                    .where('companyId', '==', currentUser.uid)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-state"><p>No tienes casas publicadas.</p><button onclick="window.location.href=\'publicar-casa.html\'" class="btn btn-primary" style="margin-top:10px;">Publicar Primera Casa</button></div>';
+                    return;
+                }
+
+                let html = '<table style="width:100%; border-collapse: collapse; margin-top: 10px;"><thead><tr style="text-align:left; border-bottom: 2px solid #e2e8f0;"><th style="padding:10px;">Imagen</th><th style="padding:10px;">Título</th><th style="padding:10px;">Precio</th><th style="padding:10px;">Acciones</th></tr></thead><tbody>';
+
+                snapshot.forEach(doc => {
+                    const house = doc.data();
+                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/100');
+
+                    html += `
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding:10px;"><img src="${img}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 4px;"></td>
+                            <td style="padding:10px; font-weight:600;">${house.title}</td>
+                            <td style="padding:10px; color: var(--primary); font-weight:700;">${parseInt(house.price).toLocaleString()}€</td>
+                            <td style="padding:10px;">
+                                <button onclick="openEditHouseModal('${doc.id}')" class="btn btn-outline btn-sm" style="margin-right: 5px;"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteHouse('${doc.id}')" class="btn btn-outline btn-sm" style="color: #ef4444; border-color: #ef4444;"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading inventory:', error);
+                container.innerHTML = '<p style="color:red;">Error al cargar inventario</p>';
+            }
+        }
+
+        let currentEditingHouseId = null;
+
+        async function openEditHouseModal(houseId) {
+            currentEditingHouseId = houseId;
+            try {
+                const doc = await db.collection('houses').doc(houseId).get();
+                const house = doc.data();
+
+                document.getElementById('editHouseId').value = houseId;
+                document.getElementById('editHouseTitle').value = house.title;
+                document.getElementById('editHousePrice').value = house.price;
+                document.getElementById('editHouseArea').value = house.area;
+                document.getElementById('editHouseImage').value = Array.isArray(house.images) ? house.images[0] : house.image;
+                document.getElementById('editHouseDesc').value = house.description || '';
+
+                document.getElementById('editHouseModal').style.display = 'flex';
+            } catch (error) {
+                console.error('Error fetching house details:', error);
+                alert('Error al cargar detalles de la casa');
+            }
+        }
+
+        function closeEditHouseModal() {
+            document.getElementById('editHouseModal').style.display = 'none';
+            currentEditingHouseId = null;
+        }
+
+        async function handleUpdateHouse(e) {
+            e.preventDefault();
+            if (!currentEditingHouseId) return;
+
+            const updates = {
+                title: document.getElementById('editHouseTitle').value,
+                price: Number(document.getElementById('editHousePrice').value),
+                area: Number(document.getElementById('editHouseArea').value),
+                images: [document.getElementById('editHouseImage').value], // Store as array
+                description: document.getElementById('editHouseDesc').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('houses').doc(currentEditingHouseId).update(updates);
+                alert('✅ Propiedad actualizada');
+                closeEditHouseModal();
+                loadInventory();
+            } catch (error) {
+                console.error('Error updating house:', error);
+                alert('Error al actualizar propiedad');
+            }
+        }
+
+        async function deleteHouse(houseId) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta casa? Esta acción no se puede deshacer.')) return;
+
+            try {
+                await db.collection('houses').doc(houseId).delete();
+                loadInventory();
+            } catch (error) {
+                console.error('Error deleting house:', error);
+                alert('Error al eliminar casa');
             }
         }
 
