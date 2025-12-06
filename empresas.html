@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Empresas | Prehouses</title>
+    <meta name="description" content="Acceso para empresas y fabricantes de casas prefabricadas">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html"><i class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="usuarios.html">Acceso Usuarios</a></li>
+                <li><a href="empresas.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Empresas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Auth Section -->
+    <section class="auth-section">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h1><i class="fa-solid fa-building"></i> Acceso Empresas</h1>
+                <p>Publica tus casas prefabricadas y recibe clientes</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab" onclick="switchTab('register')">Registrar Empresa</button>
+            </div>
+
+            <!-- Messages -->
+            <div id="errorMessage" class="message error-message" style="display: none;"></div>
+            <div id="successMessage" class="message success-message" style="display: none;"></div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required placeholder="empresa@ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="loginPassword" required placeholder="••••••">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión
+                </button>
+                <div class="auth-footer">
+                    <a href="#" onclick="handleForgotPassword(); return false;">¿Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Nombre de la Empresa</label>
+                    <input type="text" id="registerName" required placeholder="Mi Empresa S.L.">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" required placeholder="contacto@empresa.com">
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="registerPassword" required placeholder="Mínimo 6 caracteres">
+                </div>
+                <div class="form-group">
+                    <label>CIF / NIF de la Empresa</label>
+                    <input type="text" id="registerCIF" required placeholder="B12345678">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono de Contacto</label>
+                    <input type="tel" id="registerPhone" required placeholder="666666666">
+                </div>
+                <div class="form-group">
+                    <label>Sitio Web (opcional)</label>
+                    <input type="url" id="registerWebsite" placeholder="https://miempresa.com">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-building"></i> Registrar Empresa
+                </button>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 15px; text-align: center;">
+                    Tu solicitud será revisada en 24-48h
+                </p>
+            </form>
+
+            <div class="auth-divider">
+                <span>¿Eres usuario particular?</span>
+            </div>
+
+            <a href="usuarios.html" class="btn btn-outline btn-block">
+                <i class="fa-solid fa-user"></i> Ir a Acceso Usuarios
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>Prehouses</h4>
+                    <p style="color: var(--text-light); margin-bottom: 20px;">El portal líder de casas prefabricadas en
+                        España.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
+                        <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        // Switch between login and register tabs
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+
+            hideMessages();
+        }
+
+        // Hide messages
+        function hideMessages() {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            hideMessages();
+
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                await loginWithEmail(email, password);
+            } catch (error) {
+                // Error handling is done in auth.js
+            }
+        }
+
+        // Handle register
+        async function handleRegister(event) {
+            event.preventDefault();
+            hideMessages();
+
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const cif = document.getElementById('registerCIF').value;
+            const phone = document.getElementById('registerPhone').value;
+            const website = document.getElementById('registerWebsite').value;
+
+            const companyData = {
+                cif: cif,
+                phone: phone,
+                website: website || ''
+            };
+
+            console.log('=== REGISTRO EMPRESA ===');
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('Company data:', companyData);
+
+            try {
+                await registerWithEmail(email, password, name, 'empresa', companyData);
+            } catch (error) {
+                // Error handling is done in auth.js
+            }
+        }
+
+        // Handle forgot password
+        function handleForgotPassword() {
+            const email = prompt('Introduce tu email para recuperar la contraseña:');
+            if (email) {
+                resetPassword(email);
+            }
+        }
+
+        // Check if user is already logged in
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in, redirect to empresa dashboard
+                try {
+                    const doc = await db.collection('users').doc(user.uid).get();
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        if (userData.userType === 'empresa') {
+                            window.location.href = 'dashboard-empresa.html';
+                        } else {
+                            // If individual user tries to access empresa page, redirect to usuarios
+                            window.location.href = 'usuarios.html';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error getting user data:', error);
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

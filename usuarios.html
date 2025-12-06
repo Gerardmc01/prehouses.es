@@ -236,39 +236,22 @@
                     <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres" required
                         minlength="6">
                 </div>
-                <div class="form-group">
-                    <label>Tipo de Cuenta</label>
-                    <select id="registerUserType" required onchange="toggleCompanyFields()">
-                        <option value="empresa" selected>Empresa / Fabricante</option>
-                        <option value="individual">Usuario Particular</option>
-                    </select>
-                </div>
 
-                <!-- Campos adicionales para empresas (visibles por defecto) -->
-                <div id="companyFields" style="display: block;">
-                    <div class="form-group">
-                        <label>CIF / NIF de la Empresa</label>
-                        <input type="text" id="registerCIF" placeholder="B12345678">
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono de Contacto</label>
-                        <input type="tel" id="registerPhone" placeholder="+34 600 000 000">
-                    </div>
-                    <div class="form-group">
-                        <label>Sitio Web (opcional)</label>
-                        <input type="url" id="registerWebsite" placeholder="https://www.tuempresa.com">
-                    </div>
-                    <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                        <p style="margin: 0; font-size: 0.85rem; color: #075985; line-height: 1.6;">
-                            <strong><i class="fa-solid fa-info-circle"></i> Verificación de empresa:</strong><br>
-                            Tu cuenta será revisada por nuestro equipo. Te contactaremos en 24-48h para una breve
-                            videollamada de presentación.
-                        </p>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Crear Cuenta</button>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fa-solid fa-user-plus"></i> Crear Cuenta
+                </button>
+                <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 15px; text-align: center;">
+                    Al registrarte, aceptas nuestros <a href="aviso-legal.html">Términos y Condiciones</a>
+                </p>
             </form>
+
+            <div class="auth-divider">
+                <span>¿Eres una empresa?</span>
+            </div>
+
+            <a href="empresas.html" class="btn btn-outline btn-block">
+                <i class="fa-solid fa-building"></i> Ir a Acceso Empresas
+            </a>
 
             <div class="social-login">
                 <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.9rem;">O continúa con</p>
@@ -364,29 +347,14 @@
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            const userType = document.getElementById('registerUserType').value;
 
-            console.log('=== REGISTRO ===');
+            console.log('=== REGISTRO USUARIO ===');
             console.log('Name:', name);
             console.log('Email:', email);
-            console.log('UserType:', userType);
-            console.log('UserType === "empresa"?', userType === 'empresa');
-
-            // Collect company data if empresa
-            let companyData = null;
-            if (userType === 'empresa') {
-                companyData = {
-                    cif: document.getElementById('registerCIF').value,
-                    phone: document.getElementById('registerPhone').value,
-                    website: document.getElementById('registerWebsite').value || ''
-                };
-                console.log('Company data:', companyData);
-            } else {
-                console.log('NOT empresa, userType is:', userType);
-            }
+            console.log('UserType: individual');
 
             try {
-                await registerWithEmail(email, password, name, userType, companyData);
+                await registerWithEmail(email, password, name, 'individual', null);
             } catch (error) {
                 // Error handling is done in auth.js
             }
@@ -435,20 +403,19 @@
         // Check if user is already logged in
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                // User is signed in, redirect to dashboard
+                // User is signed in, redirect to appropriate dashboard
                 try {
                     const doc = await db.collection('users').doc(user.uid).get();
                     if (doc.exists) {
                         const userData = doc.data();
-                        console.log('User data:', userData);
-                        console.log('User type:', userData.userType);
-
-                        const redirectUrl = userData.userType === 'empresa' ? 'dashboard-empresa.html' : 'dashboard-usuario.html';
-                        console.log('Redirecting to:', redirectUrl);
-                        window.location.href = redirectUrl;
+                        if (userData.userType === 'empresa') {
+                            // If empresa user tries to access usuarios page, redirect to empresas
+                            window.location.href = 'empresas.html';
+                        } else {
+                            // Individual user, go to dashboard
+                            window.location.href = 'dashboard-usuario.html';
+                        }
                     } else {
-                        // User document doesn't exist, default to individual
-                        console.log('User document not found, defaulting to individual');
                         window.location.href = 'dashboard-usuario.html';
                     }
                 } catch (error) {
