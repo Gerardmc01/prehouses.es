@@ -302,6 +302,9 @@
                 <button class="tab-btn" onclick="switchTab('blog')">
                     <i class="fa-solid fa-newspaper"></i> Blog
                 </button>
+                <button class="tab-btn" onclick="switchTab('seo')">
+                    <i class="fa-solid fa-globe"></i> SEO
+                </button>
             </div>
 
             <!-- Tab: Companies -->
@@ -348,6 +351,26 @@
                     </button>
                 </div>
                 <div id="blogList">Cargando artículos...</div>
+            </div>
+
+            <!-- Tab: SEO -->
+            <div class="tab-content" id="tab-seo">
+                <h2>Herramientas SEO</h2>
+                <div class="card"
+                    style="background: white; padding: 20px; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                    <h3>Generador de Sitemap XML</h3>
+                    <p style="margin-bottom: 20px; color: #64748b;">Genera el archivo sitemap.xml actualizado con todas
+                        las casas y artículos dinámicos.</p>
+                    <button onclick="generateSitemap()" class="btn btn-primary" style="margin-bottom: 20px;">
+                        <i class="fa-solid fa-rotate"></i> Generar Sitemap
+                    </button>
+                    <textarea id="sitemapOutput" rows="15"
+                        style="width: 100%; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: monospace;"
+                        readonly placeholder="El XML aparecerá aquí..."></textarea>
+                    <p style="margin-top: 10px; font-size: 0.9rem; color: #64748b;">Copia este contenido, guárdalo como
+                        <code>sitemap.xml</code> y súbelo a la raíz de tu proyecto.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -603,7 +626,7 @@
         }
 
         async function resolveTicket(ticketId) {
-            if (!confirm('¿Marcar como resuelto?')) return;
+            if (!confirm('¿Marcar ticket como resuelto?')) return;
             try {
                 await db.collection('tickets').doc(ticketId).update({ status: 'resolved' });
                 alert('✅ Ticket resuelto');

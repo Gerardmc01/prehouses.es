@@ -96,6 +96,9 @@
                 // For a real CMS, we'd use a sanitizer, but here we trust the admin.
                 document.getElementById('postBody').innerHTML = post.content.replace(/\n/g, '<br>');
 
+                // --- SEO ---
+                updateMetaTags(post);
+
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('articleContent').style.display = 'block';
 
@@ -103,6 +106,38 @@
                 console.error('Error loading post:', error);
                 document.getElementById('loading').innerHTML = '<p>Error al cargar el artículo.</p>';
             }
+        }
+
+        function updateMetaTags(post) {
+            // Title
+            document.title = `${post.title} | Blog Prehouses`;
+
+            // Meta Description
+            const desc = post.summary || post.content.substring(0, 150) + '...';
+            setMetaTag('name', 'description', desc);
+
+            // Open Graph
+            setMetaTag('property', 'og:title', `${post.title} | Blog Prehouses`);
+            setMetaTag('property', 'og:description', desc);
+            setMetaTag('property', 'og:image', post.image);
+            setMetaTag('property', 'og:url', window.location.href);
+            setMetaTag('property', 'og:type', 'article');
+
+            // Twitter
+            setMetaTag('name', 'twitter:card', 'summary_large_image');
+            setMetaTag('name', 'twitter:title', `${post.title} | Blog Prehouses`);
+            setMetaTag('name', 'twitter:description', desc);
+            setMetaTag('name', 'twitter:image', post.image);
+        }
+
+        function setMetaTag(attrName, attrValue, content) {
+            let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute(attrName, attrValue);
+                document.head.appendChild(element);
+            }
+            element.setAttribute('content', content);
         }
 
         loadPost();

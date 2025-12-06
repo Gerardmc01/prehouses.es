@@ -286,8 +286,43 @@
                 document.getElementById('houseImage').src = imageUrl;
             }
 
+            // --- SEO & SOCIAL SHARING ---
+            updateMetaTags(house, imageUrl);
+
             // Load Similar Houses
             loadSimilarHouses(house.category);
+        }
+
+        function updateMetaTags(house, imageUrl) {
+            // Title
+            document.title = `${house.title} | Prehouses`;
+
+            // Meta Description
+            const desc = `Compra ${house.title} por ${parseInt(house.price).toLocaleString()}€. ${house.description.substring(0, 150)}...`;
+            setMetaTag('name', 'description', desc);
+
+            // Open Graph (Facebook, LinkedIn, WhatsApp)
+            setMetaTag('property', 'og:title', `${house.title} | Prehouses`);
+            setMetaTag('property', 'og:description', desc);
+            setMetaTag('property', 'og:image', imageUrl);
+            setMetaTag('property', 'og:url', window.location.href);
+            setMetaTag('property', 'og:type', 'product');
+
+            // Twitter Card
+            setMetaTag('name', 'twitter:card', 'summary_large_image');
+            setMetaTag('name', 'twitter:title', `${house.title} | Prehouses`);
+            setMetaTag('name', 'twitter:description', desc);
+            setMetaTag('name', 'twitter:image', imageUrl);
+        }
+
+        function setMetaTag(attrName, attrValue, content) {
+            let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute(attrName, attrValue);
+                document.head.appendChild(element);
+            }
+            element.setAttribute('content', content);
         }
 
         async function loadSimilarHouses(category) {

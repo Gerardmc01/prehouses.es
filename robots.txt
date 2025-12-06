@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dashboard-usuario.html
+Disallow: /dashboard-empresa.html
+Disallow: /usuarios.html
+Disallow: /empresas.html
+Disallow: /actualizar-tipo.html
+
+Sitemap: https://prehouses.es/sitemap.xml
