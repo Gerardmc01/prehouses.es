@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Función auxiliar para verificar si es admin
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType == 'admin';
+    }
+
+    // Usuarios: Admin puede todo. Usuario solo lo suyo.
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+    
+    // Casas: Admin puede todo. Empresa solo las suyas.
+    match /houses/{houseId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && (resource.data.companyId == request.auth.uid || isAdmin());
+    }
+    
+    // Tickets de Soporte: Admin lee/escribe todo. Usuario crea.
+    match /tickets/{ticketId} {
+      allow create: if true;
+      allow read, update: if isAdmin();
+    }
+
+    // Leads, Vistas, Favoritos...
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
