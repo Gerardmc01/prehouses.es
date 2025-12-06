@@ -538,6 +538,22 @@
                     </div>
                 </a>
             </div>
+
+            <!-- Dynamic Houses from Firestore -->
+            <div id="dynamicHousesSection" style="margin-top: 60px; display: none;">
+                <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary);">
+                    <i class="fa-solid fa-plus-circle"></i> Más Casas Disponibles
+                </h2>
+                <div class="house-grid" id="dynamicHousesGrid">
+                    <!-- Houses loaded from Firestore will appear here -->
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" style="text-align: center; padding: 40px; display: none;">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
+                <p style="margin-top: 15px; color: var(--text-light);">Cargando más casas...</p>
+            </div>
         </div>
     </section>
 
@@ -772,6 +788,7 @@
             const bedrooms = document.getElementById('bedroomsFilter').value;
             const province = document.getElementById('provinceFilter').value;
 
+            // Get ALL house cards (static + dynamic)
             const houseCards = document.querySelectorAll('.house-card');
             let visibleCount = 0;
 
@@ -859,6 +876,81 @@
             }
         }
 
+        // Load Dynamic Houses from Firestore
+        async function loadDynamicHouses() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const dynamicSection = document.getElementById('dynamicHousesSection');
+            const dynamicGrid = document.getElementById('dynamicHousesGrid');
+
+            try {
+                loadingIndicator.style.display = 'block';
+
+                const snapshot = await db.collection('houses')
+                    .orderBy('createdAt', 'desc')
+                    .limit(20)
+                    .get();
+
+                if (snapshot.empty) {
+                    loadingIndicator.style.display = 'none';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const house = doc.data();
+                    const houseId = doc.id;
+
+                    // Map category to match filter system
+                    const category = house.category || 'madera';
+                    const price = house.price || 0;
+                    const area = house.area || 0;
+                    const bedrooms = house.bedrooms || 2;
+                    const province = house.province || 'otras';
+
+                    html += `
+                        <a href="detalle-casa.html?id=${houseId}" class="house-card dynamic-house" 
+                           data-category="${category}" 
+                           data-price="${price}" 
+                           data-area="${area}" 
+                           data-bedrooms="${bedrooms}" 
+                           data-province="${province}"
+                           id="card_${houseId}">
+                            <button class="fav-btn" onclick="toggleFav(event, '${houseId}')">
+                                <i class="fa-solid fa-heart"></i>
+                            </button>
+                            <div class="house-image">
+                                <span class="house-badge" style="background: #10b981;">Nueva</span>
+                                <img src="${house.imageUrl || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80'}" 
+                                     alt="${house.title}">
+                            </div>
+                            <div class="house-content">
+                                <div class="house-header">
+                                    <div class="house-price">${parseInt(price).toLocaleString('es-ES')}€</div>
+                                </div>
+                                <h3 class="house-title">${house.title}</h3>
+                                <div class="house-specs">
+                                    <span><i class="fa-solid fa-ruler-combined"></i> ${area}m²</span>
+                                    <span><i class="fa-solid fa-bed"></i> ${bedrooms} Hab</span>
+                                    <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
+                                </div>
+                                <div class="house-footer">
+                                    <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha Completa</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                });
+
+                dynamicGrid.innerHTML = html;
+                dynamicSection.style.display = 'block';
+                loadingIndicator.style.display = 'none';
+
+            } catch (error) {
+                console.error('Error loading dynamic houses:', error);
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const filterBtns = document.querySelectorAll('.filter-btn');
             const houseCards = document.querySelectorAll('.house-card');
@@ -904,6 +996,9 @@
                     applyFilter(category);
                 }
             }
+
+            // Load dynamic houses from Firestore
+            loadDynamicHouses();
         });
     </script>
 
