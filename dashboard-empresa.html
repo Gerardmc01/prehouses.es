@@ -17,6 +17,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
     <style>
+        body {
+            display: none;
+            /* Hidden until auth completes */
+        }
+
         .dashboard-container {
             max-width: 1400px;
             margin: 140px auto 60px;
@@ -276,98 +281,131 @@
 
         // Proteger página - solo empresas
         auth.onAuthStateChanged(async (user) => {
-            console.log('Auth state changed:', user);
-
             if (!user) {
-                console.log('No user logged in');
-                alert('⚠️ Debes iniciar sesión para acceder a esta página');
                 window.location.href = 'empresas.html';
                 return;
             }
 
             currentUser = user;
-            console.log('Loading company data for user:', user.uid);
 
             try {
+                const userDoc = await db.collection('users').doc(user.uid).get();
+
+                if (!userDoc.exists) {
+                    alert('Error: No se encontraron datos de usuario');
+                    window.location.href = 'empresas.html';
+                    return;
+                }
+
+                userData = userDoc.data();
+
+                // Verificar que es una empresa
+                if (userData.userType !== 'empresa') {
+                    window.location.href = 'dashboard-usuario.html';
+                    return;
+                }
+
+                // MOSTRAR CONTENIDO INMEDIATAMENTE
+                document.body.style.display = 'block';
+
+                // Cargar datos
                 await loadCompanyData();
+
             } catch (error) {
-                console.error('Error in loadCompanyData:', error);
-                alert('Error cargando datos: ' + error.message);
+                alert('Error al cargar: ' + error.message);
+                window.location.href = 'empresas.html';
             }
         });
 
         // Cargar datos de la empresa
         async function loadCompanyData() {
             try {
-                console.log('Fetching user document...');
+                // console.log('Fetching user document...'); // Removed
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 userData = userDoc.exists ? userDoc.data() : {};
-                console.log('User data:', userData);
+                // console.log('User data:', userData); // Removed
 
                 // Verificar que es una empresa
                 if (userData.userType !== 'empresa') {
-                    console.log('Not a company user, redirecting...');
+                    // console.log('Not a company user, redirecting...'); // Removed
                     alert('⚠️ Esta página es solo para empresas');
                     window.location.href = 'dashboard-usuario.html';
                     return;
                 }
 
-                console.log('Updating UI...');
-                // Actualizar UI
-                document.getElementById('companyName').textContent = `¡Bienvenido, ${userData.name || currentUser.displayName || 'Empresa'}!`;
-                document.getElementById('userEmail').textContent = currentUser.email;
+                // console.log('Updating UI...'); // Removed
+                // Actualizar nombre
+                const nameEl = document.getElementById('companyName');
+                if (nameEl) {
+                    nameEl.textContent = `¡Bienvenido, ${userData.name || 'Empresa'}!`;
+                }
+
+                const emailEl = document.getElementById('userEmail');
+                if (emailEl) {
+                    emailEl.textContent = currentUser.email;
+                }
 
                 // Botón de verificación
                 const verifyBtn = document.getElementById('verifyBtn');
                 if (currentUser.emailVerified) {
-                    verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Email Verificado';
-                    verifyBtn.disabled = true;
-                    verifyBtn.style.opacity = '0.6';
+                    if (verifyBtn) { // Added null check for verifyBtn
+                        verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Email Verificado';
+                        verifyBtn.disabled = true;
+                        verifyBtn.style.opacity = '0.6';
+                    }
                 }
 
-                // Estadísticas (simuladas por ahora)
-                document.getElementById('casasCount').textContent = userData.casasPublicadas || 0;
-                document.getElementById('viewsCount').textContent = userData.visualizaciones || 0;
-                document.getElementById('consultasCount').textContent = userData.consultas || 0;
-                document.getElementById('ratingCount').textContent = userData.rating || '-';
+                // Estadísticas
+                const casasEl = document.getElementById('casasCount');
+                if (casasEl) casasEl.textContent = userData.casasPublicadas || 0;
+
+                const viewsEl = document.getElementById('viewsCount');
+                if (viewsEl) viewsEl.textContent = userData.visualizaciones || 0;
+
+                const consultasEl = document.getElementById('consultasCount');
+                if (consultasEl) consultasEl.textContent = userData.consultas || 0;
+
+                const ratingEl = document.getElementById('ratingCount');
+                if (ratingEl) ratingEl.textContent = userData.rating || '-';
 
                 // Información detallada
-                const fechaRegistro = userData.createdAt?.toDate().toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                }) || 'N/A';
+                const companyInfoEl = document.getElementById('companyInfo');
+                if (companyInfoEl) {
+                    const fechaRegistro = userData.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+                    companyInfoEl.innerHTML = `
+                        <p><strong>Nombre:</strong> ${userData.name || 'No especificado'}</p>
+                        <p><strong>Email:</strong> ${currentUser.email}</p>
+                        <p><strong>CIF:</strong> ${userData.cif || 'No especificado'}</p>
+                        <p><strong>Teléfono:</strong> ${userData.phone || 'No especificado'}</p>
+                        <p><strong>Estado:</strong> ${getStatusText(userData.status)}</p>
+                        <p><strong>Miembro desde:</strong> ${fechaRegistro}</p>
+                    `;
+                }
 
-                document.getElementById('companyInfo').innerHTML = `
-                    <p><strong>Nombre de la empresa:</strong> ${userData.name || 'No especificado'}</p>
-                    <p><strong>Email de contacto:</strong> ${currentUser.email}</p>
-                    <p><strong>CIF/NIF:</strong> ${userData.cif || 'No especificado'}</p>
-                    <p><strong>Teléfono:</strong> ${userData.phone || 'No especificado'}</p>
-                    <p><strong>Sitio web:</strong> ${userData.website ? `<a href="${userData.website}" target="_blank">${userData.website}</a>` : 'No especificado'}</p>
-                    <p><strong>Tipo de cuenta:</strong> Empresa / Fabricante</p>
-                    <p><strong>Miembro desde:</strong> ${fechaRegistro}</p>
-                    <p><strong>Estado del email:</strong> ${currentUser.emailVerified ? '✅ Verificado' : '⚠️ Pendiente de verificación'}</p>
-                    <p><strong>Estado de la cuenta:</strong> ${getStatusText(userData.status)}</p>
-                    <p><strong>Plan actual:</strong> Gratuito</p>
-                `;
-
-                console.log('Showing status banner for status:', userData.status);
-                // Show status banner
+                // console.log('Showing status banner for status:', userData.status); // Removed
+                // Mostrar banner de estado
                 showStatusBanner(userData.status);
 
-                console.log('Loading leads...');
-                // Load leads
-                loadLeads();
+                // console.log('Loading leads...'); // Removed
+                // Cargar leads y analytics
+                try {
+                    await loadLeads();
+                } catch (e) {
+                    console.error('Error loading leads:', e);
+                }
 
-                console.log('Loading analytics...');
-                // Load analytics
-                loadAnalytics();
+                // console.log('Loading analytics...'); // Removed
+                try {
+                    await loadAnalytics();
+                } catch (e) {
+                    console.error('Error loading analytics:', e);
+                }
 
-                console.log('Dashboard loaded successfully!');
+                // console.log('Dashboard loaded successfully!'); // Removed
 
             } catch (error) {
-                console.error('Error cargando datos:', error);
-                alert('Error: ' + error.message);
+                console.error('Error in loadCompanyData:', error);
+                // alert('Error: ' + error.message); // Removed, as the outer try-catch handles this
             }
         }
 
