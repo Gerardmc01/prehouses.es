@@ -208,6 +208,16 @@
 
         </div>
     </div>
+    </div>
+
+    <!-- Similar Houses -->
+    <div class="container" id="similarHousesSection" style="margin-bottom: 60px;">
+        <h2 style="margin-bottom: 30px; color: var(--secondary);">También te podría interesar</h2>
+        <div class="house-grid" id="similarHousesGrid"
+            style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
+            <div style="text-align:center; width:100%; padding:20px;">Cargando recomendaciones...</div>
+        </div>
+    </div>
 
     <!-- Firebase Config -->
     <script src="js/firebase-config.js"></script>
@@ -259,7 +269,8 @@
             document.getElementById('houseBathrooms').textContent = house.bathrooms;
             document.getElementById('houseDelivery').textContent = house.deliveryTime || 'Consultar';
             document.getElementById('houseDescription').textContent = house.description;
-            document.getElementById('companyName').textContent = house.companyName || 'la empresa';
+            const companyLink = house.companyId ? `<a href="empresa-perfil.html?id=${house.companyId}" style="color: var(--primary); text-decoration: none; font-weight: bold;">${house.companyName || 'la empresa'}</a>` : 'la empresa';
+            document.getElementById('companyName').innerHTML = companyLink;
 
             // Image handling (array or string)
             let imageUrl = '';
@@ -273,6 +284,62 @@
 
             if (imageUrl) {
                 document.getElementById('houseImage').src = imageUrl;
+            }
+
+            // Load Similar Houses
+            loadSimilarHouses(house.category);
+        }
+
+        async function loadSimilarHouses(category) {
+            if (!category) {
+                document.getElementById('similarHousesSection').style.display = 'none';
+                return;
+            }
+
+            const container = document.getElementById('similarHousesGrid');
+            try {
+                const snapshot = await db.collection('houses')
+                    .where('category', '==', category)
+                    .limit(4)
+                    .get();
+
+                let html = '';
+                let count = 0;
+
+                snapshot.forEach(doc => {
+                    if (doc.id === houseId || count >= 3) return;
+
+                    const house = doc.data();
+                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
+
+                    html += `
+                        <a href="detalle-casa.html?id=${doc.id}" class="house-card">
+                            <div class="house-image">
+                                <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
+                            </div>
+                            <div class="house-content">
+                                <div class="house-header">
+                                    <div class="house-price">${parseInt(house.price).toLocaleString()}€</div>
+                                </div>
+                                <h3 class="house-title">${house.title}</h3>
+                                <div class="house-footer">
+                                    <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Casa</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                    count++;
+                });
+
+                if (html) {
+                    container.innerHTML = html;
+                } else {
+                    document.getElementById('similarHousesSection').style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error('Error loading similar houses:', error);
+                document.getElementById('similarHousesSection').style.display = 'none';
             }
         }
 

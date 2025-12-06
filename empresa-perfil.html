@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Empresa | Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        .company-header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 160px 0 60px;
+            text-align: center;
+        }
+
+        .company-logo-placeholder {
+            width: 100px;
+            height: 100px;
+            background: white;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .company-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #38bdf8;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .contact-bar {
+            background: white;
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 70px;
+            z-index: 90;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .contact-item i {
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Company Header -->
+    <header class="company-header">
+        <div class="container">
+            <div class="company-logo-placeholder">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <h1 id="companyName">Cargando empresa...</h1>
+            <p id="companyDesc" style="max-width: 600px; margin: 10px auto; opacity: 0.9;">...</p>
+
+            <div class="company-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalHouses">0</div>
+                    <div class="stat-label">Casas en Venta</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">4.8/5</div>
+                    <div class="stat-label">Valoración</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">Verified</div>
+                    <div class="stat-label">Estado</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contact Bar -->
+    <div class="contact-bar">
+        <div class="container contact-info">
+            <div class="contact-item" id="companyPhone">
+                <i class="fa-solid fa-phone"></i> <span>-</span>
+            </div>
+            <div class="contact-item" id="companyWeb">
+                <i class="fa-solid fa-globe"></i> <a href="#" target="_blank"
+                    style="color: inherit; text-decoration: none;">Visitar Web</a>
+            </div>
+            <div class="contact-item">
+                <i class="fa-solid fa-location-dot"></i> <span>España</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Company Catalog -->
+    <section class="catalog" style="padding: 60px 0;">
+        <div class="container">
+            <h2 style="margin-bottom: 30px; color: var(--secondary);">Catálogo de Propiedades</h2>
+            <div class="house-grid" id="companyHousesGrid">
+                <div style="text-align: center; width: 100%; padding: 40px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/support.js"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const companyId = urlParams.get('id');
+
+        async function loadCompanyProfile() {
+            if (!companyId) {
+                window.location.href = 'catalogo.html';
+                return;
+            }
+
+            try {
+                // Load Company Info
+                const userDoc = await db.collection('users').doc(companyId).get();
+                if (!userDoc.exists) {
+                    document.body.innerHTML = '<h1>Empresa no encontrada</h1>';
+                    return;
+                }
+
+                const company = userDoc.data();
+                document.title = `${company.name || 'Empresa'} | Prehouses`;
+                document.getElementById('companyName').textContent = company.name || 'Empresa Sin Nombre';
+                document.getElementById('companyDesc').textContent = `Especialistas en construcción industrializada. Contacta con nosotros para más información.`;
+
+                if (company.phone) {
+                    document.getElementById('companyPhone').innerHTML = `<i class="fa-solid fa-phone"></i> ${company.phone}`;
+                }
+
+                if (company.website) {
+                    document.getElementById('companyWeb').innerHTML = `<i class="fa-solid fa-globe"></i> <a href="${company.website}" target="_blank" style="color: inherit; text-decoration: none;">${company.website.replace('https://', '')}</a>`;
+                }
+
+                // Load Company Houses
+                const snapshot = await db.collection('houses')
+                    .where('companyId', '==', companyId)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                document.getElementById('totalHouses').textContent = snapshot.size;
+
+                const grid = document.getElementById('companyHousesGrid');
+                if (snapshot.empty) {
+                    grid.innerHTML = '<div style="text-align: center; width: 100%;">Esta empresa no tiene propiedades publicadas actualmente.</div>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const house = doc.data();
+                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
+
+                    html += `
+                        <a href="detalle-casa.html?id=${doc.id}" class="house-card">
+                            <div class="house-image">
+                                <span class="house-badge" style="background: var(--primary);">Destacada</span>
+                                <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
+                            </div>
+                            <div class="house-content">
+                                <div class="house-header">
+                                    <div class="house-price">${parseInt(house.price).toLocaleString()}€</div>
+                                </div>
+                                <h3 class="house-title">${house.title}</h3>
+                                <div class="house-specs">
+                                    <span><i class="fa-solid fa-ruler-combined"></i> ${house.area}m²</span>
+                                    <span><i class="fa-solid fa-bed"></i> ${house.bedrooms || 2} Hab</span>
+                                    <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
+                                </div>
+                                <div class="house-footer">
+                                    <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                });
+
+                grid.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                document.body.innerHTML = '<h1>Error al cargar perfil</h1>';
+            }
+        }
+
+        loadCompanyProfile();
+    </script>
+
+</body>
+
+</html>
