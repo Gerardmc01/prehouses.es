@@ -165,8 +165,8 @@
             <p class="section-subtitle">Descubre las últimas novedades en el mercado de casas prefabricadas en España.
             </p>
 
-            <div class="house-grid">
-                <!-- House 1 -->
+            <div class="house-grid" id="featuredHousesGrid">
+                <!-- House 1 (Static Fallback) -->
                 <a href="detalle-casa-nordic.html" class="house-card">
                     <div class="house-image">
                         <span class="house-badge">Más Vendida</span>
@@ -190,7 +190,7 @@
                     </div>
                 </a>
 
-                <!-- House 2 -->
+                <!-- House 2 (Static Fallback) -->
                 <a href="detalle-casa-villa.html" class="house-card">
                     <div class="house-image">
                         <span class="house-badge">Premium</span>
@@ -214,7 +214,7 @@
                     </div>
                 </a>
 
-                <!-- House 3 -->
+                <!-- House 3 (Static Fallback) -->
                 <a href="detalle-casa-wood.html" class="house-card">
                     <div class="house-image">
                         <span class="house-badge">Oferta</span>
@@ -238,6 +238,55 @@
                     </div>
                 </a>
             </div>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', async () => {
+                    const container = document.getElementById('featuredHousesGrid');
+                    try {
+                        // Get 3 latest houses form Firestore
+                        const snapshot = await db.collection('houses')
+                            .orderBy('createdAt', 'desc')
+                            .limit(3)
+                            .get();
+
+                        if (snapshot.empty) return; // Keep static fallback
+
+                        let html = '';
+                        snapshot.forEach(doc => {
+                            const house = doc.data();
+                            const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
+
+                            html += `
+                                <a href="detalle-casa.html?id=${doc.id}" class="house-card">
+                                    <div class="house-image">
+                                        <span class="house-badge" style="background: #10b981;">Novedad</span>
+                                        <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
+                                    </div>
+                                    <div class="house-content">
+                                        <div class="house-header">
+                                            <div class="house-price">${parseInt(house.price).toLocaleString()}€</div>
+                                        </div>
+                                        <h3 class="house-title">${house.title}</h3>
+                                        <div class="house-specs">
+                                            <span><i class="fa-solid fa-ruler-combined"></i> ${house.area}m²</span>
+                                            <span><i class="fa-solid fa-bed"></i> ${house.bedrooms || 2} Hab</span>
+                                            <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
+                                        </div>
+                                        <div class="house-footer">
+                                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha Completa</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            `;
+                        });
+
+                        container.innerHTML = html;
+
+                    } catch (error) {
+                        console.error('Error loading featured houses:', error);
+                    }
+                });
+            </script>
 
             <div style="text-align: center; margin-top: 60px;">
                 <a href="catalogo.html" class="btn btn-primary">Ver Catálogo Completo <i

@@ -364,6 +364,7 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
+    <script src="js/toast.js"></script>
 
     <script>
         let currentUser = null;
@@ -521,12 +522,12 @@
 
             try {
                 await db.collection('users').doc(currentUser.uid).update(updates);
-                alert('✅ Perfil actualizado correctamente');
+                showToast('Perfil actualizado correctamente', 'success');
                 closeProfileModal();
                 loadCompanyData(); // Reload UI
             } catch (error) {
                 console.error('Error updating profile:', error);
-                alert('Error al actualizar perfil');
+                showToast('Error al actualizar perfil', 'error');
             }
         }
 
@@ -613,12 +614,12 @@
 
             try {
                 await db.collection('houses').doc(currentEditingHouseId).update(updates);
-                alert('✅ Propiedad actualizada');
+                showToast('Propiedad actualizada', 'success');
                 closeEditHouseModal();
                 loadInventory();
             } catch (error) {
                 console.error('Error updating house:', error);
-                alert('Error al actualizar propiedad');
+                showToast('Error al actualizar propiedad', 'error');
             }
         }
 
@@ -630,7 +631,7 @@
                 loadInventory();
             } catch (error) {
                 console.error('Error deleting house:', error);
-                alert('Error al eliminar casa');
+                showToast('Error al eliminar casa', 'error');
             }
         }
 
@@ -718,34 +719,33 @@
         // Cargar leads recibidos
         async function loadLeads() {
             const leadsList = document.getElementById('leadsList');
-
             try {
-                // For now, using DEMO_COMPANY as companyId
-                // In production, this would be currentUser.uid
                 const snapshot = await db.collection('leads')
                     .where('companyId', '==', currentUser.uid)
                     .orderBy('createdAt', 'desc')
-                    .limit(20)
                     .get();
 
                 if (snapshot.empty) {
                     leadsList.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: var(--text-light);">
-                            <i class="fa-solid fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 15px;"></i>
-                            <p>No has recibido consultas todavía</p>
+                        <div class="empty-state">
+                            <i class="fa-solid fa-inbox"></i>
+                            <p>No tienes consultas pendientes</p>
                         </div>
                     `;
                     return;
                 }
 
-                let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
+                let html = '<div style="display: grid; gap: 15px;">';
 
                 snapshot.forEach(doc => {
                     const lead = doc.data();
-                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'Fecha desconocida';
-                    const statusBadge = lead.status === 'nuevo' ?
-                        '<span style="background: #dbeafe; color: #1e40af; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">NUEVO</span>' :
-                        '<span style="background: #e2e8f0; color: #64748b; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;">LEÍDO</span>';
+                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+                    const status = lead.status || 'new'; // new, contacted, archived
+
+                    let statusBadge = '';
+                    if (status === 'new') statusBadge = '<span class="status-badge status-pending">Nuevo</span>';
+                    else if (status === 'contacted') statusBadge = '<span class="status-badge status-active">Contactado</span>';
+                    else if (status === 'archived') statusBadge = '<span class="status-badge status-inactive">Archivado</span>';
 
                     html += `
                         <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
@@ -761,9 +761,15 @@
                             </div>
                             <p style="margin: 10px 0; color: var(--secondary);"><strong>Interesado en:</strong> ${lead.houseTitle}</p>
                             <p style="margin: 10px 0; padding: 10px; background: white; border-radius: 6px;">${lead.message}</p>
-                            <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--text-light);">
-                                <i class="fa-solid fa-calendar"></i> ${date}
-                            </p>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-light);">
+                                    <i class="fa-solid fa-calendar"></i> ${date}
+                                </p>
+                                <div style="display: flex; gap: 10px;">
+                                    ${status !== 'contacted' ? `<button onclick="updateLeadStatus('${doc.id}', 'contacted')" class="btn btn-outline btn-sm"><i class="fa-solid fa-check"></i> Contactado</button>` : ''}
+                                    ${status !== 'archived' ? `<button onclick="updateLeadStatus('${doc.id}', 'archived')" class="btn btn-outline btn-sm" style="color: #64748b; border-color: #cbd5e1;"><i class="fa-solid fa-box-archive"></i> Archivar</button>` : ''}
+                                </div>
+                            </div>
                         </div>
                     `;
                 });
@@ -774,6 +780,16 @@
             } catch (error) {
                 console.error('Error loading leads:', error);
                 leadsList.innerHTML = '<p style="color: #ef4444;">Error al cargar consultas</p>';
+            }
+        }
+
+        async function updateLeadStatus(leadId, newStatus) {
+            try {
+                await db.collection('leads').doc(leadId).update({ status: newStatus });
+                loadLeads(); // Reload
+            } catch (error) {
+                console.error('Error updating lead status:', error);
+                showToast('Error al actualizar estado', 'error');
             }
         }
 
