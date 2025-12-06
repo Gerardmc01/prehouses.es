@@ -424,14 +424,28 @@
         };
 
         // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
+        auth.onAuthStateChanged(async (user) => {
             if (user) {
                 // User is signed in, redirect to dashboard
-                db.collection('users').doc(user.uid).get().then((doc) => {
-                    const userType = doc.exists ? doc.data().userType : 'individual';
-                    const redirectUrl = userType === 'empresa' ? 'dashboard-empresa.html' : 'dashboard-usuario.html';
-                    window.location.href = redirectUrl;
-                });
+                try {
+                    const doc = await db.collection('users').doc(user.uid).get();
+                    if (doc.exists) {
+                        const userData = doc.data();
+                        console.log('User data:', userData);
+                        console.log('User type:', userData.userType);
+
+                        const redirectUrl = userData.userType === 'empresa' ? 'dashboard-empresa.html' : 'dashboard-usuario.html';
+                        console.log('Redirecting to:', redirectUrl);
+                        window.location.href = redirectUrl;
+                    } else {
+                        // User document doesn't exist, default to individual
+                        console.log('User document not found, defaulting to individual');
+                        window.location.href = 'dashboard-usuario.html';
+                    }
+                } catch (error) {
+                    console.error('Error getting user data:', error);
+                    window.location.href = 'dashboard-usuario.html';
+                }
             }
         });
     </script>
