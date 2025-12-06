@@ -245,10 +245,16 @@
         <div class="admin-header">
             <h1><i class="fa-solid fa-shield-halved"></i> Panel de Administración</h1>
             <p>Control total de la plataforma Prehouses</p>
-            <button onclick="logout()" class="btn btn-outline"
-                style="margin-top: 15px; background: rgba(255,255,255,0.2); border-color: white; color: white;">
-                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-            </button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button onclick="fixAdminPermissions()" class="btn btn-primary"
+                    style="background: white; color: #dc2626; border: none;">
+                    <i class="fa-solid fa-wrench"></i> Reparar Permisos
+                </button>
+                <button onclick="logout()" class="btn btn-outline"
+                    style="background: rgba(255,255,255,0.2); border-color: white; color: white;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+                </button>
+            </div>
         </div>
 
         <!-- Stats Dashboard -->
@@ -819,6 +825,26 @@
             } catch (error) {
                 console.error('Error importing houses:', error);
                 alert('❌ Error al importar: ' + error.message);
+            }
+        }
+
+        // Fix Admin Permissions
+        async function fixAdminPermissions() {
+            if (!currentUser) return alert('No hay usuario logueado');
+
+            try {
+                await db.collection('users').doc(currentUser.uid).set({
+                    email: currentUser.email,
+                    userType: 'admin',
+                    role: 'admin',
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                alert('✅ Permisos de administrador reparados. Ahora deberías poder aprobar empresas.');
+                location.reload();
+            } catch (error) {
+                console.error('Error fixing permissions:', error);
+                alert('❌ Error al reparar permisos: ' + error.message);
             }
         }
 
