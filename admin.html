@@ -299,6 +299,9 @@
                 <button class="tab-btn" onclick="switchTab('tickets')">
                     <i class="fa-solid fa-headset"></i> Soporte
                 </button>
+                <button class="tab-btn" onclick="switchTab('blog')">
+                    <i class="fa-solid fa-newspaper"></i> Blog
+                </button>
             </div>
 
             <!-- Tab: Companies -->
@@ -335,6 +338,49 @@
                 <h2>Tickets de Soporte</h2>
                 <div id="ticketsList">Cargando...</div>
             </div>
+
+            <!-- Tab: Blog -->
+            <div class="tab-content" id="tab-blog">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Gestión del Blog</h2>
+                    <button onclick="openPostModal()" class="btn btn-primary">
+                        <i class="fa-solid fa-pen-nib"></i> Nuevo Artículo
+                    </button>
+                </div>
+                <div id="blogList">Cargando artículos...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit/Create Post Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <span class="close-modal" onclick="closePostModal()">&times;</span>
+            <h2 id="postModalTitle">Escribir Artículo</h2>
+            <form id="postForm" onsubmit="handleSavePost(event)">
+                <input type="hidden" id="postId">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" id="postTitle" required class="form-control"
+                        style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                </div>
+                <div class="form-group">
+                    <label>Imagen de Portada (URL)</label>
+                    <input type="url" id="postImage" required class="form-control"
+                        style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                </div>
+                <div class="form-group">
+                    <label>Resumen (Extracto)</label>
+                    <textarea id="postExcerpt" rows="3" required class="form-control"
+                        style="width: 100%; padding: 10px; margin-bottom: 15px;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Contenido Completo (HTML permitido)</label>
+                    <textarea id="postContent" rows="10" required class="form-control"
+                        style="width: 100%; padding: 10px; margin-bottom: 15px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Publicar Artículo</button>
+            </form>
         </div>
     </div>
 
@@ -424,6 +470,93 @@
             loadHouses();
             loadLeads();
             loadTickets();
+            loadPosts();
+        }
+
+        // ... (existing functions) ...
+
+        // --- BLOG MANAGEMENT ---
+        async function loadPosts() {
+            const container = document.getElementById('blogList');
+            try {
+                const snapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-state"><p>No hay artículos publicados.</p></div>';
+                    return;
+                }
+
+                let html = '<table class="data-table"><thead><tr><th>Imagen</th><th>Título</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>';
+
+                snapshot.forEach(doc => {
+                    const post = doc.data();
+                    const date = post.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+
+                    html += `
+                        <tr>
+                            <td><img src="${post.image}" style="width: 50px; height: 35px; object-fit: cover; border-radius: 4px;"></td>
+                            <td>${post.title}</td>
+                            <td>${date}</td>
+                            <td>
+                                <button class="btn-small btn-reject" onclick="deletePost('${doc.id}')">Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                container.innerHTML = '<p style="color: red;">Error al cargar posts</p>';
+            }
+        }
+
+        function openPostModal() {
+            document.getElementById('postForm').reset();
+            document.getElementById('postId').value = '';
+            document.getElementById('postModalTitle').innerText = 'Nuevo Artículo';
+            document.getElementById('postModal').style.display = 'flex';
+        }
+
+        function closePostModal() {
+            document.getElementById('postModal').style.display = 'none';
+        }
+
+        async function handleSavePost(e) {
+            e.preventDefault();
+            const id = document.getElementById('postId').value;
+            const data = {
+                title: document.getElementById('postTitle').value,
+                image: document.getElementById('postImage').value,
+                excerpt: document.getElementById('postExcerpt').value,
+                content: document.getElementById('postContent').value,
+                author: 'Admin',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                if (id) {
+                    await db.collection('posts').doc(id).update(data);
+                } else {
+                    await db.collection('posts').add(data);
+                }
+                alert('✅ Artículo guardado');
+                closePostModal();
+                loadPosts();
+            } catch (error) {
+                console.error('Error saving post:', error);
+                alert('Error al guardar');
+            }
+        }
+
+        async function deletePost(id) {
+            if (!confirm('¿Eliminar este artículo?')) return;
+            try {
+                await db.collection('posts').doc(id).delete();
+                loadPosts();
+            } catch (error) {
+                console.error('Error deleting post:', error);
+            }
         }
 
         // ... (existing functions) ...

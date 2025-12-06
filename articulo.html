@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículo | Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html" style="color: var(--primary);">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="usuarios.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Article Content -->
+    <article class="container" style="margin-top: 140px; margin-bottom: 60px; max-width: 800px;">
+        <div id="loading" style="text-align: center; padding: 40px;">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+        </div>
+
+        <div id="articleContent" style="display: none;">
+            <img id="postImage" src="" alt="Portada"
+                style="width: 100%; height: 400px; object-fit: cover; border-radius: 16px; margin-bottom: 30px;">
+            <h1 id="postTitle" style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 15px;"></h1>
+            <div style="color: var(--text-light); margin-bottom: 30px; font-size: 0.9rem;">
+                <i class="fa-solid fa-calendar"></i> <span id="postDate"></span> |
+                <i class="fa-solid fa-user"></i> <span id="postAuthor">Admin</span>
+            </div>
+            <div id="postBody" style="line-height: 1.8; font-size: 1.1rem; color: #334155;">
+                <!-- Content injected here -->
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/support.js"></script>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get('id');
+
+        async function loadPost() {
+            if (!postId) return window.location.href = 'blog.html';
+
+            try {
+                const doc = await db.collection('posts').doc(postId).get();
+                if (!doc.exists) {
+                    document.getElementById('loading').innerHTML = '<h2>Artículo no encontrado</h2><a href="blog.html">Volver al Blog</a>';
+                    return;
+                }
+
+                const post = doc.data();
+                document.title = `${post.title} | Blog Prehouses`;
+
+                document.getElementById('postImage').src = post.image;
+                document.getElementById('postTitle').textContent = post.title;
+                document.getElementById('postDate').textContent = post.createdAt?.toDate().toLocaleDateString('es-ES') || 'Reciente';
+                document.getElementById('postAuthor').textContent = post.author || 'Equipo Prehouses';
+
+                // Handle HTML content safely (basic replacement for newlines)
+                // For a real CMS, we'd use a sanitizer, but here we trust the admin.
+                document.getElementById('postBody').innerHTML = post.content.replace(/\n/g, '<br>');
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('articleContent').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading post:', error);
+                document.getElementById('loading').innerHTML = '<p>Error al cargar el artículo.</p>';
+            }
+        }
+
+        loadPost();
+    </script>
+
+</body>
+
+</html>

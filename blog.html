@@ -115,8 +115,51 @@
                 </div>
 
             </div>
+
+            <!-- Dynamic Blog Posts -->
+            <div class="house-grid" id="dynamicBlogGrid" style="margin-top: 30px;">
+                <!-- Posts loaded from Firestore -->
+            </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('dynamicBlogGrid');
+            try {
+                const snapshot = await db.collection('posts').orderBy('createdAt', 'desc').get();
+
+                if (snapshot.empty) return;
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const post = doc.data();
+                    const id = doc.id;
+
+                    html += `
+                        <div class="house-card">
+                            <div class="house-image">
+                                <img src="${post.image}" alt="${post.title}" onerror="this.src='https://via.placeholder.com/800x600'">
+                            </div>
+                            <div class="house-content">
+                                <div style="color: var(--primary); font-size: 0.9rem; font-weight: 600; margin-bottom: 10px;">
+                                    NOTICIAS</div>
+                                <h3 class="house-title" style="font-size: 1.5rem;">${post.title}</h3>
+                                <p style="color: var(--text-light); margin-bottom: 20px;">${post.excerpt}</p>
+                                <div class="house-footer">
+                                    <a href="articulo.html?id=${id}" class="btn btn-outline" style="width: 100%; text-align: center;">Leer Artículo</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading blog posts:', error);
+            }
+        });
+    </script>
 
     <!-- Footer -->
     <footer>

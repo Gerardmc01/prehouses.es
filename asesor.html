@@ -10,6 +10,11 @@
     <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
     <style>
         body {
             background-color: #f8fafc;
@@ -319,6 +324,11 @@
         </div>
     </div>
 
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/support.js"></script>
+
     <script>
         let currentStep = 1;
         const totalSteps = 3;
@@ -352,34 +362,49 @@
             }
         }
 
-        function calculateResult() {
+        async function calculateResult() {
             showStep('Loading');
 
-            // Simulate AI processing
-            setTimeout(() => {
+            // Map answers to query params
+            let category = answers[3]; // madera, hormigon, acero
+            let maxPrice = answers[1] === 'low' ? 50000 : (answers[1] === 'medium' ? 100000 : 1000000);
+
+            try {
+                // Try to find a real house match
+                const snapshot = await db.collection('houses')
+                    .where('category', '==', category)
+                    .where('price', '<=', maxPrice)
+                    .limit(1)
+                    .get();
+
                 let recommendation = {};
 
-                // Simple Logic
-                if (answers[3] === 'madera') {
+                if (!snapshot.empty) {
+                    const house = snapshot.docs[0].data();
+                    const id = snapshot.docs[0].id;
+                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
+
                     recommendation = {
-                        title: "Casa de Madera Nórdica",
-                        desc: "Perfecta para entornos naturales, con gran aislamiento térmico y estética acogedora.",
-                        img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
-                        link: "catalogo.html?category=madera"
-                    };
-                } else if (answers[3] === 'hormigon') {
-                    recommendation = {
-                        title: "Villa Modular de Hormigón",
-                        desc: "La opción más robusta y duradera. Diseño moderno y mantenimiento mínimo.",
-                        img: "https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80",
-                        link: "catalogo.html?category=hormigon"
+                        title: house.title,
+                        desc: `¡Encontrada! Esta casa encaja con tu presupuesto y preferencias.`,
+                        img: img,
+                        link: `detalle-casa.html?id=${id}`,
+                        btnText: 'Ver Esta Casa'
                     };
                 } else {
+                    // Fallback if no specific house found
+                    const fallbackImages = {
+                        'madera': 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
+                        'hormigon': 'https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80',
+                        'acero': 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80'
+                    };
+
                     recommendation = {
-                        title: "Casa Steel Frame (Acero)",
-                        desc: "Construcción rápida, diseño flexible y estructura ligera pero resistente.",
-                        img: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80",
-                        link: "catalogo.html?category=acero"
+                        title: `Casa de ${category.charAt(0).toUpperCase() + category.slice(1)} Ideal`,
+                        desc: "No tenemos una coincidencia exacta ahora mismo, pero mira nuestro catálogo completo de este estilo.",
+                        img: fallbackImages[category] || fallbackImages['madera'],
+                        link: `catalogo.html?category=${category}`,
+                        btnText: 'Ver Catálogo'
                     };
                 }
 
@@ -393,7 +418,7 @@
                         </div>
                         <div class="house-content">
                             <a href="${recommendation.link}" class="btn btn-primary" style="width: 100%; text-align: center;">
-                                Ver Modelos Disponibles <i class="fa-solid fa-arrow-right"></i>
+                                ${recommendation.btnText} <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>
                     </div>
@@ -402,7 +427,10 @@
                 showStep('Result');
                 document.getElementById('progress').style.width = '100%';
 
-            }, 1500);
+            } catch (e) {
+                console.error(e);
+                alert('Ocurrió un error al buscar recomendaciones.');
+            }
         }
     </script>
 

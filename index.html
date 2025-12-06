@@ -113,6 +113,12 @@
                 window.location.href = 'catalogo.html';
             }
         }
+
+        document.getElementById('search-select').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchHouses();
+            }
+        });
     </script>
 
     <!-- Firebase Config -->

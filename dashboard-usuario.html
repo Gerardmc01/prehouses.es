@@ -207,6 +207,16 @@
             </div>
         </div>
 
+        <!-- Consultas -->
+        <div class="dashboard-card" style="margin-top: 30px;">
+            <h3><i class="fa-solid fa-envelope-open-text"></i> Mis Consultas Enviadas</h3>
+            <div id="consultasHistory">
+                <div class="empty-state">
+                    <p>Cargando consultas...</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Información de la cuenta -->
         <div class="dashboard-card">
             <h3><i class="fa-solid fa-user-circle"></i> Información de la Cuenta</h3>
@@ -281,9 +291,48 @@
 
                 // Cargar favoritos
                 loadFavorites();
+                loadConsultas();
 
             } catch (error) {
                 console.error('Error cargando datos:', error);
+            }
+        }
+
+        async function loadConsultas() {
+            const container = document.getElementById('consultasHistory');
+            try {
+                const snapshot = await db.collection('leads')
+                    .where('userEmail', '==', currentUser.email)
+                    .orderBy('createdAt', 'desc')
+                    .get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-state"><p>No has enviado ninguna consulta.</p></div>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const lead = doc.data();
+                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+
+                    html += `
+                        <div class="favorite-item">
+                            <div style="flex: 1;">
+                                <h4 style="margin-bottom: 5px;">Consulta sobre: ${lead.houseTitle}</h4>
+                                <p style="font-size: 0.9rem; color: #64748b;">Enviado el: ${date}</p>
+                                <p style="font-style: italic; margin-top: 5px;">"${lead.message}"</p>
+                            </div>
+                            <span style="background: #e2e8f0; padding: 5px 10px; border-radius: 12px; font-size: 0.8rem;">Enviado</span>
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+                document.getElementById('consultasCount').textContent = snapshot.size;
+
+            } catch (error) {
+                console.error('Error loading consultas:', error);
+                container.innerHTML = '<p>Error al cargar historial.</p>';
             }
         }
 
