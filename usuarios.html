@@ -366,6 +366,12 @@
             const password = document.getElementById('registerPassword').value;
             const userType = document.getElementById('registerUserType').value;
 
+            console.log('=== REGISTRO ===');
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('UserType:', userType);
+            console.log('UserType === "empresa"?', userType === 'empresa');
+
             // Collect company data if empresa
             let companyData = null;
             if (userType === 'empresa') {
@@ -374,6 +380,9 @@
                     phone: document.getElementById('registerPhone').value,
                     website: document.getElementById('registerWebsite').value || ''
                 };
+                console.log('Company data:', companyData);
+            } else {
+                console.log('NOT empresa, userType is:', userType);
             }
 
             try {
