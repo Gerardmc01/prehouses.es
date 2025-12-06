@@ -290,6 +290,9 @@
                 <button class="tab-btn" onclick="switchTab('leads')">
                     <i class="fa-solid fa-envelope"></i> Leads
                 </button>
+                <button class="tab-btn" onclick="switchTab('tickets')">
+                    <i class="fa-solid fa-headset"></i> Soporte
+                </button>
             </div>
 
             <!-- Tab: Companies -->
@@ -319,6 +322,12 @@
             <div class="tab-content" id="tab-leads">
                 <h2>Todos los Leads</h2>
                 <div id="leadsList">Cargando...</div>
+            </div>
+
+            <!-- Tab: Tickets -->
+            <div class="tab-content" id="tab-tickets">
+                <h2>Tickets de Soporte</h2>
+                <div id="ticketsList">Cargando...</div>
             </div>
         </div>
     </div>
@@ -366,6 +375,7 @@
 
     <!-- Firebase Config -->
     <script src="js/firebase-config.js"></script>
+    <script src="js/support.js"></script>
 
     <script>
         const ADMIN_EMAIL = 'prehouses24h@gmail.com';
@@ -407,6 +417,62 @@
             loadUsers();
             loadHouses();
             loadLeads();
+            loadTickets();
+        }
+
+        // ... (existing functions) ...
+
+        // Load Tickets
+        async function loadTickets() {
+            const container = document.getElementById('ticketsList');
+            try {
+                const snapshot = await db.collection('tickets').orderBy('createdAt', 'desc').limit(50).get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-check-circle"></i><p>No hay tickets pendientes</p></div>';
+                    return;
+                }
+
+                let html = '<table class="data-table"><thead><tr><th>Tipo</th><th>Mensaje</th><th>Email</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead><tbody>';
+
+                snapshot.forEach(doc => {
+                    const ticket = doc.data();
+                    const date = ticket.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+                    const badgeClass = ticket.status === 'new' ? 'badge-rejected' : 'badge-approved';
+                    const typeIcon = ticket.type === 'bug' ? '🐛' : ticket.type === 'help' ? '❓' : '💡';
+
+                    html += `
+                        <tr>
+                            <td>${typeIcon} ${ticket.type.toUpperCase()}</td>
+                            <td>${ticket.message}</td>
+                            <td>${ticket.email}</td>
+                            <td><span class="badge ${badgeClass}">${ticket.status}</span></td>
+                            <td>${date}</td>
+                            <td>
+                                ${ticket.status === 'new' ? `<button class="btn-small btn-approve" onclick="resolveTicket('${doc.id}')">Resolver</button>` : '<span style="color:green;">Resuelto</span>'}
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading tickets:', error);
+                container.innerHTML = '<p style="color: #ef4444;">Error al cargar tickets</p>';
+            }
+        }
+
+        async function resolveTicket(ticketId) {
+            if (!confirm('¿Marcar como resuelto?')) return;
+            try {
+                await db.collection('tickets').doc(ticketId).update({ status: 'resolved' });
+                alert('✅ Ticket resuelto');
+                loadTickets();
+            } catch (error) {
+                console.error('Error resolving ticket:', error);
+                alert('Error al resolver ticket');
+            }
         }
 
         // Load Stats
