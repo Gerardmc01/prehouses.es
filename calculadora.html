@@ -353,6 +353,71 @@
                 </p>
             </div>
         </div>
+
+        <!-- Financing Simulator -->
+        <div class="breakdown-details" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+            <h3 style="margin-bottom: 25px; color: var(--secondary); text-align: center;">
+                <i class="fa-solid fa-calculator"></i> Simulador de Financiación
+            </h3>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;">
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--secondary);">
+                        <i class="fa-solid fa-percent"></i> Interés Anual (%)
+                    </label>
+                    <input type="number" id="interestRate" value="3.5" min="1" max="10" step="0.1"
+                        style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem;"
+                        oninput="calculateFinancing()">
+                    <small style="color: var(--text-light); display: block; margin-top: 5px;">Media España: 3-4%</small>
+                </div>
+
+                <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 10px; color: var(--secondary);">
+                        <i class="fa-solid fa-calendar"></i> Plazo (años)
+                    </label>
+                    <input type="number" id="loanYears" value="20" min="5" max="30" step="5"
+                        style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem;"
+                        oninput="calculateFinancing()">
+                    <small style="color: var(--text-light); display: block; margin-top: 5px;">Típico: 15-25 años</small>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div
+                    style="background: white; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px;">Cuota Mensual</div>
+                    <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);" id="monthlyPayment">-€
+                    </div>
+                    <div style="color: var(--text-light); font-size: 0.8rem; margin-top: 5px;">al mes</div>
+                </div>
+
+                <div
+                    style="background: white; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px;">Total a Pagar</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--secondary);" id="totalPayment">-€</div>
+                    <div style="color: var(--text-light); font-size: 0.8rem; margin-top: 5px;">en <span
+                            id="totalYears">20</span> años</div>
+                </div>
+
+                <div
+                    style="background: white; padding: 25px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 10px;">Intereses Totales
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 800; color: #f59e0b;" id="totalInterest">-€</div>
+                    <div style="color: var(--text-light); font-size: 0.8rem; margin-top: 5px;">durante el préstamo</div>
+                </div>
+            </div>
+
+            <div
+                style="margin-top: 25px; padding: 20px; background: rgba(37, 99, 235, 0.1); border-radius: 12px; border-left: 4px solid var(--primary);">
+                <p style="margin: 0; color: var(--secondary); line-height: 1.6;">
+                    <i class="fa-solid fa-info-circle"></i> <strong>Nota:</strong> Esta es una simulación orientativa.
+                    Los intereses reales pueden variar según tu perfil crediticio y la entidad financiera. Consulta con
+                    tu banco para obtener una oferta personalizada.
+                </p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -427,10 +492,78 @@
             document.getElementById('displayIVA').textContent = Math.round(ivaCost).toLocaleString('es-ES') + '€';
             document.getElementById('displayTotal').textContent = Math.round(total).toLocaleString('es-ES') + '€';
             document.getElementById('displayPricePerM2').textContent = Math.round(pricePerM2).toLocaleString('es-ES') + '€/m²';
+
+            // Update financing
+            calculateFinancing();
+        }
+
+        function calculateFinancing() {
+            // Get total cost from main calculator
+            const housePrice = parseFloat(document.getElementById('housePrice').value) || 0;
+            const houseArea = parseFloat(document.getElementById('houseArea').value) || 100;
+            const hasLand = document.getElementById('hasLand').value;
+            const landPrice = parseFloat(document.getElementById('landPrice').value) || 0;
+            const landSize = parseFloat(document.getElementById('landSize').value) || 0;
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            const foundationType = document.getElementById('foundationType').value;
+            const connections = document.getElementById('connections').value;
+
+            // Calculate total (same as main calculator)
+            let landCost = 0;
+            if (hasLand === 'no') {
+                landCost = landPrice * landSize;
+            }
+
+            let foundationCostPerM2 = 250;
+            if (foundationType === 'basic') foundationCostPerM2 = 200;
+            if (foundationType === 'standard') foundationCostPerM2 = 275;
+            if (foundationType === 'advanced') foundationCostPerM2 = 350;
+            const foundationCost = foundationCostPerM2 * houseArea;
+
+            const permitsCost = (housePrice * 0.04) + 1500;
+
+            let transportCost = 5000;
+            if (distance > 100 && distance <= 300) transportCost = 8000 + (distance - 100) * 30;
+            if (distance > 300) transportCost = 15000 + (distance - 300) * 40;
+
+            let connectionsCost = 3000;
+            if (connections === 'partial') connectionsCost = 6000;
+            if (connections === 'none') connectionsCost = 10000;
+
+            const ivaCost = housePrice * 0.10;
+            const total = housePrice + landCost + foundationCost + permitsCost + transportCost + connectionsCost + ivaCost;
+
+            // Get financing parameters
+            const interestRate = parseFloat(document.getElementById('interestRate').value) || 3.5;
+            const years = parseInt(document.getElementById('loanYears').value) || 20;
+
+            // Calculate monthly payment using standard mortgage formula
+            // M = P * [r(1+r)^n] / [(1+r)^n - 1]
+            const principal = total;
+            const monthlyRate = (interestRate / 100) / 12;
+            const numberOfPayments = years * 12;
+
+            let monthlyPayment = 0;
+            if (monthlyRate > 0) {
+                monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
+                    (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            } else {
+                monthlyPayment = principal / numberOfPayments;
+            }
+
+            const totalPayment = monthlyPayment * numberOfPayments;
+            const totalInterest = totalPayment - principal;
+
+            // Update display
+            document.getElementById('monthlyPayment').textContent = Math.round(monthlyPayment).toLocaleString('es-ES') + '€';
+            document.getElementById('totalPayment').textContent = Math.round(totalPayment).toLocaleString('es-ES') + '€';
+            document.getElementById('totalInterest').textContent = Math.round(totalInterest).toLocaleString('es-ES') + '€';
+            document.getElementById('totalYears').textContent = years;
         }
 
         // Initial calculation
         calculate();
+        calculateFinancing();
     </script>
 
 </body>
