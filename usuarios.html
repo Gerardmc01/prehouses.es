@@ -239,13 +239,13 @@
                 <div class="form-group">
                     <label>Tipo de Cuenta</label>
                     <select id="registerUserType" required onchange="toggleCompanyFields()">
+                        <option value="empresa" selected>Empresa / Fabricante</option>
                         <option value="individual">Usuario Particular</option>
-                        <option value="empresa">Empresa / Fabricante</option>
                     </select>
                 </div>
 
-                <!-- Campos adicionales para empresas (ocultos por defecto) -->
-                <div id="companyFields" style="display: none;">
+                <!-- Campos adicionales para empresas (visibles por defecto) -->
+                <div id="companyFields" style="display: block;">
                     <div class="form-group">
                         <label>CIF / NIF de la Empresa</label>
                         <input type="text" id="registerCIF" placeholder="B12345678">
