@@ -386,10 +386,13 @@
                 let html = '';
 
                 favorites.forEach(data => {
+                    // Validar ID
+                    if (!data.houseId) return;
+
                     // Use stored data OR fallback to static map
-                    const title = data.houseTitle || (staticHouses[data.houseId] ? staticHouses[data.houseId].title : 'Casa no disponible');
-                    const price = data.housePrice || (staticHouses[data.houseId] ? staticHouses[data.houseId].price : '-');
-                    const img = data.houseImage || (staticHouses[data.houseId] ? staticHouses[data.houseId].img : '');
+                    const title = data.houseTitle || 'Casa Guardada';
+                    const price = data.housePrice || '-';
+                    const img = data.houseImage || 'https://via.placeholder.com/200';
                     const link = `detalle-casa.html?id=${data.houseId}`;
                     const displayPrice = typeof price === 'number' ? price.toLocaleString() + '€' : price;
 

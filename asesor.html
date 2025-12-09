@@ -370,18 +370,33 @@
             let maxPrice = answers[1] === 'low' ? 50000 : (answers[1] === 'medium' ? 100000 : 1000000);
 
             try {
-                // Try to find a real house match
+                // Try to find a real house match without complex index
                 const snapshot = await db.collection('houses')
                     .where('category', '==', category)
-                    .where('price', '<=', maxPrice)
-                    .limit(1)
                     .get();
 
                 let recommendation = {};
+                let bestMatch = null;
 
                 if (!snapshot.empty) {
-                    const house = snapshot.docs[0].data();
-                    const id = snapshot.docs[0].id;
+                    // Client-side filtering for price
+                    const matches = [];
+                    snapshot.forEach(doc => {
+                        const h = doc.data();
+                        if (h.price <= maxPrice) {
+                            matches.push({ id: doc.id, ...h });
+                        }
+                    });
+
+                    // Pick first match or closest price if none match under budget
+                    if (matches.length > 0) {
+                        bestMatch = matches[0];
+                    }
+                }
+
+                if (bestMatch) {
+                    const house = bestMatch;
+                    const id = house.id;
                     const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
 
                     recommendation = {

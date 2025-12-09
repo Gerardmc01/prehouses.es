@@ -285,11 +285,13 @@
     <script>
         // Wrapper because currentHouse is a global var here
         function addToComparisonWithCurrent() {
-            if (currentHouse) {
-                // Add id because it's detached
-                currentHouse.id = houseId;
-                addToComparison(currentHouse);
+            if (!currentHouse) {
+                if (typeof showToast === 'function') showToast('Cargando datos...', 'info');
+                return;
             }
+            // Add id because it's detached
+            currentHouse.id = houseId;
+            addToComparison(currentHouse);
         }
         const urlParams = new URLSearchParams(window.location.search);
         const houseId = urlParams.get('id');
