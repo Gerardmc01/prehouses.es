@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Casa | Prehouses</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
+    <!-- ... -->
+    <script src="js/comparator-logic.js?v=2"></script>
     <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=2">
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -180,7 +182,8 @@
             <div class="detail-content">
                 <div class="detail-gallery">
                     <div class="main-image">
-                        <img id="houseImage" src="" alt="Imagen Casa">
+                        <img id="houseImage" src="" alt="Imagen Casa"
+                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80';">
                     </div>
                 </div>
 
@@ -318,25 +321,50 @@
             }
         });
 
-        // Load House Data
+        // Datos de Fallback para casas no encontradas o demos
+        const demoHouse = {
+            title: "Casa Modelo Premium (Demo)",
+            price: 85000,
+            area: 120,
+            bedrooms: 3,
+            bathrooms: 2,
+            deliveryTime: "3-4 meses",
+            description: "Esta es una ficha de ejemplo para demostrar el diseño. Una casa modular moderna con acabados de primera calidad, eficiencia energética A+ y diseño bioclimático adaptable a cualquier terreno.",
+            images: ["https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=80"],
+            companyId: "demo_company",
+            category: "madera"
+        };
+
         async function loadHouse() {
             if (!houseId) {
-                alert('No se especificó ninguna casa.');
-                window.location.href = 'catalogo.html';
+                // Si no hay ID, mostrar demo
+                currentHouse = demoHouse;
+                renderHouse(currentHouse);
                 return;
             }
 
             try {
                 const doc = await db.collection('houses').doc(houseId).get();
                 if (!doc.exists) {
-                    document.querySelector('.detail-container').innerHTML = '<h2>Casa no encontrada</h2><a href="catalogo.html">Volver al catálogo</a>';
+                    // En lugar de error, mostramos la Demo House para que no se vea feo
+                    console.log('Casa no encontrada, mostrando demo');
+                    currentHouse = { ...demoHouse, title: "Modelo No Disponible (Visualización)" };
+                    renderHouse(currentHouse);
                     return;
                 }
 
                 currentHouse = doc.data();
+                // Validar que tenga imagen, si no, usar fallback
+                if (!currentHouse.images && !currentHouse.image) {
+                    currentHouse.images = demoHouse.images;
+                }
                 renderHouse(currentHouse);
+
             } catch (error) {
                 console.error('Error loading house:', error);
+                // Fallback en caso de error de red
+                currentHouse = demoHouse;
+                renderHouse(currentHouse);
             }
         }
 
