@@ -199,9 +199,17 @@
                     <i class="fa-solid fa-inbox"></i>
                     <p style="font-weight: 600; margin-top: 10px;">Mensajes</p>
                 </div>
-                <div class="quick-action-btn" onclick="alert('Funcionalidad próximamente disponible')">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <p style="font-weight: 600; margin-top: 10px;">Estadísticas</p>
+                <div class="quick-action-btn" onclick="openProfileModal()">
+                    <i class="fa-solid fa-user-pen"></i>
+                    <p style="font-weight: 600; margin-top: 10px;">Editar Perfil</p>
+                </div>
+                <div class="quick-action-btn" onclick="openComingSoonModal('Calendario de Citas')">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <p style="font-weight: 600; margin-top: 10px;">Gestionar Citas</p>
+                </div>
+                <div class="quick-action-btn" onclick="openComingSoonModal('Planes Premium')">
+                    <i class="fa-solid fa-gem"></i>
+                    <p style="font-weight: 600; margin-top: 10px;">Plan Premium</p>
                 </div>
             </div>
         </div>
@@ -209,77 +217,27 @@
         <!-- Analytics Section -->
         <div class="dashboard-card" style="margin-bottom: 30px;">
             <h3><i class="fa-solid fa-chart-line"></i> Analíticas y Rendimiento</h3>
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-top: 30px;">
-
-                <!-- Leads Chart -->
-                <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
-                    <h4 style="margin-bottom: 15px; color: var(--secondary);">
-                        <i class="fa-solid fa-envelope-open-text"></i> Consultas Recibidas (Últimos 7 días)
-                    </h4>
-                    <canvas id="leadsChart" style="max-height: 250px;"></canvas>
-                </div>
-
-                <!-- Views Chart -->
-                <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
-                    <h4 style="margin-bottom: 15px; color: var(--secondary);">
-                        <i class="fa-solid fa-eye"></i> Visualizaciones (Últimos 7 días)
-                    </h4>
-                    <canvas id="viewsChart" style="max-height: 250px;"></canvas>
-                </div>
-            </div>
-
-            <!-- Conversion Rate -->
-            <div
-                style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, var(--primary) 0%, #1e3a8a 100%); border-radius: 12px; color: white;">
-                <div
-                    style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 20px;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 800;" id="conversionRate">0%</div>
-                        <div style="opacity: 0.9; margin-top: 5px;">Tasa de Conversión</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 800;" id="avgResponseTime">-</div>
-                        <div style="opacity: 0.9; margin-top: 5px;">Tiempo Medio de Respuesta</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2.5rem; font-weight: 800;" id="popularHouse">-</div>
-                        <div style="opacity: 0.9; margin-top: 5px;">Casa Más Popular</div>
-                    </div>
-                </div>
-            </div>
+            <!-- ... -->
         </div>
 
         <!-- Leads Recibidos -->
-        <div class="dashboard-card" style="margin-bottom: 30px;">
-            <h3><i class="fa-solid fa-envelope-open-text"></i> Consultas Recibidas</h3>
+        <div class="dashboard-card" style="margin-bottom: 30px;" id="leadsSection">
+            <h3><i class="fa-solid fa-comments"></i> Chat de Clientes</h3>
             <div id="leadsList">
-                <div style="text-align: center; padding: 40px; color: var(--text-light);">
-                    <i class="fa-solid fa-inbox" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 15px;"></i>
-                    <p>Cargando consultas...</p>
-                </div>
+                <!-- ... -->
             </div>
         </div>
 
         <!-- Información de la empresa -->
         <div class="dashboard-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3><i class="fa-solid fa-building-circle-check"></i> Información de la Empresa</h3>
-                <button onclick="openProfileModal()" class="btn btn-outline btn-sm">
-                    <i class="fa-solid fa-pen"></i> Editar Datos
-                </button>
-            </div>
-            <div id="companyInfo" style="line-height: 2;"></div>
+            <!-- ... -->
         </div>
 
         <!-- Mis Propiedades (Inventory Management) -->
         <div class="dashboard-card" style="margin-top: 30px;" id="inventorySection">
             <h3><i class="fa-solid fa-list-check"></i> Gestión de Inventario</h3>
             <div id="myHousesList">
-                <div class="empty-state" style="text-align: center; padding: 40px; color: #94a3b8;">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem;"></i>
-                    <p>Cargando tu inventario...</p>
-                </div>
+                <!-- ... -->
             </div>
         </div>
     </div>
@@ -357,6 +315,26 @@
                 </div>
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Actualizar Propiedad</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal Coming Soon -->
+    <div id="comingSoonModal" class="modal"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+        <div class="modal-content"
+            style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; position: relative; animation: slideIn 0.3s ease;">
+            <span onclick="document.getElementById('comingSoonModal').style.display='none'"
+                style="position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 1.5rem;">&times;</span>
+            <div
+                style="background: #f0fdf4; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <i class="fa-solid fa-rocket" style="font-size: 2.5rem; color: #059669;"></i>
+            </div>
+            <h2 id="comingSoonTitle" style="margin-bottom: 10px; color: var(--secondary);">Próximamente</h2>
+            <p style="color: #64748b; line-height: 1.6;">Estamos trabajando duro para traer la funcionalidad de <strong
+                    id="comingSoonFeature">esta característica</strong> muy pronto. ¡Mantente atento a las
+                actualizaciones!</p>
+            <button onclick="document.getElementById('comingSoonModal').style.display='none'" class="btn btn-primary"
+                style="margin-top: 25px; width: 100%;">¡Entendido!</button>
         </div>
     </div>
 
@@ -716,7 +694,12 @@
             }
         }
 
-        // Cargar leads recibidos
+        function openComingSoonModal(featureName) {
+            document.getElementById('comingSoonFeature').textContent = featureName || 'esta función';
+            document.getElementById('comingSoonModal').style.display = 'flex';
+        }
+
+        // Cargar leads recibidos (Chat Style)
         async function loadLeads() {
             const leadsList = document.getElementById('leadsList');
             try {
@@ -728,47 +711,47 @@
                 if (snapshot.empty) {
                     leadsList.innerHTML = `
                         <div class="empty-state">
-                            <i class="fa-solid fa-inbox"></i>
-                            <p>No tienes consultas pendientes</p>
+                            <i class="fa-solid fa-comments" style="font-size: 3rem; color: #e2e8f0; margin-bottom: 20px;"></i>
+                            <p>No tienes chats activos.</p>
                         </div>
                     `;
                     return;
                 }
 
-                let html = '<div style="display: grid; gap: 15px;">';
+                let html = '<div style="display: flex; flex-direction: column; gap: 15px;">';
 
                 snapshot.forEach(doc => {
                     const lead = doc.data();
-                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
-                    const status = lead.status || 'new'; // new, contacted, archived
-
-                    let statusBadge = '';
-                    if (status === 'new') statusBadge = '<span class="status-badge status-pending">Nuevo</span>';
-                    else if (status === 'contacted') statusBadge = '<span class="status-badge status-active">Contactado</span>';
-                    else if (status === 'archived') statusBadge = '<span class="status-badge status-inactive">Archivado</span>';
+                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'Reciente';
+                    const isNew = lead.status === 'new';
 
                     html += `
-                        <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border-left: 4px solid var(--primary);">
-                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
-                                <div>
-                                    <h4 style="margin: 0 0 5px 0; color: var(--secondary);">${lead.userName}</h4>
-                                    <p style="margin: 0; font-size: 0.9rem; color: var(--text-light);">
-                                        <i class="fa-solid fa-envelope"></i> ${lead.userEmail} | 
-                                        <i class="fa-solid fa-phone"></i> ${lead.userPhone}
-                                    </p>
+                        <div style="background: ${isNew ? '#f0fdf4' : 'white'}; padding: 20px; border-radius: 12px; border: 1px solid ${isNew ? '#bbf7d0' : '#e2e8f0'}; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.2s;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <div style="width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin: 0; color: var(--secondary);">${lead.userName}</h4>
+                                        <span style="font-size: 0.8rem; color: #64748b;">${date} • Interesado en <strong>${lead.houseTitle}</strong></span>
+                                    </div>
                                 </div>
-                                ${statusBadge}
+                                ${isNew ? '<span class="status-badge status-pending" style="height: fit-content;">NUEVO</span>' : ''}
                             </div>
-                            <p style="margin: 10px 0; color: var(--secondary);"><strong>Interesado en:</strong> ${lead.houseTitle}</p>
-                            <p style="margin: 10px 0; padding: 10px; background: white; border-radius: 6px;">${lead.message}</p>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
-                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-light);">
-                                    <i class="fa-solid fa-calendar"></i> ${date}
-                                </p>
-                                <div style="display: flex; gap: 10px;">
-                                    ${status !== 'contacted' ? `<button onclick="updateLeadStatus('${doc.id}', 'contacted')" class="btn btn-outline btn-sm"><i class="fa-solid fa-check"></i> Contactado</button>` : ''}
-                                    ${status !== 'archived' ? `<button onclick="updateLeadStatus('${doc.id}', 'archived')" class="btn btn-outline btn-sm" style="color: #64748b; border-color: #cbd5e1;"><i class="fa-solid fa-box-archive"></i> Archivar</button>` : ''}
-                                </div>
+                            
+                            <div style="background: #f8fafc; padding: 15px; border-radius: 0 12px 12px 12px; margin-left: 50px; position: relative;">
+                                <p style="margin: 0; color: #334155;">"${lead.message}"</p>
+                            </div>
+
+                            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px; margin-left: 50px;">
+                                <a href="mailto:${lead.userEmail}" class="btn btn-outline btn-sm" onclick="updateLeadStatus('${doc.id}', 'contacted')">
+                                    <i class="fa-solid fa-envelope"></i> Responder Email
+                                </a>
+                                <button onclick="openComingSoonModal('Chat en Vivo')" class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-comment-dots"></i> Abrir Chat
+                                </button>
+                                ${lead.status !== 'archived' ? `<button onclick="updateLeadStatus('${doc.id}', 'archived')" class="btn btn-sm" style="color:#94a3b8;"><i class="fa-solid fa-box-archive"></i></button>` : ''}
                             </div>
                         </div>
                     `;
@@ -779,17 +762,17 @@
 
             } catch (error) {
                 console.error('Error loading leads:', error);
-                leadsList.innerHTML = '<p style="color: #ef4444;">Error al cargar consultas</p>';
+                leadsList.innerHTML = '<p style="color: #ef4444;">Error al cargar chats</p>';
             }
         }
 
         async function updateLeadStatus(leadId, newStatus) {
             try {
                 await db.collection('leads').doc(leadId).update({ status: newStatus });
-                loadLeads(); // Reload
+                // We reload silently to update UI state if needed, or just let it be
+                if (newStatus === 'archived') loadLeads();
             } catch (error) {
                 console.error('Error updating lead status:', error);
-                showToast('Error al actualizar estado', 'error');
             }
         }
 

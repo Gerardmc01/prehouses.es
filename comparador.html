@@ -138,6 +138,11 @@
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="js/firebase-config.js"></script> <!-- Optional if needed later -->
+    <script src="js/toast.js"></script>
+    <script src="js/comparator-logic.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             renderTable();
@@ -166,9 +171,9 @@
             comparisonList.forEach(house => {
                 html += `
                     <td>
-                        <img src="${house.image}" alt="${house.title}">
+                        <img src="${house.image}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/200'">
                         <div class="house-title">${house.title}</div>
-                        <button class="remove-btn" onclick="removeItem('${house.id}')"><i class="fa-solid fa-trash"></i> Quitar</button>
+                        <button class="remove-btn" onclick="removeFromComparison('${house.id}')"><i class="fa-solid fa-trash"></i> Quitar</button>
                     </td>
                 `;
             });
@@ -192,8 +197,8 @@
             specs.forEach(spec => {
                 html += `<tr><th>${spec.label}</th>`;
                 comparisonList.forEach(house => {
-                    let val = house[spec.key];
-                    if (spec.key === 'category') val = val.charAt(0).toUpperCase() + val.slice(1);
+                    let val = house[spec.key] || '-';
+                    if (spec.key === 'category' && val !== '-') val = val.charAt(0).toUpperCase() + val.slice(1);
                     html += `<td>${val}</td>`;
                 });
                 html += '</tr>';
@@ -208,13 +213,6 @@
 
             html += '</tbody></table>';
             container.innerHTML = html;
-        }
-
-        function removeItem(id) {
-            let list = JSON.parse(localStorage.getItem('comparisonList') || '[]');
-            list = list.filter(item => item.id !== id);
-            localStorage.setItem('comparisonList', JSON.stringify(list));
-            renderTable();
         }
     </script>
 

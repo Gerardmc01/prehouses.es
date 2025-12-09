@@ -14,6 +14,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
     <style>
         .publish-container {
@@ -211,14 +212,42 @@
                     </div>
 
                     <!-- Image -->
+                    <!-- Image -->
                     <div class="form-group full-width">
-                        <label>URL de la Imagen Principal</label>
-                        <input type="url" id="houseImage" placeholder="https://..." onchange="updatePreview()" required>
-                        <p style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">*Por ahora usa una URL de imagen
-                            pública (ej: Unsplash). Próximamente subida de archivos.</p>
-                        <div class="preview-image" id="imagePreview">
+                        <label>Imagen Principal</label>
+
+                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                            <button type="button" class="btn btn-sm btn-outline"
+                                style="background:var(--primary); color:white;" onclick="switchImageTab('url')"
+                                id="tabUrl">Usar URL</button>
+                            <button type="button" class="btn btn-sm btn-outline" onclick="switchImageTab('upload')"
+                                id="tabUpload">Subir Archivo</button>
+                        </div>
+
+                        <!-- URL Input -->
+                        <div id="imageInputUrl">
+                            <input type="url" id="houseImage" placeholder="https://..."
+                                onchange="updatePreview(this.value)">
+                        </div>
+
+                        <!-- File Input -->
+                        <div id="imageInputUpload" style="display: none;">
+                            <div style="border: 2px dashed #e2e8f0; padding: 20px; text-align: center; border-radius: 8px; background: #f8fafc; cursor: pointer;"
+                                onclick="document.getElementById('houseFile').click()">
+                                <i class="fa-solid fa-cloud-arrow-up"
+                                    style="font-size: 2rem; color: #94a3b8; margin-bottom: 10px;"></i>
+                                <p style="margin: 0; color: #64748b;">Click para seleccionar imagen</p>
+                                <input type="file" id="houseFile" accept="image/*" style="display: none;"
+                                    onchange="handleFileUpload(this)">
+                            </div>
+                            <p id="uploadStatus"
+                                style="font-size: 0.8rem; color: #64748b; margin-top: 5px; text-align: center;"></p>
+                        </div>
+
+                        <div class="preview-image" id="imagePreview" style="margin-top: 15px;">
                             <i class="fa-solid fa-image fa-2x"></i>
                         </div>
+                        <input type="hidden" id="finalImageUrl">
                     </div>
                 </div>
 
@@ -259,12 +288,65 @@
             }
         });
 
-        // Image Preview
-        function updatePreview() {
-            const url = document.getElementById('houseImage').value;
+        // Tab Logic
+        function switchImageTab(tab) {
+            document.getElementById('imageInputUrl').style.display = tab === 'url' ? 'block' : 'none';
+            document.getElementById('imageInputUpload').style.display = tab === 'upload' ? 'block' : 'none';
+
+            document.getElementById('tabUrl').style.background = tab === 'url' ? 'var(--primary)' : 'white';
+            document.getElementById('tabUrl').style.color = tab === 'url' ? 'white' : 'var(--primary)';
+
+            document.getElementById('tabUpload').style.background = tab === 'upload' ? 'var(--primary)' : 'white';
+            document.getElementById('tabUpload').style.color = tab === 'upload' ? 'white' : 'var(--primary)';
+        }
+
+        // Preview
+        function updatePreview(url) {
             const preview = document.getElementById('imagePreview');
+            document.getElementById('finalImageUrl').value = url;
             if (url) {
-                preview.innerHTML = `<img src="${url}" onerror="this.src=''; this.parentElement.innerHTML='Error al cargar imagen'">`;
+                preview.innerHTML = `<img src="${url}" onerror="this.src=''; this.parentElement.innerHTML='<i class=\'fa-solid fa-triangle-exclamation\'></i> Error imagen';">`;
+            }
+        }
+
+        // Upload Logic
+        async function handleFileUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const status = document.getElementById('uploadStatus');
+            status.innerText = 'Subiendo...';
+            status.style.color = 'blue';
+
+            try {
+                // Try Firebase Storage first
+                const storageRef = firebase.storage().ref();
+                const fileRef = storageRef.child(`houses/${Date.now()}_${file.name}`);
+
+                await fileRef.put(file);
+                const url = await fileRef.getDownloadURL();
+
+                updatePreview(url);
+                status.innerText = '✅ Subida completada';
+                status.style.color = 'green';
+
+            } catch (error) {
+                console.error('Storage Error:', error);
+
+                // Fallback to Base64 if storage fails (e.g. not enabled)
+                if (file.size > 500000) { // Limit 500kb for Base64
+                    status.innerText = '⚠️ Error: Storage no habilitado y archivo muy grande (>500kb). Usa una URL.';
+                    status.style.color = 'red';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onloadend = function () {
+                    updatePreview(reader.result);
+                    status.innerText = '⚠️ Usando modo local (Storage no detectado).';
+                    status.style.color = 'orange';
+                }
+                reader.readAsDataURL(file);
             }
         }
 
@@ -272,10 +354,17 @@
         async function publishHouse(e) {
             e.preventDefault();
 
+            const finalImage = document.getElementById('finalImageUrl').value;
+            if (!finalImage) {
+                alert('Debes seleccionar o subir una imagen principal');
+                return;
+            }
+
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publicando...';
 
+            // ... (rest of function)
             try {
                 const houseData = {
                     title: document.getElementById('houseTitle').value,
@@ -286,7 +375,7 @@
                     bathrooms: Number(document.getElementById('houseBathrooms').value),
                     deliveryTime: document.getElementById('houseDelivery').value,
                     description: document.getElementById('houseDescription').value,
-                    images: [document.getElementById('houseImage').value], // Store as array
+                    images: [finalImage], // Use final image
 
                     // Metadata
                     companyId: currentUser.uid,

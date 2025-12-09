@@ -202,6 +202,11 @@
                             style="width: 100%; margin-top: 10px;" id="favBtn">
                             <i class="fa-regular fa-heart"></i> Guardar Favorito
                         </button>
+
+                        <button type="button" onclick="addToComparisonWithCurrent()" class="btn btn-outline"
+                            style="width: 100%; margin-top: 10px;">
+                            <i class="fa-solid fa-scale-balanced"></i> Comparar
+                        </button>
                     </form>
                 </div>
             </div>
@@ -222,8 +227,18 @@
     <!-- Firebase Config -->
     <script src="js/firebase-config.js"></script>
     <script src="js/support.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/comparator-logic.js"></script>
 
     <script>
+        // Wrapper because currentHouse is a global var here
+        function addToComparisonWithCurrent() {
+            if (currentHouse) {
+                // Add id because it's detached
+                currentHouse.id = houseId;
+                addToComparison(currentHouse);
+            }
+        }
         const urlParams = new URLSearchParams(window.location.search);
         const houseId = urlParams.get('id');
         let currentHouse = null;
