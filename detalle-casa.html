@@ -191,6 +191,17 @@
                     <h1 id="houseTitle">Cargando...</h1>
                     <div class="detail-price" id="housePrice">...</div>
 
+                    <div class="main-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
+                        <button type="button" onclick="toggleFavorite()" class="btn btn-outline" id="mainFavBtn"
+                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <i class="fa-regular fa-heart"></i> <span>Favorito</span>
+                        </button>
+                        <button type="button" onclick="addToComparisonWithCurrent()" class="btn btn-outline"
+                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <i class="fa-solid fa-scale-balanced"></i> <span>Comparar</span>
+                        </button>
+                    </div>
+
                     <div class="features-box">
                         <h3 style="margin-bottom: 20px; color: var(--secondary);">Características Principales</h3>
                         <div class="features-grid">
@@ -480,22 +491,27 @@
 
         // Favorites Logic
         function updateFavUI(isSaved) {
-            const mainBtn = document.getElementById('favBtn');
-            const mobBtn = document.getElementById('mobileFavBtn');
+            const targets = [
+                { id: 'favBtn', textSaved: ' Guardado', textUnsaved: ' Guardar Favorito' },
+                { id: 'mobileFavBtn', textSaved: '', textUnsaved: '' },
+                { id: 'mainFavBtn', textSaved: '<span>Guardado</span>', textUnsaved: '<span>Favorito</span>' }
+            ];
 
-            if (isSaved) {
-                if (mainBtn) mainBtn.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i> Guardado';
-                if (mobBtn) {
-                    mobBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
-                    mobBtn.classList.add('active');
+            targets.forEach(t => {
+                const btn = document.getElementById(t.id);
+                if (!btn) return;
+
+                const icon = isSaved ? '<i class="fa-solid fa-heart" style="color: red;"></i>' : '<i class="fa-regular fa-heart"></i>';
+
+                if (t.id === 'mainFavBtn') {
+                    btn.innerHTML = `${icon} ${isSaved ? t.textSaved : t.textUnsaved}`;
+                } else {
+                    btn.innerHTML = `${icon}${isSaved ? t.textSaved : t.textUnsaved}`;
                 }
-            } else {
-                if (mainBtn) mainBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Guardar Favorito';
-                if (mobBtn) {
-                    mobBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
-                    mobBtn.classList.remove('active');
-                }
-            }
+
+                if (isSaved) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
         }
 
         async function checkFavorite() {
