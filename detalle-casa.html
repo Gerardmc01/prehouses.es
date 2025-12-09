@@ -104,6 +104,50 @@
             .detail-grid {
                 grid-template-columns: 1fr;
             }
+
+            .mobile-actions {
+                display: flex !important;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: white;
+                padding: 15px;
+                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+                z-index: 9999;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .mobile-actions button {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+                border: 2px solid #e2e8f0;
+                background: white;
+                font-size: 1.2rem;
+                color: var(--secondary);
+                cursor: pointer;
+            }
+
+            .mobile-actions button.active {
+                color: red;
+                border-color: red;
+                background: #fff0f0;
+            }
+
+            .mobile-actions .btn-primary {
+                background: var(--primary) !important;
+                color: white !important;
+                border: none !important;
+                flex: 1;
+                font-weight: 600;
+                width: auto;
+            }
+
+            .detail-container {
+                margin-bottom: 100px;
+            }
         }
     </style>
 </head>
@@ -222,6 +266,14 @@
             style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
             <div style="text-align:center; width:100%; padding:20px;">Cargando recomendaciones...</div>
         </div>
+    </div>
+
+    <!-- Mobile Action Bar -->
+    <div class="mobile-actions" style="display: none;">
+        <button onclick="toggleFavorite()" id="mobileFavBtn"><i class="fa-regular fa-heart"></i></button>
+        <button onclick="addToComparisonWithCurrent()"><i class="fa-solid fa-scale-balanced"></i></button>
+        <button onclick="document.querySelector('.contact-form-card').scrollIntoView({behavior:'smooth'})"
+            class="btn-primary">Contactar</button>
     </div>
 
     <!-- Firebase Config -->
@@ -425,6 +477,25 @@
         }
 
         // Favorites Logic
+        function updateFavUI(isSaved) {
+            const mainBtn = document.getElementById('favBtn');
+            const mobBtn = document.getElementById('mobileFavBtn');
+
+            if (isSaved) {
+                if (mainBtn) mainBtn.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i> Guardado';
+                if (mobBtn) {
+                    mobBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                    mobBtn.classList.add('active');
+                }
+            } else {
+                if (mainBtn) mainBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Guardar Favorito';
+                if (mobBtn) {
+                    mobBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+                    mobBtn.classList.remove('active');
+                }
+            }
+        }
+
         async function checkFavorite() {
             if (!currentUser || !houseId) return;
             const snap = await db.collection('favorites')
@@ -432,10 +503,8 @@
                 .where('houseId', '==', houseId)
                 .get();
 
-            const btn = document.getElementById('favBtn');
             if (!snap.empty) {
-                btn.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i> Guardado';
-                btn.classList.add('active');
+                updateFavUI(true);
             }
         }
 
@@ -443,7 +512,10 @@
             if (!currentUser) return alert('Debes iniciar sesión para guardar favoritos.');
 
             const btn = document.getElementById('favBtn');
-            const isSaved = btn.innerHTML.includes('fa-solid'); // Simple check
+            const isSaved = btn.innerHTML.includes('fa-solid');
+
+            // Optimistic UI update
+            updateFavUI(!isSaved);
 
             try {
                 if (isSaved) {
@@ -453,7 +525,7 @@
                         .where('houseId', '==', houseId)
                         .get();
                     snap.forEach(doc => doc.ref.delete());
-                    btn.innerHTML = '<i class="fa-regular fa-heart"></i> Guardar Favorito';
+                    // console.log('Removed'); 
                 } else {
                     // Add
                     await db.collection('favorites').add({
@@ -464,10 +536,13 @@
                         houseImage: document.getElementById('houseImage').src,
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
-                    btn.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i> Guardado';
+                    // console.log('Added');
                 }
             } catch (error) {
                 console.error('Error toggling favorite:', error);
+                // Revert UI on error
+                updateFavUI(isSaved);
+                alert('Error al guardar favorito');
             }
         }
 

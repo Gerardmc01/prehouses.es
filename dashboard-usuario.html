@@ -351,9 +351,9 @@
             const favoritesList = document.getElementById('favoritesList');
 
             try {
+                // Remove orderBy to avoid indexing issues
                 const snapshot = await db.collection('favorites')
                     .where('userId', '==', currentUser.uid)
-                    .orderBy('createdAt', 'desc')
                     .get();
 
                 if (snapshot.empty) {
@@ -370,12 +370,23 @@
                     return;
                 }
 
-                document.getElementById('favoritosCount').textContent = snapshot.size;
+                // Sort in memory (descending date)
+                const favorites = [];
+                snapshot.forEach(doc => {
+                    favorites.push({ id: doc.id, ...doc.data() });
+                });
+
+                favorites.sort((a, b) => {
+                    const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
+                    const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
+                    return dateB - dateA;
+                });
+
+                document.getElementById('favoritosCount').textContent = favorites.length;
                 let html = '';
 
-                snapshot.forEach(doc => {
-                    const data = doc.data();
-                    // Use stored data OR fallback to static map (for old favorites)
+                favorites.forEach(data => {
+                    // Use stored data OR fallback to static map
                     const title = data.houseTitle || (staticHouses[data.houseId] ? staticHouses[data.houseId].title : 'Casa no disponible');
                     const price = data.housePrice || (staticHouses[data.houseId] ? staticHouses[data.houseId].price : '-');
                     const img = data.houseImage || (staticHouses[data.houseId] ? staticHouses[data.houseId].img : '');
@@ -390,7 +401,7 @@
                                 <p style="color: var(--primary); font-weight: 700;">${displayPrice}</p>
                             </div>
                             <a href="${link}" class="btn btn-outline" style="padding: 8px 15px;">Ver</a>
-                            <button onclick="removeFavorite('${doc.id}')" class="btn" style="color: #ef4444; background: transparent;">
+                            <button onclick="removeFavorite('${data.id}')" class="btn" style="color: #ef4444; background: transparent;">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
