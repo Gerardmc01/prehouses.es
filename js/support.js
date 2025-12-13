@@ -152,13 +152,20 @@ async function submitTicket(event) {
     btn.disabled = true;
 
     try {
-        await db.collection('tickets').add({
-            type,
-            message,
-            email,
-            status: 'new',
-            url: window.location.href,
+        // Use 'leads' collection because we know it works and Admins watch it.
+        // Mark as ticket via specific houseId/Title
+        await db.collection('leads').add({
             userId: firebase.auth().currentUser ? firebase.auth().currentUser.uid : 'anonymous',
+            userName: email.split('@')[0], // Fallback name
+            userEmail: email,
+            userPhone: 'N/A',
+            message: `[${type.toUpperCase()}] ${message}`,
+            houseId: 'TICKET_SOPORTE',
+            houseTitle: 'Soporte Técnico / Ayuda',
+            companyId: 'ADMIN',
+            status: 'nuevo',
+            type: 'ticket', // Custom flag
+            url: window.location.href,
             createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 

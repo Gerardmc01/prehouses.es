@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivienda Las Rozas - Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ... Copy of styles from previous step ... */
+        .comparison-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: none;
+        }
+
+        .comparison-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            z-index: 10000;
+            transition: right 0.3s;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comparison-drawer.open {
+            right: 0;
+        }
+
+        .vs-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 10001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .vs-content {
+            background: white;
+            width: 90%;
+            max-width: 900px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .vs-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container"><a href="index.html" class="logo">Prehouses</a></div>
+    </nav>
+    <div class="container detail-container">
+        <div class="detail-gallery"><img
+                src="https://modularhome.es/wp-content/uploads/2023/09/Modular-Home-Cabo-Machichaco-Las-Rozas-Modular-Home-scaled.jpg"
+                style="width:100%"></div>
+        <div class="detail-info">
+            <h1>Vivienda Unifamiliar Las Rozas</h1>
+            <div class="detail-price">220.000€</div>
+            <div style="margin: 20px 0;">
+                <button onclick="toggleFavorite()">Favorito</button>
+                <button onclick="openComparisonDrawer()">Comparar</button>
+            </div>
+            <div>180m² | 4 Habs | 3 Baños</div>
+        </div>
+    </div>
+    <!-- Drawer & Modal HTML -->
+    <div class="comparison-drawer-overlay" id="drawerOverlay" onclick="closeComparisonDrawer()"></div>
+    <div class="comparison-drawer" id="comparisonDrawer">
+        <h3>Comparar</h3>
+        <div id="drawerList"></div>
+    </div>
+    <div class="vs-modal" id="vsModal">
+        <div class="vs-content">
+            <div class="vs-header"><button onclick="closeVsModal()">X</button></div>
+            <div class="vs-body" id="vsBody"></div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/support.js"></script>
+    <script>
+        const houseId = 'house_las_rozas';
+        const currentHouse = { id: houseId, title: 'Vivienda Las Rozas', price: 220000, area: 180, bedrooms: 4, bathrooms: 3, category: 'hormigon', images: ['https://modularhome.es/wp-content/uploads/2023/09/Modular-Home-Cabo-Machichaco-Las-Rozas-Modular-Home-scaled.jpg'], companyId: 'MODULAR_HOME' };
+
+        let currentUser = null;
+        auth.onAuthStateChanged(u => currentUser = u);
+
+        // ... (Same JS logic as previous file) ...
+        async function openComparisonDrawer() {
+            document.getElementById('comparisonDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').style.display = 'block';
+            const snap = await db.collection('houses').limit(5).get();
+            const list = document.getElementById('drawerList');
+            list.innerHTML = '';
+            snap.forEach(d => {
+                if (d.id !== houseId) {
+                    const h = d.data();
+                    const div = document.createElement('div');
+                    div.innerHTML = `<h4>${h.title}</h4>`;
+                    div.onclick = () => openVsModal(d.id, h);
+                    list.appendChild(div);
+                }
+            });
+        }
+        function closeComparisonDrawer() { document.getElementById('comparisonDrawer').classList.remove('open'); document.getElementById('drawerOverlay').style.display = 'none'; }
+        function openVsModal(oid, odata) {
+            document.getElementById('vsBody').innerHTML = `<div><h3>${currentHouse.title}</h3>${currentHouse.price}€</div><div><h3>${odata.title}</h3>${odata.price}€</div>`;
+            document.getElementById('vsModal').style.display = 'flex';
+        }
+        function closeVsModal() { document.getElementById('vsModal').style.display = 'none'; }
+        async function toggleFavorite() {
+            if (!currentUser) return alert('Login req');
+            await db.collection('favorites').add({ userId: currentUser.uid, houseId, houseTitle: currentHouse.title, housePrice: currentHouse.price, houseImage: currentHouse.images[0], createdAt: new Date() });
+            alert('Añadido a favoritos');
+        }
+    </script>
+</body>
+
+</html>

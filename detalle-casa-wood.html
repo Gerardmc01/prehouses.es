@@ -5,10 +5,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cabaña Prefabricada Wood - Prehouses</title>
-    <meta name="description"
-        content="Detalles de la Cabaña Prefabricada Wood. Casa rústica de madera ideal para campo o montaña.">
+    <meta name="description" content="Detalles de la Cabaña Wood. Encanto rústico y sostenibilidad en 60m².">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Comparison Drawer CSS -->
+    <style>
+        /* Drawer Styles */
+        .comparison-drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: none;
+        }
+
+        .comparison-drawer {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 400px;
+            max-width: 90vw;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            z-index: 10000;
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comparison-drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .drawer-house-card {
+            display: flex;
+            gap: 15px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .drawer-house-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .drawer-house-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #f1f5f9;
+        }
+
+        /* Modal VS Styles */
+        .vs-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 10001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .vs-content {
+            background: white;
+            width: 100%;
+            max-width: 900px;
+            border-radius: 24px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .vs-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .vs-body {
+            overflow-y: auto;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .vs-body {
+                gap: 20px;
+                padding: 15px;
+            }
+        }
+
+        .vs-column {
+            text-align: center;
+        }
+
+        .vs-img-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .vs-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vs-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .vs-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.95rem;
+        }
+
+        .vs-stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .vs-stat-value {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+    </style>
 </head>
 
 <body>
@@ -17,14 +180,19 @@
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+                <img src="favicon_prehouses_1764872622091.png" alt="Logo"
+                    style="width: 30px; height: 30px; margin-right: 10px; border-radius: 4px;">
+                Prehouses
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="usuarios.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px;">Acceso Usuarios</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
         </div>
     </nav>
@@ -46,24 +214,24 @@
                                 alt="Vista Exterior">
                         </div>
                         <div class="thumbnail">
-                            <img src="https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&fit=crop&w=300&q=80"
-                                alt="Porche">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=300&q=80"
+                                alt="Detalle Madera">
                         </div>
                         <div class="thumbnail">
-                            <img src="https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=300&q=80"
-                                alt="Interior Madera">
+                            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=300&q=80"
+                                alt="Interior">
                         </div>
                         <div class="thumbnail">
-                            <img src="https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=300&q=80"
-                                alt="Dormitorio">
+                            <img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=300&q=80"
+                                alt="Acabados">
                         </div>
                     </div>
                 </div>
 
                 <div class="detail-info" style="margin-top: 40px;">
                     <div class="detail-tags">
+                        <span class="tag">Madera</span>
                         <span class="tag">Rústico</span>
-                        <span class="tag">Madera Maciza</span>
                         <span class="tag">Oferta</span>
                     </div>
                     <h1>Cabaña Prefabricada Wood</h1>
@@ -71,35 +239,42 @@
                             style="font-size: 1rem; color: var(--text-light); font-weight: 400;">(IVA no
                             incluido)</span></div>
 
+                    <!-- NEW: Action Buttons -->
+                    <div class="main-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
+                        <button type="button" onclick="toggleFavorite()" class="btn btn-outline" id="mainFavBtn"
+                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <i class="fa-regular fa-heart"></i> <span>Favorito</span>
+                        </button>
+                        <button type="button" onclick="openComparisonDrawer()" class="btn btn-outline"
+                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
+                            <i class="fa-solid fa-scale-balanced"></i> <span>Comparar</span>
+                        </button>
+                    </div>
+
                     <div class="features-box">
                         <h3 style="margin-bottom: 20px; color: var(--secondary);">Características Principales</h3>
                         <div class="features-grid">
                             <div class="feature-item"><i class="fa-solid fa-ruler-combined"></i> 60 m² construidos</div>
                             <div class="feature-item"><i class="fa-solid fa-bed"></i> 2 Habitaciones</div>
-                            <div class="feature-item"><i class="fa-solid fa-bath"></i> 1 Baño</div>
+                            <div class="feature-item"><i class="fa-solid fa-bath"></i> 1 Baño completo</div>
                             <div class="feature-item"><i class="fa-solid fa-clock"></i> 1.5 Meses de construcción</div>
-                            <div class="feature-item"><i class="fa-solid fa-certificate"></i> Certificación Energética B
+                            <div class="feature-item"><i class="fa-solid fa-certificate"></i> Certificación Energética
+                                A</div>
+                            <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> Transporte incluido (200km)
                             </div>
-                            <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> Montaje incluido</div>
                         </div>
                     </div>
 
                     <div class="detail-description">
                         <h3 style="margin-bottom: 15px; color: var(--secondary);">Descripción del Modelo</h3>
                         <p>
-                            La <strong>Cabaña Prefabricada Wood</strong> es el refugio ideal para los amantes de la
-                            naturaleza. Con un diseño clásico de cabaña de montaña pero con las comodidades modernas,
-                            esta casa se integra perfectamente en entornos rurales.
+                            La <strong>Cabaña Wood</strong> es perfecta para fincas rurales o campings. Construida
+                            íntegramente en madera tratada, ofrece un refugio cálido y acogedor en plena naturaleza.
                         </p>
                         <br>
                         <p>
-                            Fabricada con troncos de madera maciza tratada, ofrece una robustez y calidez inigualables.
-                            Su porche delantero es perfecto para disfrutar de las tardes al aire libre.
-                        </p>
-                        <br>
-                        <p>
-                            <strong>Incluye:</strong> Tratamiento exterior de la madera, ventanas de doble
-                            acristalamiento y chimenea preinstalada.
+                            Su diseño optimizado aprovecha cada metro cuadrado, disponiendo de dos habitaciones y una
+                            zona de estar integrada con cocina americana.
                         </p>
                     </div>
                 </div>
@@ -110,29 +285,28 @@
                 <div class="contact-form-card">
                     <h3>Contactar Fabricante</h3>
                     <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">
-                        Solicita más información o un presupuesto personalizado directamente a la empresa constructora.
+                        Solicita más información sobre la Cabaña Wood.
                     </p>
                     <form>
                         <div class="form-group">
                             <label>Nombre Completo</label>
-                            <input type="text" placeholder="Tu nombre">
+                            <input type="text" id="leadName" placeholder="Tu nombre">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" placeholder="tu@email.com">
+                            <input type="email" id="leadEmail" placeholder="tu@email.com">
                         </div>
                         <div class="form-group">
                             <label>Teléfono</label>
-                            <input type="tel" placeholder="+34 600 000 000">
+                            <input type="tel" id="leadPhone" placeholder="+34 600 000 000">
                         </div>
                         <div class="form-group">
                             <label>Mensaje</label>
-                            <textarea rows="4" placeholder="Hola, estoy interesado en la Cabaña Wood..."></textarea>
+                            <textarea rows="4" id="leadMessage"
+                                placeholder="Hola, me interesa la Cabaña Wood..."></textarea>
                         </div>
-                        <button type="button" class="btn btn-primary" style="width: 100%;">Enviar Solicitud</button>
-                        <p style="margin-top: 15px; font-size: 0.8rem; text-align: center; color: var(--text-light);">
-                            Al enviar aceptas nuestra política de privacidad.
-                        </p>
+                        <button type="button" onclick="sendLead()" class="btn btn-primary" style="width: 100%;">Enviar
+                            Solicitud</button>
                     </form>
                 </div>
             </div>
@@ -160,10 +334,248 @@
                 </div>
             </div>
             <div class="copyright">
-                <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
+                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Comparison Drawer HTML -->
+    <div class="comparison-drawer-overlay" id="drawerOverlay" onclick="closeComparisonDrawer()"></div>
+    <div class="comparison-drawer" id="comparisonDrawer">
+        <div class="drawer-header">
+            <h3 style="margin:0; color: var(--secondary);">Comparar con...</h3>
+            <button onclick="closeComparisonDrawer()" class="btn btn-sm btn-outline" style="border:none;"><i
+                    class="fa-solid fa-times" style="font-size: 1.2rem;"></i></button>
+        </div>
+        <div id="drawerList">
+            <div style="text-align:center; padding: 20px; color:#64748b;">
+                <i class="fa-solid fa-circle-notch fa-spin"></i> Cargando casas...
+            </div>
+        </div>
+    </div>
+
+    <!-- VS Modal HTML -->
+    <div class="vs-modal" id="vsModal">
+        <div class="vs-content">
+            <div class="vs-header">
+                <h3 style="margin:0; color: var(--secondary);"><i class="fa-solid fa-scale-balanced"
+                        style="color:var(--primary); margin-right:10px;"></i> Comparativa</h3>
+                <button onclick="closeVsModal()" class="btn btn-sm btn-outline" style="border:none;"><i
+                        class="fa-solid fa-times" style="font-size: 1.5rem;"></i></button>
+            </div>
+            <div class="vs-body" id="vsBody">
+                <!-- Injected via JS -->
+            </div>
+            <div class="vs-header"
+                style="border-top:1px solid #e2e8f0; border-bottom:none; justify-content:center; background: #f8fafc; border-radius: 0 0 24px 24px;">
+                <button onclick="closeVsModal()" class="btn btn-primary" style="min-width: 200px;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/support.js"></script>
+
+    <script>
+        const houseId = 'house_wood';
+        // Static definition for this page
+        const currentHouse = {
+            id: houseId,
+            title: 'Cabaña Prefabricada Wood',
+            price: 35000,
+            area: 60,
+            bedrooms: 2,
+            bathrooms: 1,
+            deliveryTime: '1.5 Meses',
+            category: 'madera',
+            images: ['https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=80'],
+            companyId: 'DEMO_COMPANY'
+        };
+
+        let currentUser = null;
+
+        auth.onAuthStateChanged((user) => {
+            currentUser = user;
+            if (user) {
+                document.getElementById('leadName').value = user.displayName || '';
+                document.getElementById('leadEmail').value = user.email || '';
+                checkFavorite();
+            }
+        });
+
+        async function sendLead() {
+            const name = document.getElementById('leadName').value.trim();
+            const email = document.getElementById('leadEmail').value.trim();
+            const phone = document.getElementById('leadPhone').value.trim();
+            const message = document.getElementById('leadMessage').value.trim();
+
+            if (!name || !email || !phone || !message) {
+                alert('⚠️ Por favor, rellena todos los campos.');
+                return;
+            }
+
+            try {
+                await db.collection('leads').add({
+                    userId: currentUser ? currentUser.uid : null,
+                    userName: name,
+                    userEmail: email,
+                    userPhone: phone,
+                    message: message,
+                    houseId: houseId,
+                    houseTitle: currentHouse.title,
+                    companyId: currentHouse.companyId,
+                    status: 'nuevo',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                alert('✅ ¡Solicitud enviada!');
+                document.getElementById('leadMessage').value = '';
+            } catch (error) {
+                console.error(error);
+                alert('Error al enviar.');
+            }
+        }
+
+        // --- FAVORITES LOGIC ---
+        function updateFavUI(isSaved) {
+            const btn = document.getElementById('mainFavBtn');
+            if (!btn) return;
+
+            if (isSaved) {
+                btn.innerHTML = '<i class="fa-solid fa-heart" style="color: red;"></i> <span>Guardado</span>';
+                btn.classList.add('active');
+            } else {
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i> <span>Favorito</span>';
+                btn.classList.remove('active');
+            }
+        }
+
+        async function checkFavorite() {
+            if (!currentUser) return;
+            const snap = await db.collection('favorites')
+                .where('userId', '==', currentUser.uid)
+                .where('houseId', '==', houseId)
+                .get();
+            if (!snap.empty) updateFavUI(true);
+        }
+
+        async function toggleFavorite() {
+            if (!currentUser) return alert('Debes iniciar sesión.');
+            const btn = document.getElementById('mainFavBtn');
+            const isSaved = btn.innerHTML.includes('fa-solid');
+
+            updateFavUI(!isSaved); // Optimistic
+
+            try {
+                if (isSaved) {
+                    const snap = await db.collection('favorites')
+                        .where('userId', '==', currentUser.uid)
+                        .where('houseId', '==', houseId).get();
+                    snap.forEach(doc => doc.ref.delete());
+                } else {
+                    await db.collection('favorites').add({
+                        userId: currentUser.uid,
+                        houseId: houseId,
+                        houseTitle: currentHouse.title,
+                        housePrice: currentHouse.price,
+                        houseImage: currentHouse.images[0],
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            } catch (e) {
+                console.error(e);
+                updateFavUI(isSaved);
+                alert('Error al guardar.');
+            }
+        }
+
+        // --- COMPARATOR LOGIC ---
+        let comparisonCandidates = [];
+
+        async function openComparisonDrawer() {
+            document.getElementById('comparisonDrawer').classList.add('open');
+            document.getElementById('drawerOverlay').style.display = 'block';
+
+            if (comparisonCandidates.length > 0) { renderDrawerList(); return; }
+
+            try {
+                const snap = await db.collection('houses').limit(10).get();
+                comparisonCandidates = [];
+                snap.forEach(doc => {
+                    if (doc.id !== houseId) comparisonCandidates.push({ id: doc.id, ...doc.data() });
+                });
+                renderDrawerList();
+            } catch (e) { console.error(e); }
+        }
+
+        function closeComparisonDrawer() {
+            document.getElementById('comparisonDrawer').classList.remove('open');
+            document.getElementById('drawerOverlay').style.display = 'none';
+        }
+
+        function renderDrawerList() {
+            const list = document.getElementById('drawerList');
+            let html = '';
+            comparisonCandidates.forEach(h => {
+                const img = Array.isArray(h.images) ? h.images[0] : (h.image || 'https://via.placeholder.com/100');
+                const price = typeof h.price === 'number' ? h.price.toLocaleString() + '€' : h.price;
+                html += `
+                    <div class="drawer-house-card" onclick="openVsModal('${h.id}')">
+                        <img src="${img}" class="drawer-house-img" alt="${h.title}" onerror="this.src='https://via.placeholder.com/100'">
+                        <div style="flex:1;">
+                            <h4 style="margin:0 0 5px 0; font-size:0.95rem;">${h.title}</h4>
+                            <p style="margin:0; font-weight:700; color:var(--primary);">${price}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html || '<p>No hay casas.</p>';
+        }
+
+        function openVsModal(otherId) {
+            const other = comparisonCandidates.find(c => c.id === otherId);
+            if (!other) return;
+            closeComparisonDrawer();
+
+            const currentImg = currentHouse.images[0];
+            const otherImg = Array.isArray(other.images) ? other.images[0] : (other.image || '');
+            const formatPrice = (p) => typeof p === 'number' ? p.toLocaleString() : p;
+
+            const html = `
+                <div class="vs-column">
+                    <div class="vs-img-wrapper"><img src="${currentImg}"></div>
+                    <h3>${currentHouse.title}</h3>
+                    <div class="vs-price">${formatPrice(currentHouse.price)}€</div>
+                    <div class="vs-stat-row"><span>Superficie</span> <strong>${currentHouse.area} m²</strong></div>
+                    <div class="vs-stat-row"><span>Habitaciones</span> <strong>${currentHouse.bedrooms}</strong></div>
+                </div>
+                <div class="vs-column" style="border-left:1px solid #ddd;">
+                    <div class="vs-img-wrapper"><img src="${otherImg}"></div>
+                    <h3>${other.title}</h3>
+                    <div class="vs-price">${formatPrice(other.price)}€</div>
+                    <div class="vs-stat-row"><span>Superficie</span> <strong>${other.area} m²</strong></div>
+                    <div class="vs-stat-row"><span>Habitaciones</span> <strong>${other.bedrooms}</strong></div>
+                    <a href="detalle-casa.html?id=${other.id}" class="btn btn-outline" style="width:100%; margin-top:15px;">Ver Ficha</a>
+                </div>
+            `;
+            document.getElementById('vsBody').innerHTML = html;
+            document.getElementById('vsModal').style.display = 'flex';
+        }
+
+        function closeVsModal() {
+            document.getElementById('vsModal').style.display = 'none';
+        }
+
+        // Track view
+        db.collection('views').add({
+            houseId: houseId, houseTitle: currentHouse.title, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        }).catch(e => console.log(e));
+
+    </script>
 
 </body>
 
