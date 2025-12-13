@@ -76,7 +76,7 @@
 
 <body>
 
-    <!-- Navbar -->
+        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -86,100 +86,42 @@
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="usuarios.html">Acceso Usuarios</a></li>
-                <li><a href="empresas.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
-                        Empresas</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <div class="empresas-page">
-        <div class="empresas-container">
-            <div class="empresas-header">
-                <h1><i class="fa-solid fa-building"></i> Acceso Empresas</h1>
-                <p style="color: var(--text-light);">Publica tus casas y recibe clientes</p>
-            </div>
-
-            <!-- Toggle between Login/Register -->
-            <div class="form-toggle">
-                <button class="active" onclick="showForm('login')">Iniciar Sesión</button>
-                <button onclick="showForm('register')">Registrar Empresa</button>
-            </div>
-
-            <!-- Messages -->
-            <div id="errorMessage" class="message error-message" style="display: none;"></div>
-            <div id="successMessage" class="message success-message" style="display: none;"></div>
-
-            <!-- LOGIN FORM -->
-            <div id="loginForm" class="form-section active">
-                <form onsubmit="handleLogin(event)">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="loginEmail" required placeholder="empresa@ejemplo.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="loginPassword" required placeholder="••••••">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fa-solid fa-right-to-bracket"></i> Iniciar Sesión
-                    </button>
-                    <div style="text-align: center; margin-top: 15px;">
-                        <a href="#" onclick="handleForgotPassword(); return false;"
-                            style="color: var(--primary); font-size: 0.9rem;">¿Olvidaste tu contraseña?</a>
-                    </div>
-                </form>
-            </div>
-
-            <!-- REGISTER FORM -->
-            <div id="registerForm" class="form-section">
-                <form onsubmit="handleRegister(event)">
-                    <div class="form-group">
-                        <label>Nombre de la Empresa</label>
-                        <input type="text" id="registerName" required placeholder="Mi Empresa S.L.">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="registerEmail" required placeholder="contacto@empresa.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="registerPassword" required minlength="6"
-                            placeholder="Mínimo 6 caracteres">
-                    </div>
-                    <div class="form-group">
-                        <label>CIF / NIF</label>
-                        <input type="text" id="registerCIF" required placeholder="B12345678">
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono</label>
-                        <input type="tel" id="registerPhone" required placeholder="666666666">
-                    </div>
-                    <div class="form-group">
-                        <label>Web (opcional)</label>
-                        <input type="url" id="registerWebsite" placeholder="https://miempresa.com">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fa-solid fa-building"></i> Registrar Empresa
-                    </button>
-                    <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 15px; text-align: center;">
-                        Tu solicitud será revisada en 24-48h
-                    </p>
-                </form>
-            </div>
-
-            <!-- Link to usuarios -->
-            <div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #e2e8f0; text-align: center;">
-                <p style="color: var(--text-light); margin-bottom: 15px;">¿Eres usuario particular?</p>
-                <a href="usuarios.html" class="btn btn-outline btn-block">
-                    <i class="fa-solid fa-user"></i> Ir a Acceso Usuarios
-                </a>
-            </div>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script src="js/auth.js"></script>
 
     <script>

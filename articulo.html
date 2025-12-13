@@ -17,7 +17,7 @@
 
 <body>
 
-    <!-- Navbar -->
+        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -26,81 +26,43 @@
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="blog.html" style="color: var(--primary);">Blog</a></li>
+                <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="usuarios.html">Acceso Empresas</a></li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
                 <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
                         Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <!-- Article Content -->
-    <article class="container" style="margin-top: 140px; margin-bottom: 60px; max-width: 800px;">
-        <div id="loading" style="text-align: center; padding: 40px;">
-            <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
+    </div>
 
-        <div id="articleContent" style="display: none;">
-            <img id="postImage" src="" alt="Portada"
-                style="width: 100%; height: 400px; object-fit: cover; border-radius: 16px; margin-bottom: 30px;">
-            <h1 id="postTitle" style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 15px;"></h1>
-            <div style="color: var(--text-light); margin-bottom: 30px; font-size: 0.9rem;">
-                <i class="fa-solid fa-calendar"></i> <span id="postDate"></span> |
-                <i class="fa-solid fa-user"></i> <span id="postAuthor">Admin</span>
-            </div>
-            <div id="postBody" style="line-height: 1.8; font-size: 1.1rem; color: #334155;">
-                <!-- Content injected here -->
-            </div>
-        </div>
-    </article>
-
-    <!-- Footer -->
-            <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
 

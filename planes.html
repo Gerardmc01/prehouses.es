@@ -208,7 +208,7 @@
 
 <body>
 
-    <!-- Navbar -->
+        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -220,147 +220,38 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="planes.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Planes</a>
-                </li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <div class="plans-container">
-        <div class="plans-header">
-            <h1><i class="fa-solid fa-rocket"></i> Planes para Empresas</h1>
-            <p style="color: var(--text-light); font-size: 1.2rem; max-width: 700px; margin: 0 auto;">
-                Elige el plan perfecto para tu negocio de casas prefabricadas
-            </p>
-        </div>
-
-        <!-- Plans Grid -->
-        <div class="plans-grid">
-            <!-- Plan Gratis -->
-            <div class="plan-card">
-                <div class="plan-name">Gratis</div>
-                <div class="plan-price">0€ <span>/mes</span></div>
-                <p class="plan-description">Perfecto para empezar y probar la plataforma</p>
-
-                <ul class="plan-features">
-                    <li><i class="fa-solid fa-check-circle"></i> 1 casa publicada</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Aparece en catálogo</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Recibe leads</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Dashboard básico</li>
-                    <li class="disabled"><i class="fa-solid fa-times-circle"></i> Analíticas avanzadas</li>
-                    <li class="disabled"><i class="fa-solid fa-times-circle"></i> Badge verificado</li>
-                    <li class="disabled"><i class="fa-solid fa-times-circle"></i> Destacado en home</li>
-                </ul>
-
-                <button class="plan-cta outline" onclick="selectPlan('free')">
-                    Empezar Gratis
-                </button>
-            </div>
-
-            <!-- Plan Básico -->
-            <div class="plan-card featured">
-                <div class="plan-badge">MÁS POPULAR</div>
-                <div class="plan-name">Básico</div>
-                <div class="plan-price">29€ <span>/mes</span></div>
-                <p class="plan-description">Ideal para empresas en crecimiento</p>
-
-                <ul class="plan-features">
-                    <li><i class="fa-solid fa-check-circle"></i> <strong>5 casas publicadas</strong></li>
-                    <li><i class="fa-solid fa-check-circle"></i> Aparece en catálogo</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Leads ilimitados</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Dashboard completo</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Analíticas básicas</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Badge "Verificado"</li>
-                    <li class="disabled"><i class="fa-solid fa-times-circle"></i> Destacado en home</li>
-                </ul>
-
-                <button class="plan-cta primary" onclick="selectPlan('basic')">
-                    Elegir Básico
-                </button>
-            </div>
-
-            <!-- Plan Pro -->
-            <div class="plan-card">
-                <div class="plan-name">Pro</div>
-                <div class="plan-price">79€ <span>/mes</span></div>
-                <p class="plan-description">Para empresas que quieren máxima visibilidad</p>
-
-                <ul class="plan-features">
-                    <li><i class="fa-solid fa-check-circle"></i> <strong>Casas ilimitadas</strong></li>
-                    <li><i class="fa-solid fa-check-circle"></i> Destacado en home</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Leads ilimitados</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Dashboard premium</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Analíticas avanzadas</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Badge "Premium"</li>
-                    <li><i class="fa-solid fa-check-circle"></i> Soporte prioritario</li>
-                </ul>
-
-                <button class="plan-cta primary" onclick="selectPlan('pro')">
-                    Elegir Pro
-                </button>
-            </div>
-        </div>
-
-        <!-- Comparison Table -->
-        <div class="comparison-table">
-            <h2><i class="fa-solid fa-table"></i> Comparación Detallada</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Característica</th>
-                        <th style="text-align: center;">Gratis</th>
-                        <th style="text-align: center;">Básico</th>
-                        <th style="text-align: center;">Pro</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Casas publicadas</strong></td>
-                        <td style="text-align: center;">1</td>
-                        <td style="text-align: center;">5</td>
-                        <td style="text-align: center;">Ilimitadas</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Leads recibidos</strong></td>
-                        <td style="text-align: center;">Ilimitados</td>
-                        <td style="text-align: center;">Ilimitados</td>
-                        <td style="text-align: center;">Ilimitados</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Analíticas</strong></td>
-                        <td style="text-align: center;"><i class="cross-icon fa-solid fa-times"></i></td>
-                        <td style="text-align: center;">Básicas</td>
-                        <td style="text-align: center;">Avanzadas</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Badge verificado</strong></td>
-                        <td style="text-align: center;"><i class="cross-icon fa-solid fa-times"></i></td>
-                        <td style="text-align: center;"><i class="check-icon fa-solid fa-check"></i></td>
-                        <td style="text-align: center;"><i class="check-icon fa-solid fa-check"></i></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Destacado en home</strong></td>
-                        <td style="text-align: center;"><i class="cross-icon fa-solid fa-times"></i></td>
-                        <td style="text-align: center;"><i class="cross-icon fa-solid fa-times"></i></td>
-                        <td style="text-align: center;"><i class="check-icon fa-solid fa-check"></i></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Soporte</strong></td>
-                        <td style="text-align: center;">Email</td>
-                        <td style="text-align: center;">Email</td>
-                        <td style="text-align: center;">Prioritario</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
     <script>
-        function selectPlan(planType) {
-            alert(`Has seleccionado el plan: ${planType.toUpperCase()}\n\nEsta funcionalidad estará disponible próximamente.\n\nPor ahora, todas las empresas pueden publicar sin límite.`);
-
-            // En producción, aquí iría la integración con Stripe
-            // window.location.href = `checkout.html?plan=${planType}`;
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
         }
     </script>
 

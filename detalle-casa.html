@@ -318,219 +318,52 @@
 
 <body>
 
-    <!-- Navbar -->
+        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="favicon_prehouses_1764872622091.png" alt="Logo"
-                    style="width: 30px; height: 30px; margin-right: 10px; border-radius: 4px;">
-                Prehouses
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
                 <li><a href="empresas.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px;">Acceso Usuarios</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <!-- Product Detail -->
-    <div class="container detail-container">
-        <div class="detail-grid">
-
-            <!-- Left Column: Gallery & Info -->
-            <div class="detail-content">
-                <div class="detail-gallery">
-                    <div class="main-image">
-                        <img id="houseImage" src="" alt="Imagen Casa"
-                            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80';">
-                    </div>
-                </div>
-
-                <div class="detail-info" style="margin-top: 40px;">
-                    <div class="detail-tags" id="houseTags">
-                        <!-- Tags injected via JS -->
-                    </div>
-                    <h1 id="houseTitle">Cargando...</h1>
-                    <div class="detail-price" id="housePrice">...</div>
-
-                    <div class="main-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
-                        <button type="button" onclick="toggleFavorite()" class="btn btn-outline" id="mainFavBtn"
-                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
-                            <i class="fa-regular fa-heart"></i> <span>Favorito</span>
-                        </button>
-                        <button type="button" onclick="addToComparisonWithCurrent()" class="btn btn-outline"
-                            style="flex:1; display:flex; align-items:center; justify-content:center; gap:8px;">
-                            <i class="fa-solid fa-scale-balanced"></i> <span>Comparar</span>
-                        </button>
-                    </div>
-
-                    <div class="features-box">
-                        <h3 style="margin-bottom: 20px; color: var(--secondary);">Características Principales</h3>
-                        <div class="features-grid">
-                            <div class="feature-item"><i class="fa-solid fa-ruler-combined"></i> <span
-                                    id="houseArea">-</span> m²</div>
-                            <div class="feature-item"><i class="fa-solid fa-bed"></i> <span id="houseBedrooms">-</span>
-                                Hab.</div>
-                            <div class="feature-item"><i class="fa-solid fa-bath"></i> <span
-                                    id="houseBathrooms">-</span> Baños</div>
-                            <div class="feature-item"><i class="fa-solid fa-clock"></i> <span
-                                    id="houseDelivery">-</span></div>
-                        </div>
-                    </div>
-
-                    <div class="detail-description">
-                        <h3 style="margin-bottom: 15px; color: var(--secondary);">Descripción del Modelo</h3>
-                        <p id="houseDescription" style="line-height: 1.6; color: var(--text-light);">
-                            <!-- Description injected via JS -->
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Column: Contact Form -->
-            <div class="detail-sidebar">
-                <div class="contact-form-card">
-                    <h3>Contactar Fabricante</h3>
-                    <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">
-                        Solicita más información directamente a <strong id="companyName">la empresa</strong>.
-                    </p>
-                    <form onsubmit="sendLead(event)">
-                        <div class="form-group">
-                            <label>Nombre Completo</label>
-                            <input type="text" id="leadName" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="leadEmail" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Teléfono</label>
-                            <input type="tel" id="leadPhone" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Mensaje</label>
-                            <textarea id="leadMessage" rows="4"
-                                required>Hola, estoy interesado en este modelo...</textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;" id="leadBtn">Enviar
-                            Solicitud</button>
-
-                        <button type="button" onclick="toggleFavorite()" class="btn btn-outline"
-                            style="width: 100%; margin-top: 10px;" id="favBtn">
-                            <i class="fa-regular fa-heart"></i> Guardar Favorito
-                        </button>
-
-                        <button type="button" onclick="addToComparisonWithCurrent()" class="btn btn-outline"
-                            style="width: 100%; margin-top: 10px;">
-                            <i class="fa-solid fa-scale-balanced"></i> Comparar
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Similar Houses -->
-    <div class="container" id="similarHousesSection" style="margin-bottom: 60px;">
-        <h2 style="margin-bottom: 30px; color: var(--secondary);">También te podría interesar</h2>
-        <div class="house-grid" id="similarHousesGrid"
-            style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));">
-            <div style="text-align:center; width:100%; padding:20px;">Cargando recomendaciones...</div>
-        </div>
-    </div>
-
-    <!-- Mobile Action Bar -->
-    <div class="mobile-actions" style="display: none;">
-        <button onclick="toggleFavorite()" id="mobileFavBtn"><i class="fa-regular fa-heart"></i></button>
-        <button onclick="addToComparisonWithCurrent()"><i class="fa-solid fa-scale-balanced"></i></button>
-        <button onclick="document.querySelector('.contact-form-card').scrollIntoView({behavior:'smooth'})"
-            class="btn-primary">Contactar</button>
-    </div>
-
-    <!-- Comparison Drawer -->
-    
-    <!-- Footer Global (Injected) -->
-        <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-<div class="comparison-drawer-overlay" id="drawerOverlay" onclick="closeComparisonDrawer()"></div>
-    <div class="comparison-drawer" id="comparisonDrawer">
-        <div class="drawer-header">
-            <h3 style="margin:0; color: var(--secondary);">Comparar con...</h3>
-            <button onclick="closeComparisonDrawer()" class="btn btn-sm btn-outline" style="border:none;"><i
-                    class="fa-solid fa-times" style="font-size: 1.2rem;"></i></button>
-        </div>
-        <div id="drawerList">
-            <div style="text-align:center; padding: 20px; color:#64748b;">
-                <i class="fa-solid fa-circle-notch fa-spin"></i> Cargando casas...
-            </div>
-        </div>
-    </div>
-
-    <!-- VS Modal -->
-    <div class="vs-modal" id="vsModal">
-        <div class="vs-content">
-            <div class="vs-header">
-                <h3 style="margin:0; color: var(--secondary);"><i class="fa-solid fa-scale-balanced"
-                        style="color:var(--primary); margin-right:10px;"></i> Comparativa</h3>
-                <button onclick="closeVsModal()" class="btn btn-sm btn-outline" style="border:none;"><i
-                        class="fa-solid fa-times" style="font-size: 1.5rem;"></i></button>
-            </div>
-            <div class="vs-body" id="vsBody">
-                <!-- Injected via JS -->
-            </div>
-            <div class="vs-header"
-                style="border-top:1px solid #e2e8f0; border-bottom:none; justify-content:center; background: #f8fafc; border-radius: 0 0 24px 24px;">
-                <button onclick="closeVsModal()" class="btn btn-primary" style="min-width: 200px;">Entendido</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script src="js/support.js"></script>
     <script src="js/toast.js"></script>
     <script src="js/comparator-logic.js"></script>

@@ -91,7 +91,7 @@
 
 <body>
 
-    <!-- Navbar -->
+        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -101,112 +101,42 @@
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
                 <li><a href="empresas.html">Acceso Empresas</a></li>
                 <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
                         Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <!-- Company Header -->
-    <header class="company-header">
-        <div class="container">
-            <div class="company-logo-placeholder">
-                <i class="fa-solid fa-building"></i>
-            </div>
-            <h1 id="companyName">Cargando empresa...</h1>
-            <p id="companyDesc" style="max-width: 600px; margin: 10px auto; opacity: 0.9;">...</p>
-
-            <div class="company-stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="totalHouses">0</div>
-                    <div class="stat-label">Casas en Venta</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">4.8/5</div>
-                    <div class="stat-label">Valoración</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">Verified</div>
-                    <div class="stat-label">Estado</div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Contact Bar -->
-    <div class="contact-bar">
-        <div class="container contact-info">
-            <div class="contact-item" id="companyPhone">
-                <i class="fa-solid fa-phone"></i> <span>-</span>
-            </div>
-            <div class="contact-item" id="companyWeb">
-                <i class="fa-solid fa-globe"></i> <a href="#" target="_blank"
-                    style="color: inherit; text-decoration: none;">Visitar Web</a>
-            </div>
-            <div class="contact-item">
-                <i class="fa-solid fa-location-dot"></i> <span>España</span>
-            </div>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Company Catalog -->
-    <section class="catalog" style="padding: 60px 0;">
-        <div class="container">
-            <h2 style="margin-bottom: 30px; color: var(--secondary);">Catálogo de Propiedades</h2>
-            <div class="house-grid" id="companyHousesGrid">
-                <div style="text-align: center; width: 100%; padding: 40px;">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-            <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
 

@@ -172,137 +172,52 @@
     </style>
 </head>
 
-<body>
-
+<body>    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="favicon_prehouses_1764872622091.png" alt="Logo"
-                    style="width: 30px; height: 30px; margin-right: 10px; border-radius: 4px;">
-                Prehouses
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="asesor.html">Asesor IA</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <div class="container detail-container">
-        <div class="detail-grid">
-            <div class="detail-content">
-                <div class="detail-gallery">
-                    <div class="main-image">
-                        <img src="https://modularhome.es/wp-content/uploads/2023/07/Vista-delantera-perspectiva-derecha-MH-110.png"
-                            alt="Modelo MH Diseño" onerror="this.src='https://via.placeholder.com/800'">
-                    </div>
-                </div>
-
-                <div class="detail-info" style="margin-top: 40px;">
-                    <div class="detail-tags"><span class="tag">Diseño</span><span class="tag">Moderno</span></div>
-                    <h1>Modelo MH Diseño</h1>
-                    <div class="detail-price">140.000€</div>
-
-                    <div class="main-actions" style="display: flex; gap: 10px; margin-bottom: 25px;">
-                        <button type="button" onclick="toggleFavorite()" class="btn btn-outline" id="mainFavBtn"
-                            style="flex:1;">
-                            <i class="fa-regular fa-heart"></i> <span>Favorito</span>
-                        </button>
-                        <button type="button" onclick="openComparisonDrawer()" class="btn btn-outline" style="flex:1;">
-                            <i class="fa-solid fa-scale-balanced"></i> <span>Comparar</span>
-                        </button>
-                    </div>
-
-                    <div class="features-box">
-                        <div class="features-grid">
-                            <div class="feature-item"><i class="fa-solid fa-ruler-combined"></i> 110 m²</div>
-                            <div class="feature-item"><i class="fa-solid fa-bed"></i> 3 Habs</div>
-                            <div class="feature-item"><i class="fa-solid fa-bath"></i> 2 Baños</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="detail-sidebar">
-                <div class="contact-form-card">
-                    <h3>Contactar</h3>
-                    <form>
-                        <input type="text" id="leadName" placeholder="Nombre"
-                            style="width: 100%; margin-bottom: 10px; padding: 10px;">
-                        <input type="email" id="leadEmail" placeholder="Email"
-                            style="width: 100%; margin-bottom: 10px; padding: 10px;">
-                        <textarea id="leadMessage" rows="3" placeholder="Mensaje"
-                            style="width: 100%; margin-bottom: 10px; padding: 10px;"></textarea>
-                        <button type="button" onclick="sendLead()" class="btn btn-primary"
-                            style="width: 100%;">Enviar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Comparison Components -->
-    
-    <!-- Footer Global (Injected) -->
-        <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-<div class="comparison-drawer-overlay" id="drawerOverlay" onclick="closeComparisonDrawer()"></div>
-    <div class="comparison-drawer" id="comparisonDrawer">
-        <div class="drawer-header">
-            <h3>Comparar</h3><button onclick="closeComparisonDrawer()">X</button>
-        </div>
-        <div id="drawerList"></div>
-    </div>
-    <div class="vs-modal" id="vsModal">
-        <div class="vs-content">
-            <div class="vs-header">
-                <h3>Comparativa</h3><button onclick="closeVsModal()">X</button>
-            </div>
-            <div class="vs-body" id="vsBody"></div>
-        </div>
-    </div>
-
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
