@@ -17,17 +17,21 @@
     <style>
         .empresas-page {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            /* Green theme for companies */
             padding: 140px 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .empresas-container {
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 480px;
             background: white;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
 
         .empresas-header {
@@ -36,47 +40,115 @@
         }
 
         .empresas-header h1 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 10px;
-            color: var(--secondary);
+            color: #064e3b;
+        }
+
+        .empresas-header p {
+            color: #64748b;
+            font-size: 0.95rem;
         }
 
         .form-toggle {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 12px;
         }
 
         .form-toggle button {
             flex: 1;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            background: white;
+            padding: 10px;
+            border: none;
+            background: transparent;
             border-radius: 8px;
             font-weight: 600;
+            color: #64748b;
             cursor: pointer;
             transition: all 0.3s;
         }
 
         .form-toggle button.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            background: white;
+            color: #059669;
+            /* Green active */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .form-section {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
 
         .form-section.active {
             display: block;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #059669;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #047857;
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 
 <body>
 
-        <!-- Navbar -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -88,40 +160,89 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
-                        Usuarios</a></li>
+                <li><a href="empresas.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Empresas</a></li>
             </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
-        </ul>
+    <div class="empresas-page">
+        <div class="empresas-container">
+            <div class="empresas-header">
+                <h1>Portal de Empresas</h1>
+                <p>Gestiona tu catálogo y conecta con miles de compradores</p>
+            </div>
+
+            <div class="form-toggle">
+                <button class="active" onclick="showForm('login')">Iniciar Sesión</button>
+                <button onclick="showForm('register')">Crear Cuenta</button>
+            </div>
+
+            <div id="errorMessage"
+                style="display:none; background:#fef2f2; color:#ef4444; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-size:0.9rem;">
+            </div>
+            <div id="successMessage"
+                style="display:none; background:#f0fdf4; color:#16a34a; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-size:0.9rem;">
+            </div>
+
+            <!-- LOGIN -->
+            <div id="loginForm" class="form-section active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="input-group">
+                        <label>Email Corporativo</label>
+                        <input type="email" id="loginEmail" required class="input-field"
+                            placeholder="ejemplo@empresa.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="loginPassword" required class="input-field" placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-submit">Entrar al Portal</button>
+                    <p style="text-align:center; margin-top:20px; font-size:0.9rem;">
+                        <a href="#" onclick="handleForgotPassword()"
+                            style="color: #64748b; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- REGISTER -->
+            <div id="registerForm" class="form-section">
+                <form onsubmit="handleRegister(event)">
+                    <div class="input-group">
+                        <label>Nombre de la Empresa</label>
+                        <input type="text" id="registerName" required class="input-field"
+                            placeholder="Nombre Comercial">
+                    </div>
+                    <div class="input-group">
+                        <label>CIF / NIF</label>
+                        <input type="text" id="registerCIF" required class="input-field" placeholder="A12345678">
+                    </div>
+                    <div class="input-group">
+                        <label>Email Corporativo</label>
+                        <input type="email" id="registerEmail" required class="input-field"
+                            placeholder="contacto@empresa.com">
+                    </div>
+                    <div class="input-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="registerPhone" required class="input-field" placeholder="+34 600 000 000">
+                    </div>
+                    <div class="input-group">
+                        <label>Sitio Web (Opcional)</label>
+                        <input type="url" id="registerWebsite" class="input-field" placeholder="https://...">
+                    </div>
+                    <div class="input-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="registerPassword" required class="input-field"
+                            placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <button type="submit" class="btn-submit">Registrar Empresa</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
+    <!-- Auth Logic -->
+    <script src="js/firebase-config.js"></script> <!-- Ensure this exists -->
     <script src="js/auth.js"></script>
 
     <script>
@@ -141,7 +262,6 @@
                 buttons[0].classList.remove('active');
                 buttons[1].classList.add('active');
             }
-
             hideMessages();
         }
 
@@ -150,17 +270,28 @@
             document.getElementById('successMessage').style.display = 'none';
         }
 
+        // --- AUTH HANDLERS (Delegating to auth.js functions usually) ---
+        // Note: auth.js must expose loginWithEmail and registerWithEmail globally
+        
         async function handleLogin(event) {
             event.preventDefault();
             hideMessages();
-
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
 
             try {
-                await loginWithEmail(email, password);
+                if (typeof loginWithEmail === 'function') {
+                    await loginWithEmail(email, password);
+                } else {
+                     // Fallback inline logic if auth.js not loaded properly
+                     const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                     // Redirect handled by onAuthStateChanged
+                }
             } catch (error) {
-                // Error handled in auth.js
+                console.error(error);
+                const errDiv = document.getElementById('errorMessage');
+                errDiv.textContent = 'Error: ' + error.message;
+                errDiv.style.display = 'block';
             }
         }
 
@@ -178,38 +309,64 @@
             const companyData = {
                 cif: cif,
                 phone: phone,
-                website: website || ''
+                website: website || '',
+                userType: 'empresa',
+                status: 'pending', // Important for admin approval
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            try {
-                await registerWithEmail(email, password, name, 'empresa', companyData);
+             try {
+                 // Create User in Auth
+                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                 const user = userCredential.user;
+                 
+                 // Create User Doc in Firestore
+                 await db.collection('users').doc(user.uid).set({
+                     email: email,
+                     name: name,
+                     ...companyData
+                 });
+                 
+                 // Send Verification Email
+                 await user.sendEmailVerification();
+                 
+                 const succDiv = document.getElementById('successMessage');
+                 succDiv.textContent = '¡Cuenta creada! Revisa tu email para verificar la cuenta.';
+                 succDiv.style.display = 'block';
+                 
+                 // Delay redirect
+                 setTimeout(() => window.location.href = 'dashboard-empresa.html', 2000);
+
             } catch (error) {
-                // Error handled in auth.js
+                console.error(error);
+                const errDiv = document.getElementById('errorMessage');
+                errDiv.textContent = 'Error: ' + error.message;
+                errDiv.style.display = 'block';
             }
         }
 
         function handleForgotPassword() {
             const email = prompt('Introduce tu email para recuperar la contraseña:');
             if (email) {
-                resetPassword(email);
+                auth.sendPasswordResetEmail(email)
+                .then(() => alert('Email de recuperación enviado'))
+                .catch(e => alert(e.message));
             }
         }
 
         // Redirect if already logged in
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                try {
-                    const doc = await db.collection('users').doc(user.uid).get();
-                    if (doc.exists && doc.data().userType === 'empresa') {
-                        window.location.href = 'dashboard-empresa.html';
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists) {
+                    const type = doc.data().userType;
+                    if (type === 'empresa') window.location.href = 'dashboard-empresa.html';
+                    else if (type === 'admin') window.location.href = 'admin.html';
+                    // If regular user on companies page, maybe redirect? Or allow logout.
                 }
             }
         });
     </script>
-
 </body>
 
 </html>

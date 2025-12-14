@@ -127,101 +127,132 @@
 
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+    <div class="dashboard-layout">
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar">
+            <a href="index.html" class="dash-logo">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Prehouses</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
-                <li><a href="#" class="btn btn-primary" style="padding: 10px 24px; color: white;">Mi Cuenta</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <div class="dashboard-container">
-        <!-- Header con info del usuario -->
-        <div class="dashboard-header">
-            <h1 id="userName">Cargando...</h1>
-            <p id="userEmail" style="opacity: 0.9; margin-top: 5px;"></p>
-            <span class="user-badge" id="userType">Usuario</span>
-            <div class="action-buttons">
-                <button onclick="verifyEmail()" class="btn btn-outline"
-                    style="background: rgba(255,255,255,0.2); border-color: white; color: white;" id="verifyBtn">
-                    <i class="fa-solid fa-envelope-circle-check"></i> Verificar Email
-                </button>
-                <button onclick="logout()" class="btn btn-outline"
-                    style="background: rgba(255,255,255,0.2); border-color: white; color: white;">
-                    <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
-                </button>
-            </div>
-        </div>
-
-        <!-- Estadísticas -->
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <h3><i class="fa-solid fa-heart"></i> Mis Favoritos</h3>
-                <div class="stat-number" id="favoritosCount">0</div>
-                <p class="stat-label">Casas guardadas</p>
-                <button onclick="window.location.href='catalogo.html'" class="btn btn-outline"
-                    style="margin-top: 15px; width: 100%;">
-                    Ver Catálogo
-                </button>
-            </div>
-
-            <div class="dashboard-card">
-                <h3><i class="fa-solid fa-bell"></i> Alertas</h3>
-                <div class="stat-number" id="alertasCount">0</div>
-                <p class="stat-label">Notificaciones activas</p>
-                <button class="btn btn-outline" style="margin-top: 15px; width: 100%;" disabled>
-                    Próximamente
-                </button>
-            </div>
-
-            <div class="dashboard-card">
-                <h3><i class="fa-solid fa-envelope"></i> Consultas</h3>
-                <div class="stat-number" id="consultasCount">0</div>
-                <p class="stat-label">Mensajes enviados</p>
-                <button class="btn btn-outline" style="margin-top: 15px; width: 100%;" disabled>
-                    Próximamente
-                </button>
-            </div>
-        </div>
-
-        <!-- Casas Favoritas -->
-        <div class="dashboard-card">
-            <h3><i class="fa-solid fa-star"></i> Tus Casas Favoritas</h3>
-            <div id="favoritesList" class="favorites-list">
-                <div class="empty-state">
-                    <i class="fa-solid fa-heart-crack"></i>
-                    <p>Aún no tienes casas favoritas</p>
-                    <button onclick="window.location.href='catalogo.html'" class="btn btn-primary"
-                        style="margin-top: 20px;">
-                        Explorar Catálogo
-                    </button>
+            <div class="user-profile-mini">
+                <div class="user-avatar" id="sidebarAvatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="user-info-mini">
+                    <h4 id="sidebarName">Cargando...</h4>
+                    <p id="sidebarEmail">...</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Consultas -->
-        <div class="dashboard-card" style="margin-top: 30px;">
-            <h3><i class="fa-solid fa-envelope-open-text"></i> Mis Consultas Enviadas</h3>
-            <div id="consultasHistory">
-                <div class="empty-state">
-                    <p>Cargando consultas...</p>
+            <nav class="dash-nav">
+                <a href="#" class="dash-link active">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>Mis Favoritos</span>
+                </a>
+                <a href="#" class="dash-link">
+                    <i class="fa-solid fa-bell"></i>
+                    <span>Alertas</span>
+                </a>
+                <a href="#" class="dash-link">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Mensajes</span>
+                </a>
+                <a href="#" class="dash-link">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Asesor IA</span>
+                </a>
+                <a href="#" class="dash-link">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configuración</span>
+                </a>
+
+                <a href="#" onclick="logout()" class="dash-link logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main">
+            <header class="dash-header">
+                <div class="dash-title">
+                    <div class="breadcrumb">Panel de Usuario / Resumen</div>
+                    <h1 id="welcomeTitle">Bienvenido</h1>
+                </div>
+
+                <div class="dash-search-container">
+                    <div class="dash-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Buscar en mis listas...">
+                    </div>
+                </div>
+            </header>
+
+            <!-- STATS ROW -->
+            <div class="dash-grid-stats">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="favoritosCount">0</div>
+                    <div class="stat-label">Casas Favoritas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="consultasCount">0</div>
+                    <div class="stat-label">Consultas Enviadas</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="alertasCount">0</div>
+                    <div class="stat-label">Alertas Activas</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Información de la cuenta -->
-        <div class="dashboard-card">
-            <h3><i class="fa-solid fa-user-circle"></i> Información de la Cuenta</h3>
-            <div id="userInfo" style="line-height: 2;"></div>
-        </div>
+            <!-- FAVORITES SECTION -->
+            <div class="section-header">
+                <h2>Mis Casas Guardadas</h2>
+                <a href="catalogo.html" class="btn-dash btn-dash-primary">
+                    <i class="fa-solid fa-plus"></i> Explorar Más
+                </a>
+            </div>
+
+            <div id="favoritesList" class="dash-cards-grid">
+                <!-- Loading State -->
+                <div class="empty-dashboard">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <p>Cargando tus casas...</p>
+                </div>
+            </div>
+
+            <!-- RECENT MESSAGES SECTION -->
+            <div class="section-header" style="margin-top: 50px;">
+                <h2>Historial de Consultas</h2>
+            </div>
+
+            <div id="consultasHistory"
+                style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
+                <!-- Table-like list for messages -->
+                <div class="empty-dashboard">
+                    <p>No hay consultas recientes.</p>
+                </div>
+            </div>
+
+        </main>
     </div>
 
     <!-- Firebase Config -->
@@ -236,7 +267,7 @@
         // Proteger página - solo usuarios autenticados
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                alert('⚠️ Debes iniciar sesión para acceder a esta página');
+                // Redirigir si no hay sesión
                 window.location.href = 'usuarios.html';
                 return;
             }
@@ -252,44 +283,20 @@
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 userData = userDoc.exists ? userDoc.data() : {};
 
-                // Actualizar UI
-                document.getElementById('userName').textContent = `¡Hola, ${userData.name || currentUser.displayName || 'Usuario'}!`;
-                document.getElementById('userEmail').textContent = currentUser.email;
+                const userName = userData.name || currentUser.displayName || 'Usuario';
 
-                // Tipo de usuario
-                const userType = userData.userType === 'empresa' ? 'Empresa / Fabricante' : 'Usuario Particular';
-                document.getElementById('userType').textContent = userType;
+                // Actualizar Sidebar
+                document.getElementById('sidebarName').textContent = userName;
+                document.getElementById('sidebarEmail').textContent = currentUser.email;
+                document.getElementById('sidebarAvatar').innerHTML = userName.charAt(0).toUpperCase();
 
-                // Botón de verificación
-                const verifyBtn = document.getElementById('verifyBtn');
-                if (currentUser.emailVerified) {
-                    verifyBtn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Email Verificado';
-                    verifyBtn.disabled = true;
-                    verifyBtn.style.opacity = '0.6';
-                }
+                // Actualizar Main Header
+                document.getElementById('welcomeTitle').textContent = `Hola, ${userName}`;
 
-                // Estadísticas
-                document.getElementById('favoritosCount').textContent = userData.favoritos?.length || 0;
-                document.getElementById('alertasCount').textContent = userData.alertas?.length || 0;
-                document.getElementById('consultasCount').textContent = userData.consultas?.length || 0;
+                // Estadísticas (si existen)
+                // Se actualizarán realmente al cargar las colecciones
 
-                // Información detallada
-                const fechaRegistro = userData.createdAt?.toDate().toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                }) || 'N/A';
-
-                document.getElementById('userInfo').innerHTML = `
-                    <p><strong>Nombre:</strong> ${userData.name || currentUser.displayName || 'No especificado'}</p>
-                    <p><strong>Email:</strong> ${currentUser.email}</p>
-                    <p><strong>Tipo de cuenta:</strong> ${userType}</p>
-                    <p><strong>Miembro desde:</strong> ${fechaRegistro}</p>
-                    <p><strong>Estado del email:</strong> ${currentUser.emailVerified ? '✅ Verificado' : '⚠️ Pendiente de verificación'}</p>
-                    <p><strong>Último acceso:</strong> ${new Date(currentUser.metadata.lastSignInTime).toLocaleDateString('es-ES')}</p>
-                `;
-
-                // Cargar favoritos
+                // Cargar Contenido
                 loadFavorites();
                 loadConsultas();
 
@@ -304,26 +311,34 @@
                 const snapshot = await db.collection('leads')
                     .where('userEmail', '==', currentUser.email)
                     .orderBy('createdAt', 'desc')
+                    .limit(5)
                     .get();
 
                 if (snapshot.empty) {
-                    container.innerHTML = '<div class="empty-state"><p>No has enviado ninguna consulta.</p></div>';
+                    container.innerHTML = `
+                        <div class="empty-dashboard">
+                            <i class="fa-regular fa-paper-plane"></i>
+                            <p>No has enviado ninguna consulta todavía.</p>
+                        </div>`;
+                    document.getElementById('consultasCount').textContent = 0;
                     return;
                 }
 
                 let html = '';
                 snapshot.forEach(doc => {
                     const lead = doc.data();
-                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'N/A';
+                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'Reciente';
 
                     html += `
-                        <div class="favorite-item">
-                            <div style="flex: 1;">
-                                <h4 style="margin-bottom: 5px;">Consulta sobre: ${lead.houseTitle}</h4>
-                                <p style="font-size: 0.9rem; color: #64748b;">Enviado el: ${date}</p>
-                                <p style="font-style: italic; margin-top: 5px;">"${lead.message}"</p>
+                        <div style="padding: 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #0f172a;">${lead.houseTitle || 'Consulta General'}</h4>
+                                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">"${lead.message}"</p>
                             </div>
-                            <span style="background: #e2e8f0; padding: 5px 10px; border-radius: 12px; font-size: 0.8rem;">Enviado</span>
+                            <div style="text-align: right;">
+                                <span style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">${date}</span>
+                                <span style="background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Enviado</span>
+                            </div>
                         </div>
                     `;
                 });
@@ -332,81 +347,65 @@
 
             } catch (error) {
                 console.error('Error loading consultas:', error);
-                container.innerHTML = '<p>Error al cargar historial.</p>';
+                // Si falla por índice (orderBy), intentamos sin orden
+                if (error.code === 'failed-precondition') {
+                    // Fallback logic could go here
+                }
             }
         }
-
-        // Datos estáticos de casas (para mapear IDs)
-        const staticHouses = {
-            'house_nordic': { title: 'Modelo Nordic Eco', price: '45.000€', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-nordic.html' },
-            'house_villa': { title: 'Villa Modular Premium', price: '120.000€', img: 'https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-villa.html' },
-            'house_wood': { title: 'Cabaña Prefabricada Wood', price: '35.000€', img: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80', link: 'detalle-casa-wood.html' },
-            'house_horizon': { title: 'Modelo Horizon', price: '89.000€', img: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80', link: '#' },
-            'house_tiny': { title: 'Tiny House Mobile', price: '25.000€', img: 'https://images.unsplash.com/photo-1625573134318-c583c18e3c64?auto=format&fit=crop&w=800&q=80', link: '#' },
-            'house_elite': { title: 'Residencia Elite', price: '150.000€', img: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80', link: '#' }
-        };
 
         // Cargar casas favoritas
         async function loadFavorites() {
             const favoritesList = document.getElementById('favoritesList');
 
             try {
-                // Remove orderBy to avoid indexing issues
                 const snapshot = await db.collection('favorites')
                     .where('userId', '==', currentUser.uid)
                     .get();
 
+                const totalFavs = snapshot.size;
+                document.getElementById('favoritosCount').textContent = totalFavs;
+
                 if (snapshot.empty) {
                     favoritesList.innerHTML = `
-                        <div class="empty-state">
+                        <div class="empty-dashboard" style="grid-column: 1 / -1;">
                             <i class="fa-solid fa-heart-crack"></i>
-                            <p>Aún no tienes casas favoritas</p>
-                            <button onclick="window.location.href='catalogo.html'" class="btn btn-primary" style="margin-top: 20px;">
-                                Explorar Catálogo
-                            </button>
+                            <p>Tu lista de favoritos está vacía.</p>
+                            <a href="catalogo.html" class="btn-dash btn-dash-primary" style="display: inline-flex; margin-top: 15px; width: auto;">Ir al Catálogo</a>
                         </div>
                     `;
-                    document.getElementById('favoritosCount').textContent = 0;
                     return;
                 }
 
-                // Sort in memory (descending date)
                 const favorites = [];
                 snapshot.forEach(doc => {
                     favorites.push({ id: doc.id, ...doc.data() });
                 });
 
-                favorites.sort((a, b) => {
-                    const dateA = a.createdAt ? a.createdAt.toDate() : new Date(0);
-                    const dateB = b.createdAt ? b.createdAt.toDate() : new Date(0);
-                    return dateB - dateA;
-                });
-
-                document.getElementById('favoritosCount').textContent = favorites.length;
+                // Renderizar Tarjetas Nuevas
                 let html = '';
-
                 favorites.forEach(data => {
-                    // Validar ID
                     if (!data.houseId) return;
 
-                    // Use stored data OR fallback to static map
                     const title = data.houseTitle || 'Casa Guardada';
                     const price = data.housePrice || '-';
-                    const img = data.houseImage || 'https://via.placeholder.com/200';
+                    const img = data.houseImage || 'https://via.placeholder.com/400x300';
                     const link = `detalle-casa.html?id=${data.houseId}`;
                     const displayPrice = typeof price === 'number' ? price.toLocaleString() + '€' : price;
 
                     html += `
-                        <div class="favorite-item">
-                            <img src="${img}" alt="${title}" onerror="this.style.display='none'">
-                            <div style="flex: 1;">
-                                <h4 style="margin-bottom: 5px;">${title}</h4>
-                                <p style="color: var(--primary); font-weight: 700;">${displayPrice}</p>
+                        <div class="property-card-dashboard">
+                            <img src="${img}" alt="${title}" class="property-img">
+                            <div class="property-info">
+                                <div class="property-price">${displayPrice}</div>
+                                <h3 class="property-title">${title}</h3>
+                                <div class="property-actions">
+                                    <a href="${link}" class="btn-dash btn-dash-primary">Ver Detalles</a>
+                                    <button onclick="removeFavorite('${data.id}')" class="btn-dash btn-dash-outline" style="flex: 0; padding: 8px 12px; color: #ef4444; border-color: #fee2e2; background: #fef2f2;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <a href="${link}" class="btn btn-outline" style="padding: 8px 15px;">Ver</a>
-                            <button onclick="removeFavorite('${data.id}')" class="btn" style="color: #ef4444; background: transparent;">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
                         </div>
                     `;
                 });
@@ -415,42 +414,24 @@
 
             } catch (error) {
                 console.error('Error loading favorites:', error);
-                favoritesList.innerHTML = '<p>Error al cargar favoritos</p>';
+                favoritesList.innerHTML = '<p class="empty-dashboard">Error al cargar favoritos.</p>';
             }
         }
 
         async function removeFavorite(docId) {
             if (confirm('¿Eliminar de favoritos?')) {
                 await db.collection('favorites').doc(docId).delete();
-                loadFavorites(); // Reload
+                loadFavorites(); // Reload grid
             }
         }
 
-        // Verificar email
-        async function verifyEmail() {
-            try {
-                await currentUser.sendEmailVerification();
-                alert('✅ Email de verificación enviado! Revisa tu bandeja de entrada.');
-            } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Error al enviar email: ' + error.message);
-            }
-        }
-
-        // Cerrar sesión
         async function logout() {
-            if (confirm('¿Seguro que quieres cerrar sesión?')) {
-                try {
-                    await auth.signOut();
-                    window.location.href = 'index.html';
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('❌ Error al cerrar sesión');
-                }
+            if (confirm('¿Cerrar sesión?')) {
+                await auth.signOut();
+                window.location.href = 'index.html';
             }
         }
     </script>
-
 </body>
 
 </html>

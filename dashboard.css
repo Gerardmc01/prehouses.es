@@ -1,0 +1,556 @@
+/* =========================================
+   DASHBOARD SYSTEM (SaaS Style)
+   ========================================= */
+
+/* Layout Principal */
+body {
+    background-color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Oscuro */
+.dash-sidebar {
+    width: 280px;
+    background-color: #0f172a;
+    /* Slate 900 */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.dash-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.dash-logo i {
+    color: #3b82f6;
+    /* Azul brillante */
+}
+
+.user-profile-mini {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+}
+
+.user-info-mini {
+    overflow: hidden;
+}
+
+.user-info-mini h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-info-mini p {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Menu de Navegación */
+.dash-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.dash-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    color: #94a3b8;
+    /* Slate 400 */
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.dash-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.dash-link.active {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    /* Azul claro */
+}
+
+.dash-link i {
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.dash-link.logout {
+    margin-top: auto;
+    color: #ef4444;
+}
+
+.dash-link.logout:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+/* Área de Contenido Principal */
+.dash-main {
+    flex: 1;
+    margin-left: 280px;
+    /* Ancho sidebar */
+    padding: 40px;
+    background-color: #ffffff;
+    /* Blanco puro */
+    min-height: 100vh;
+}
+
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.breadcrumb {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.dash-title h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+/* Search Bar in Dashboard */
+.dash-search-container {
+    position: relative;
+}
+
+.dash-search {
+    background: #f8fafc;
+    padding: 10px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 320px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s;
+}
+
+.dash-search:focus-within {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dash-search i {
+    color: #64748b;
+}
+
+.dash-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    color: #334155;
+}
+
+/* Grid de Tarjetas Stats */
+.dash-grid-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+.stat-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    /* Sombra suave */
+    border-color: transparent;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+}
+
+.stat-icon.blue {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.stat-icon.green {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.stat-icon.purple {
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.stat-icon.orange {
+    background: #fff7ed;
+    color: #f97316;
+}
+
+.stat-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 5px;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Content Lists */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-header h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.dash-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.property-card-dashboard {
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.property-card-dashboard:hover {
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+    border-color: transparent;
+}
+
+.property-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    background: #f1f5f9;
+}
+
+.property-info {
+    padding: 20px;
+}
+
+.property-price {
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.property-title {
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.property-detail {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.property-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-dash {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    flex: 1;
+}
+
+.btn-dash-primary {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-dash-primary:hover {
+    background: #1d4ed8;
+}
+
+.btn-dash-outline {
+    background: white;
+    border-color: #e2e8f0;
+    color: #475569;
+}
+
+.btn-dash-outline:hover {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+}
+
+.empty-dashboard {
+    text-align: center;
+    padding: 60px 0;
+    color: #94a3b8;
+}
+
+.empty-dashboard i {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #cbd5e1;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .dash-sidebar {
+        width: 80px;
+        padding: 30px 10px;
+    }
+
+    .dash-logo span,
+    .user-info-mini,
+    .dash-link span {
+        display: none;
+    }
+
+    .dash-link {
+        justify-content: center;
+        padding: 15px;
+    }
+
+    .dash-link i {
+        font-size: 1.3rem;
+    }
+
+    .user-profile-mini {
+        justify-content: center;
+    }
+
+    .dash-main {
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dash-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px;
+        align-items: center;
+        overflow: visible;
+    }
+
+    .dash-nav {
+        display: none;
+        /* Mobile menu logic needed */
+    }
+
+    .dash-main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .dash-logo {
+        margin-bottom: 0;
+        font-size: 1.2rem;
+    }
+}
+/* Mobile Bottom Navigation Override */
+@media (max-width: 640px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+
+    .dash-sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        flex-direction: row;
+        padding: 5px 10px;
+        align-items: center;
+        justify-content: space-around;
+        background: #0f172a;
+        z-index: 2000;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+    }
+
+    .dash-logo, .user-profile-mini {
+        display: none;
+    }
+
+    .dash-nav {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+        gap: 0;
+    }
+
+    .dash-link {
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px 4px;
+        font-size: 0.7rem;
+        background: transparent !important;
+        color: #94a3b8;
+        border-radius: 8px;
+        border: none;
+    }
+    
+    .dash-link.active {
+        color: #60a5fa;
+        background: rgba(255,255,255,0.05) !important;
+    }
+
+    .dash-link i {
+        font-size: 1.2rem;
+        margin: 0;
+        width: auto;
+    }
+    
+    .dash-link span {
+        display: block;
+        font-size: 0.6rem;
+    }
+
+    .dash-main {
+        margin-left: 0;
+        padding: 20px 20px 90px 20px; /* Extra padding bottom for nav */
+    }
+
+    .dash-search-container {
+       display: none;
+    }
+    
+    .dash-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .dash-title h1 {
+        font-size: 1.5rem;
+    }
+    
+    .empty-dashboard {
+        padding: 40px 0;
+    }
+}
