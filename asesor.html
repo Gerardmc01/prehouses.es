@@ -196,7 +196,7 @@
 
 <body>
 
-        <!-- Navbar -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -242,6 +242,119 @@
             toggle.classList.toggle('active');
         }
     </script>
+
+    <div class="advisor-container">
+        <div class="advisor-card">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+
+            <!-- Step 1: Budget -->
+            <div class="step active" id="step1">
+                <h2 class="step-title">¿Cuál es tu presupuesto aproximado?</h2>
+                <p class="step-subtitle">Para mostrarte opciones realistas.</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="selectOption(1, 'low')">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                        <div class="option-title">Económico</div>
+                        <div>Menos de 50.000€</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(1, 'medium')">
+                        <i class="fa-solid fa-wallet"></i>
+                        <div class="option-title">Medio</div>
+                        <div>50.000€ - 100.000€</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(1, 'high')">
+                        <i class="fa-solid fa-gem"></i>
+                        <div class="option-title">Premium</div>
+                        <div>Más de 100.000€</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Size -->
+            <div class="step" id="step2">
+                <h2 class="step-title">¿Cuántas personas vivirán?</h2>
+                <p class="step-subtitle">Calcularemos los m² ideales.</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="selectOption(2, 'small')">
+                        <i class="fa-solid fa-user"></i>
+                        <div class="option-title">1-2 Personas</div>
+                        <div>~40-60 m²</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(2, 'medium')">
+                        <i class="fa-solid fa-users"></i>
+                        <div class="option-title">3-4 Personas</div>
+                        <div>~80-120 m²</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(2, 'large')">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <div class="option-title">5+ Personas</div>
+                        <div>+140 m²</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-prev" onclick="prevStep(1)">Atrás</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Style/Material -->
+            <div class="step" id="step3">
+                <h2 class="step-title">¿Qué estilo prefieres?</h2>
+                <p class="step-subtitle">El material define la estética y el precio.</p>
+                <div class="options-grid">
+                    <div class="option-card" onclick="selectOption(3, 'madera')">
+                        <i class="fa-solid fa-tree"></i>
+                        <div class="option-title">Rústico / Madera</div>
+                        <div>Cálido y natural</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(3, 'hormigon')">
+                        <i class="fa-solid fa-cube"></i>
+                        <div class="option-title">Moderno / Hormigón</div>
+                        <div>Sólido y minimalista</div>
+                    </div>
+                    <div class="option-card" onclick="selectOption(3, 'acero')">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <div class="option-title">Industrial / Acero</div>
+                        <div>Vanguardista</div>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav btn-prev" onclick="prevStep(2)">Atrás</button>
+                </div>
+            </div>
+
+            <!-- Loading Step -->
+            <div class="step" id="stepLoading" style="text-align: center;">
+                <i class="fa-solid fa-circle-notch fa-spin"
+                    style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+                <h2 class="step-title">Analizando tus respuestas...</h2>
+                <p>Nuestra IA está buscando las mejores coincidencias.</p>
+            </div>
+
+            <!-- Result Step -->
+            <div class="step" id="stepResult">
+                <div class="result-container">
+                    <div class="recommendation-badge">RECOMENDACIÓN PERSONALIZADA</div>
+                    <h2 class="step-title" id="resultTitle">Tu Casa Ideal es...</h2>
+                    <p class="step-subtitle" id="resultDesc">Basado en tus preferencias.</p>
+
+                    <div class="match-score">98% Match</div>
+
+                    <div id="resultCard" style="margin-top: 30px;">
+                        <!-- Dynamic Result Card -->
+                    </div>
+
+                    <div class="nav-buttons" style="justify-content: center; gap: 20px;">
+                        <button class="btn-nav btn-prev" onclick="location.reload()">Repetir Test</button>
+                        <a href="catalogo.html" class="btn-nav btn-next" style="text-decoration: none;">Ver Catálogo
+                            Completo</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
 
