@@ -67,6 +67,24 @@
             menu.classList.toggle('active');
             toggle.classList.toggle('active');
         }
+
+        // Navbar Scroll Logic for Home Page
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+
+            // Set initial state
+            navbar.classList.add('transparent');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.remove('transparent');
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.add('transparent');
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        });
     </script>
 
 
@@ -312,7 +330,7 @@
     </section>
 
     <!-- Footer -->
-            <footer>
+    <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
