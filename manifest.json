@@ -1,0 +1,84 @@
+{
+    "name": "Prehouses - Casas Prefabricadas",
+    "short_name": "Prehouses",
+    "description": "Encuentra tu casa prefabricada ideal. Catálogo completo de casas modulares, de hormigón, madera y acero en España.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#3b82f6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/favicon_prehouses_1764872622091.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/favicon_prehouses_1764872622091.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "business",
+        "lifestyle",
+        "shopping"
+    ],
+    "lang": "es-ES",
+    "dir": "ltr",
+    "scope": "/",
+    "screenshots": [
+        {
+            "src": "/screenshots/home.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "label": "Página principal de Prehouses"
+        },
+        {
+            "src": "/screenshots/catalog.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "label": "Catálogo de casas prefabricadas"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Catálogo",
+            "short_name": "Catálogo",
+            "description": "Ver todas las casas disponibles",
+            "url": "/catalogo.html",
+            "icons": [
+                {
+                    "src": "/favicon_prehouses_1764872622091.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Calculadora",
+            "short_name": "Calculadora",
+            "description": "Calcular financiación",
+            "url": "/calculadora.html",
+            "icons": [
+                {
+                    "src": "/favicon_prehouses_1764872622091.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Mi Cuenta",
+            "short_name": "Cuenta",
+            "description": "Acceder a mi cuenta",
+            "url": "/usuarios.html",
+            "icons": [
+                {
+                    "src": "/favicon_prehouses_1764872622091.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

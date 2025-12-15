@@ -1,0 +1,140 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'prehouses24h@gmail.com';
+    }
+    
+    function isEmpresa() {
+      return isSignedIn() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.userType == 'empresa';
+    }
+    
+    function isApprovedEmpresa() {
+      return isEmpresa() && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.status == 'approved';
+    }
+    
+    // USERS Collection
+    match /users/{userId} {
+      // Anyone can read user profiles (for displaying company info)
+      allow read: if true;
+      
+      // Users can create their own profile
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      
+      // Users can update their own profile, admins can update any
+      allow update: if isOwner(userId) || isAdmin();
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+    
+    // HOUSES Collection
+    match /houses/{houseId} {
+      // Anyone can read houses (public catalog)
+      allow read: if true;
+      
+      // Only approved empresas can create houses
+      allow create: if isApprovedEmpresa() && 
+                      request.resource.data.companyId == request.auth.uid;
+      
+      // Empresas can update their own houses, admins can update any
+      allow update: if (isEmpresa() && resource.data.companyId == request.auth.uid) || 
+                      isAdmin();
+      
+      // Empresas can delete their own houses, admins can delete any
+      allow delete: if (isEmpresa() && resource.data.companyId == request.auth.uid) || 
+                      isAdmin();
+    }
+    
+    // LEADS Collection
+    match /leads/{leadId} {
+      // Users can read their own leads, empresas can read leads for their houses, admins can read all
+      allow read: if isOwner(resource.data.userId) || 
+                    (isEmpresa() && resource.data.companyId == request.auth.uid) ||
+                    isAdmin();
+      
+      // Anyone (even anonymous) can create leads
+      allow create: if true;
+      
+      // Empresas can update status of their leads, admins can update any
+      allow update: if (isEmpresa() && resource.data.companyId == request.auth.uid) ||
+                      isAdmin();
+      
+      // Only admins can delete leads
+      allow delete: if isAdmin();
+    }
+    
+    // FAVORITES Collection
+    match /favorites/{favoriteId} {
+      // Users can read their own favorites
+      allow read: if isOwner(resource.data.userId);
+      
+      // Users can create their own favorites
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own favorites
+      allow delete: if isOwner(resource.data.userId);
+      
+      // No updates allowed (delete and recreate instead)
+      allow update: if false;
+    }
+    
+    // ALERTS Collection
+    match /alerts/{alertId} {
+      // Users can read their own alerts
+      allow read: if isOwner(resource.data.userId);
+      
+      // Users can create their own alerts
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      
+      // Users can update/delete their own alerts
+      allow update, delete: if isOwner(resource.data.userId);
+    }
+    
+    // REVIEWS Collection
+    match /reviews/{reviewId} {
+      // Anyone can read reviews (public)
+      allow read: if true;
+      
+      // Signed-in users can create reviews
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      
+      // Users can update their own reviews, admins can update any (for verification)
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      
+      // Users can delete their own reviews, admins can delete any
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // MESSAGES Collection (if you add it later)
+    match /messages/{messageId} {
+      // Users can read messages where they are sender or recipient
+      allow read: if isOwner(resource.data.senderId) || 
+                    isOwner(resource.data.recipientId);
+      
+      // Signed-in users can create messages
+      allow create: if isSignedIn() && request.resource.data.senderId == request.auth.uid;
+      
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+    
+    // Default: deny all other collections
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
