@@ -657,23 +657,7 @@
 
         // DATA LOADING FUNCTIONS
 
-        // Dashboard Stats
-        async function loadDashboard() {
-            try {
-                const usersSnap = await db.collection('users').get();
-                const companiesSnap = await db.collection('users').where('userType', '==', 'empresa').get();
-                const housesSnap = await db.collection('houses').get();
-                const leadsSnap = await db.collection('leads').get();
 
-                document.getElementById('dashTotalUsers').textContent = usersSnap.size;
-                document.getElementById('dashTotalCompanies').textContent = companiesSnap.size;
-                document.getElementById('dashTotalHouses').textContent = housesSnap.size;
-                document.getElementById('dashTotalLeads').textContent = leadsSnap.size;
-
-            } catch (error) {
-                console.error("Error loading stats", error);
-            }
-        }
 
         // Load Users
         async function loadUsers() {
@@ -772,13 +756,11 @@
         }
 
         async function loadHouses() {
-            // Placeholder for houses loading logic similar to above
             const container = document.getElementById('housesListTable');
-            // Load logic here... (Simplified for brevity as no houses in DB likely yet)
             container.innerHTML = '<p class="text-center" style="padding: 20px;">Cargando catálogo...</p>';
 
             try {
-                const snapshot = await db.collection('houses').get();
+                const snapshot = await db.collection('houses').orderBy('createdAt', 'desc').get();
                 if (snapshot.empty) {
                     container.innerHTML = '<p style="padding:20px; text-align:center; color:#94a3b8;">No hay casas publicadas aún.</p>';
                     return;
@@ -789,7 +771,10 @@
                         <thead>
                             <tr>
                                 <th>Casa</th>
+                                <th>Empresa</th>
                                 <th>Precio</th>
+                                <th>M²</th>
+                                <th>Fecha</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -798,22 +783,158 @@
 
                 snapshot.forEach(doc => {
                     const h = doc.data();
+                    const date = h.createdAt?.toDate().toLocaleDateString() || '-';
                     html += `
                         <tr>
-                            <td>${h.title}</td>
-                            <td>${h.price}€</td>
-                            <td><button class="btn-sm btn-danger-sm">Eliminar</button></td>
+                            <td>
+                                <div style="font-weight: 500;">${h.title || 'Sin título'}</div>
+                                <div style="font-size: 0.8rem; color: #94a3b8;">${h.location || ''}</div>
+                            </td>
+                            <td>${h.companyName || 'N/A'}</td>
+                            <td>${h.price ? h.price + '€' : 'Consultar'}</td>
+                            <td>${h.area || '-'} m²</td>
+                            <td>${date}</td>
+                            <td>
+                                <button class="btn-sm btn-danger-sm" onclick="deleteHouse('${doc.id}')"><i class="fa-solid fa-trash"></i></button>
+                            </td>
                         </tr>
                     `;
                 });
                 html += '</tbody></table>';
                 container.innerHTML = html;
-            } catch (e) { }
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p style="color: #ef4444;">Error al cargar casas</p>';
+            }
+        }
+
+        async function deleteHouse(houseId) {
+            if (confirm('¿Eliminar esta casa del catálogo? Esta acción no se puede deshacer.')) {
+                try {
+                    await db.collection('houses').doc(houseId).delete();
+                    alert('✅ Casa eliminada correctamente');
+                    loadHouses();
+                    loadDashboard(); // Refresh stats
+                } catch (error) {
+                    console.error(error);
+                    alert('❌ Error al eliminar la casa');
+                }
+            }
         }
 
         async function loadLeads() {
             const container = document.getElementById('leadsListTable');
-            container.innerHTML = '<p style="padding:20px; text-align:center; color:#94a3b8;">No hay mensajes nuevos.</p>';
+            container.innerHTML = '<p style="padding:20px; text-align:center; color:#94a3b8;">Cargando mensajes...</p>';
+
+            try {
+                const snapshot = await db.collection('leads').orderBy('createdAt', 'desc').limit(100).get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<p style="padding:20px; text-align:center; color:#94a3b8;">No hay mensajes aún.</p>';
+                    return;
+                }
+
+                let html = `
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Casa Interesada</th>
+                                <th>Mensaje</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                snapshot.forEach(doc => {
+                    const lead = doc.data();
+                    const date = lead.createdAt?.toDate().toLocaleDateString() || '-';
+                    const message = lead.message || lead.notes || '-';
+                    const truncatedMsg = message.length > 50 ? message.substring(0, 50) + '...' : message;
+
+                    html += `
+                        <tr>
+                            <td><strong>${lead.userName || lead.name || 'Anónimo'}</strong></td>
+                            <td>${lead.userEmail || lead.email || '-'}</td>
+                            <td>${lead.userPhone || lead.phone || '-'}</td>
+                            <td>${lead.houseTitle || lead.houseName || 'General'}</td>
+                            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${truncatedMsg}</td>
+                            <td>${date}</td>
+                        </tr>
+                    `;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p style="color: #ef4444;">Error al cargar mensajes</p>';
+            }
+        }
+
+        // Activity Feed for Dashboard
+        async function loadRecentActivity() {
+            const container = document.getElementById('recentActivityList');
+            try {
+                // Get recent users (last 5)
+                const recentUsers = await db.collection('users').orderBy('createdAt', 'desc').limit(5).get();
+
+                if (recentUsers.empty) {
+                    container.innerHTML = '<p style="color: #94a3b8; text-align: center; padding: 20px;">No hay actividad reciente</p>';
+                    return;
+                }
+
+                let html = '<div style="display: flex; flex-direction: column; gap: 12px;">';
+
+                recentUsers.forEach(doc => {
+                    const user = doc.data();
+                    const date = user.createdAt?.toDate().toLocaleDateString() || '-';
+                    const icon = user.userType === 'empresa' ? 'fa-building' : 'fa-user';
+                    const color = user.userType === 'empresa' ? '#9333ea' : '#2563eb';
+
+                    html += `
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+                            <div style="width: 40px; height: 40px; background: ${color}20; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid ${icon}" style="color: ${color};"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 500;">${user.displayName || user.email}</div>
+                                <div style="font-size: 0.85rem; color: #64748b;">Nuevo ${user.userType === 'empresa' ? 'empresa' : 'usuario'} registrado</div>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #94a3b8;">${date}</div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                container.innerHTML = html;
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p style="color: #ef4444;">Error al cargar actividad</p>';
+            }
+        }
+
+        // Update loadDashboard to include activity
+        async function loadDashboard() {
+            try {
+                const usersSnap = await db.collection('users').get();
+                const companiesSnap = await db.collection('users').where('userType', '==', 'empresa').get();
+                const housesSnap = await db.collection('houses').get();
+                const leadsSnap = await db.collection('leads').get();
+
+                document.getElementById('dashTotalUsers').textContent = usersSnap.size;
+                document.getElementById('dashTotalCompanies').textContent = companiesSnap.size;
+                document.getElementById('dashTotalHouses').textContent = housesSnap.size;
+                document.getElementById('dashTotalLeads').textContent = leadsSnap.size;
+
+                // Load recent activity
+                loadRecentActivity();
+
+            } catch (error) {
+                console.error("Error loading stats", error);
+            }
         }
 
     </script>

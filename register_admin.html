@@ -9,23 +9,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
-</head>
+    </button>
 
-<body
-    style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f0f4f8;">
-
-    <div
-        style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
-        <h2 style="color: #2563eb;">Crear Usuario Administrador</h2>
-        <p>Email: <strong>prehouses24h@gmail.com</strong></p>
-        <p>Password: <strong>123456</strong></p>
-
-        <button onclick="createAdmin()" id="btn"
-            style="background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
-            Crear Usuario y Acceder
-        </button>
-
-        <div id="status" style="margin-top: 20px; color: #475569;">Esperando acción...</div>
+    <div id="status" style="margin-top: 20px; color: #475569;">Esperando acción...</div>
     </div>
 
     <script>
@@ -76,6 +62,6 @@
             }, { merge: true });
         }
     </script>
-</body>
+    </body>
 
 </html>
