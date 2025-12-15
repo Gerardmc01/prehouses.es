@@ -4,131 +4,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Cookies | Prehouses</title>
+    <title>Política de Cookies - Prehouses</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .legal-container {
+            max-width: 900px;
+            margin: 140px auto 80px;
+            padding: 0 20px;
+        }
+
+        .legal-card {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .legal-card h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .legal-card .last-updated {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+        }
+
+        .legal-card h2 {
+            color: var(--secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .legal-card h3 {
+            color: var(--secondary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .legal-card p,
+        .legal-card li {
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .legal-card ul {
+            margin-left: 30px;
+        }
+
+        .legal-card strong {
+            color: var(--secondary);
+        }
+
+        .legal-card table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .legal-card table th,
+        .legal-card table td {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            text-align: left;
+        }
+
+        .legal-card table th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .legal-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
-            </a>
+            <a href="index.html" class="logo"><i class="fa-solid fa-house-chimney"></i> Prehouses</a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
                 <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
                         Usuarios</a></li>
             </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
-        </ul>
-    </div>
+    <div class="legal-container">
+        <div class="legal-card">
+            <h1>Política de Cookies</h1>
+            <p class="last-updated">Última actualización: 15 de diciembre de 2024</p>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
+            <p>En <strong>Prehouses</strong> utilizamos cookies y tecnologías similares para mejorar tu experiencia de
+                navegación. Esta política explica qué son las cookies, cómo las usamos y cómo puedes gestionarlas.</p>
 
-    <div class="container" style="padding: 140px 0 80px;">
-        <h1 class="section-title" style="text-align: left;">Política de Cookies</h1>
-        <div
-            style="background: white; padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
-            <p><strong>Última actualización: 03 de Diciembre de 2025</strong></p>
-            <br>
-            <h3>1. ¿Qué son las cookies?</h3>
-            <p>Una cookie es un fichero que se descarga en su ordenador al acceder a determinadas páginas web. Las
-                cookies permiten a una página web, entre otras cosas, almacenar y recuperar información sobre los
-                hábitos de navegación de un usuario o de su equipo.</p>
-            <br>
-            <h3>2. Tipos de cookies que utiliza esta web</h3>
-            <p>Esta web utiliza cookies propias y de terceros para mejorar la experiencia de navegación y obtener
-                estadísticas de uso.</p>
+            <h2>1. ¿Qué son las Cookies?</h2>
+            <p>Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo cuando visitas un sitio
+                web. Permiten que el sitio recuerde tus acciones y preferencias durante un período de tiempo.</p>
+
+            <h2>2. Tipos de Cookies que Utilizamos</h2>
+
+            <h3>2.1 Cookies Esenciales</h3>
+            <p>Estas cookies son necesarias para el funcionamiento básico del sitio web:</p>
+            <table>
+                <tr>
+                    <th>Cookie</th>
+                    <th>Propósito</th>
+                    <th>Duración</th>
+                </tr>
+                <tr>
+                    <td>firebase-auth</td>
+                    <td>Gestión de sesión de usuario</td>
+                    <td>Sesión</td>
+                </tr>
+                <tr>
+                    <td>user-preferences</td>
+                    <td>Guardar preferencias del usuario</td>
+                    <td>1 año</td>
+                </tr>
+            </table>
+
+            <h3>2.2 Cookies de Rendimiento</h3>
+            <p>Estas cookies nos ayudan a entender cómo los visitantes interactúan con nuestro sitio:</p>
+            <table>
+                <tr>
+                    <th>Cookie</th>
+                    <th>Propósito</th>
+                    <th>Duración</th>
+                </tr>
+                <tr>
+                    <td>_ga</td>
+                    <td>Google Analytics - Análisis de tráfico</td>
+                    <td>2 años</td>
+                </tr>
+                <tr>
+                    <td>_gid</td>
+                    <td>Google Analytics - Identificación de usuario</td>
+                    <td>24 horas</td>
+                </tr>
+            </table>
+
+            <h3>2.3 Cookies de Funcionalidad</h3>
+            <p>Permiten recordar tus elecciones y proporcionar funciones mejoradas:</p>
             <ul>
-                <li><strong>Cookies técnicas:</strong> Son aquellas que permiten al usuario la navegación a través de
-                    una página web.</li>
-                <li><strong>Cookies de análisis:</strong> Son aquellas que nos permiten cuantificar el número de
-                    usuarios y así realizar la medición y análisis estadístico de la utilización que hacen los usuarios
-                    del servicio ofertado.</li>
+                <li>Idioma preferido</li>
+                <li>Casas favoritas guardadas</li>
+                <li>Filtros de búsqueda aplicados</li>
             </ul>
-            <br>
-            <h3>3. Desactivación de cookies</h3>
-            <p>Puede usted permitir, bloquear o eliminar las cookies instaladas en su equipo mediante la configuración
-                de las opciones del navegador instalado en su ordenador.</p>
+
+            <h3>2.4 Cookies de Publicidad (Futuro)</h3>
+            <p>Actualmente no utilizamos cookies de publicidad, pero podríamos hacerlo en el futuro para mostrar
+                anuncios relevantes.</p>
+
+            <h2>3. Cookies de Terceros</h2>
+            <p>Utilizamos servicios de terceros que pueden establecer sus propias cookies:</p>
+            <ul>
+                <li><strong>Google Analytics:</strong> Para análisis de tráfico web</li>
+                <li><strong>Firebase:</strong> Para autenticación y base de datos</li>
+                <li><strong>Font Awesome:</strong> Para iconos</li>
+            </ul>
+
+            <h2>4. Cómo Gestionar las Cookies</h2>
+
+            <h3>4.1 Configuración del Navegador</h3>
+            <p>Puedes controlar y/o eliminar las cookies según desees. Para más información, visita <a
+                    href="https://www.aboutcookies.org" target="_blank"
+                    style="color: var(--primary);">aboutcookies.org</a></p>
+
+            <p><strong>Instrucciones por navegador:</strong></p>
+            <ul>
+                <li><strong>Chrome:</strong> Configuración > Privacidad y seguridad > Cookies</li>
+                <li><strong>Firefox:</strong> Opciones > Privacidad y seguridad > Cookies</li>
+                <li><strong>Safari:</strong> Preferencias > Privacidad > Cookies</li>
+                <li><strong>Edge:</strong> Configuración > Privacidad > Cookies</li>
+            </ul>
+
+            <h3>4.2 Desactivar Google Analytics</h3>
+            <p>Puedes instalar el complemento de inhabilitación de Google Analytics: <a
+                    href="https://tools.google.com/dlpage/gaoptout" target="_blank"
+                    style="color: var(--primary);">Descargar aquí</a></p>
+
+            <h2>5. Consecuencias de Desactivar las Cookies</h2>
+            <p>Si desactivas las cookies, algunas funcionalidades del sitio pueden no funcionar correctamente:</p>
+            <ul>
+                <li>No podrás mantener la sesión iniciada</li>
+                <li>Tus preferencias no se guardarán</li>
+                <li>Algunas funciones interactivas pueden no estar disponibles</li>
+            </ul>
+
+            <h2>6. Actualizaciones de esta Política</h2>
+            <p>Podemos actualizar esta Política de Cookies periódicamente. Te notificaremos de cualquier cambio
+                significativo publicando la nueva política en esta página.</p>
+
+            <h2>7. Más Información</h2>
+            <p>Si tienes preguntas sobre nuestra Política de Cookies, contáctanos en:</p>
+            <ul>
+                <li><strong>Email:</strong> prehouses24h@gmail.com</li>
+            </ul>
+
+            <h2>8. Consentimiento</h2>
+            <p>Al utilizar nuestro sitio web, aceptas el uso de cookies de acuerdo con esta Política de Cookies. Si no
+                estás de acuerdo, puedes configurar tu navegador para rechazar cookies o abandonar el sitio.</p>
+
+            <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #e2e8f0; text-align: center;">
+                <p><a href="privacidad.html" style="color: var(--primary); margin: 0 15px;">Política de Privacidad</a> |
+                    <a href="terminos.html" style="color: var(--primary); margin: 0 15px;">Términos y Condiciones</a> |
+                    <a href="aviso-legal.html" style="color: var(--primary); margin: 0 15px;">Aviso Legal</a>
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-            <footer>
+    <footer style="background: var(--secondary); color: white; padding: 40px 0; text-align: center; margin-top: 80px;">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
+            <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
         </div>
     </footer>
-
 </body>
 
 </html>

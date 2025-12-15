@@ -4,522 +4,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asesor Virtual Inteligente | Prehouses</title>
-    <meta name="description" content="Descubre qué casa prefabricada es ideal para ti con nuestro test inteligente.">
+    <title>Asesor IA - Próximamente - Prehouses</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Firebase SDK -->
-
-
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-
     <style>
-        body {
-            background-color: #f8fafc;
-        }
-
-        .advisor-container {
-            max-width: 800px;
-            margin: 120px auto 60px;
-            padding: 0 20px;
-            min-height: 60vh;
+        .coming-soon {
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        .advisor-card {
-            background: white;
-            padding: 50px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 6px;
-            background: #e2e8f0;
-            width: 100%;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .step {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .step-title {
-            font-size: 2rem;
-            color: var(--secondary);
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .step-subtitle {
-            text-align: center;
-            color: #64748b;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-
-        .options-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .option-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .option-card:hover {
-            border-color: var(--primary);
-            background: #f0f9ff;
-            transform: translateY(-5px);
-        }
-
-        .option-card.selected {
-            border-color: var(--primary);
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), #2563eb);
             color: white;
-        }
-
-        .option-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .option-card.selected i {
-            color: white;
-        }
-
-        .option-title {
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 40px;
-        }
-
-        .btn-nav {
-            padding: 12px 30px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-        }
-
-        .btn-prev {
-            background: #f1f5f9;
-            color: #64748b;
-        }
-
-        .btn-prev:hover {
-            background: #e2e8f0;
-        }
-
-        .btn-next {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-next:disabled {
-            background: #cbd5e1;
-            cursor: not-allowed;
-        }
-
-        /* Result Section */
-        .result-container {
             text-align: center;
+            padding: 20px;
         }
 
-        .recommendation-badge {
-            background: #dbeafe;
-            color: var(--primary);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            display: inline-block;
+        .coming-soon-content {
+            max-width: 600px;
+        }
+
+        .coming-soon-content h1 {
+            font-size: 3rem;
             margin-bottom: 20px;
         }
 
-        .match-score {
-            font-size: 3rem;
-            font-weight: 800;
-            color: #10b981;
-            margin: 20px 0;
+        .coming-soon-content p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .coming-soon-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+    <div class="coming-soon">
+        <div class="coming-soon-content">
+            <div class="coming-soon-icon">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h1>Asesor IA</h1>
+            <h2 style="margin-bottom: 20px;">Próximamente</h2>
+            <p>Estamos desarrollando un asistente inteligente que te ayudará a encontrar la casa prefabricada perfecta
+                según tus necesidades y presupuesto.</p>
+            <p style="font-size: 1rem; opacity: 0.8; margin-bottom: 40px;">Mientras tanto, explora nuestro catálogo
+                completo:</p>
+            <a href="catalogo.html" class="btn"
+                style="background: white; color: var(--primary); padding: 15px 40px; text-decoration: none; border-radius: 50px; font-weight: 600; display: inline-block;">
+                <i class="fa-solid fa-home"></i> Ver Catálogo
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="catalogo.html">Catálogo</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
-                        Usuarios</a></li>
-            </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
-        </ul>
-    </div>
-
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
-
-    <div class="advisor-container">
-        <div class="advisor-card">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress"></div>
-            </div>
-
-            <!-- Step 1: Budget -->
-            <div class="step active" id="step1">
-                <h2 class="step-title">¿Cuál es tu presupuesto aproximado?</h2>
-                <p class="step-subtitle">Para mostrarte opciones realistas.</p>
-                <div class="options-grid">
-                    <div class="option-card" onclick="selectOption(1, 'low')">
-                        <i class="fa-solid fa-piggy-bank"></i>
-                        <div class="option-title">Económico</div>
-                        <div>Menos de 50.000€</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(1, 'medium')">
-                        <i class="fa-solid fa-wallet"></i>
-                        <div class="option-title">Medio</div>
-                        <div>50.000€ - 100.000€</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(1, 'high')">
-                        <i class="fa-solid fa-gem"></i>
-                        <div class="option-title">Premium</div>
-                        <div>Más de 100.000€</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Step 2: Size -->
-            <div class="step" id="step2">
-                <h2 class="step-title">¿Cuántas personas vivirán?</h2>
-                <p class="step-subtitle">Calcularemos los m² ideales.</p>
-                <div class="options-grid">
-                    <div class="option-card" onclick="selectOption(2, 'small')">
-                        <i class="fa-solid fa-user"></i>
-                        <div class="option-title">1-2 Personas</div>
-                        <div>~40-60 m²</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(2, 'medium')">
-                        <i class="fa-solid fa-users"></i>
-                        <div class="option-title">3-4 Personas</div>
-                        <div>~80-120 m²</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(2, 'large')">
-                        <i class="fa-solid fa-people-roof"></i>
-                        <div class="option-title">5+ Personas</div>
-                        <div>+140 m²</div>
-                    </div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn-nav btn-prev" onclick="prevStep(1)">Atrás</button>
-                </div>
-            </div>
-
-            <!-- Step 3: Style/Material -->
-            <div class="step" id="step3">
-                <h2 class="step-title">¿Qué estilo prefieres?</h2>
-                <p class="step-subtitle">El material define la estética y el precio.</p>
-                <div class="options-grid">
-                    <div class="option-card" onclick="selectOption(3, 'madera')">
-                        <i class="fa-solid fa-tree"></i>
-                        <div class="option-title">Rústico / Madera</div>
-                        <div>Cálido y natural</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(3, 'hormigon')">
-                        <i class="fa-solid fa-cube"></i>
-                        <div class="option-title">Moderno / Hormigón</div>
-                        <div>Sólido y minimalista</div>
-                    </div>
-                    <div class="option-card" onclick="selectOption(3, 'acero')">
-                        <i class="fa-solid fa-layer-group"></i>
-                        <div class="option-title">Industrial / Acero</div>
-                        <div>Vanguardista</div>
-                    </div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn-nav btn-prev" onclick="prevStep(2)">Atrás</button>
-                </div>
-            </div>
-
-            <!-- Loading Step -->
-            <div class="step" id="stepLoading" style="text-align: center;">
-                <i class="fa-solid fa-circle-notch fa-spin"
-                    style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
-                <h2 class="step-title">Analizando tus respuestas...</h2>
-                <p>Nuestra IA está buscando las mejores coincidencias.</p>
-            </div>
-
-            <!-- Result Step -->
-            <div class="step" id="stepResult">
-                <div class="result-container">
-                    <div class="recommendation-badge">RECOMENDACIÓN PERSONALIZADA</div>
-                    <h2 class="step-title" id="resultTitle">Tu Casa Ideal es...</h2>
-                    <p class="step-subtitle" id="resultDesc">Basado en tus preferencias.</p>
-
-                    <div class="match-score">98% Match</div>
-
-                    <div id="resultCard" style="margin-top: 30px;">
-                        <!-- Dynamic Result Card -->
-                    </div>
-
-                    <div class="nav-buttons" style="justify-content: center; gap: 20px;">
-                        <button class="btn-nav btn-prev" onclick="location.reload()">Repetir Test</button>
-                        <a href="catalogo.html" class="btn-nav btn-next" style="text-decoration: none;">Ver Catálogo
-                            Completo</a>
-                    </div>
-                </div>
-            </div>
-
+            <br><br>
+            <a href="index.html" style="color: white; opacity: 0.8; text-decoration: none;">
+                <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
+            </a>
         </div>
     </div>
-    <script src="js/auth.js"></script>
-    <script src="js/support.js"></script>
-
-    <script>
-        let currentStep = 1;
-        const totalSteps = 3;
-        const answers = {};
-
-        function updateProgress() {
-            const percent = ((currentStep - 1) / totalSteps) * 100;
-            document.getElementById('progress').style.width = percent + '%';
-        }
-
-        function showStep(step) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById('step' + step).classList.add('active');
-            currentStep = step;
-            updateProgress();
-        }
-
-        function prevStep(target) {
-            showStep(target);
-        }
-
-        function selectOption(step, value) {
-            answers[step] = value;
-
-            if (step < totalSteps) {
-                setTimeout(() => {
-                    showStep(step + 1);
-                }, 300);
-            } else {
-                calculateResult();
-            }
-        }
-
-        async function calculateResult() {
-            showStep('Loading');
-
-            // Map answers to query params
-            let category = answers[3]; // madera, hormigon, acero
-            let maxPrice = answers[1] === 'low' ? 50000 : (answers[1] === 'medium' ? 100000 : 1000000);
-
-            try {
-                // Try to find a real house match without complex index
-                const snapshot = await db.collection('houses')
-                    .where('category', '==', category)
-                    .get();
-
-                let recommendation = {};
-                let bestMatch = null;
-
-                if (!snapshot.empty) {
-                    // Client-side filtering for price
-                    const matches = [];
-                    snapshot.forEach(doc => {
-                        const h = doc.data();
-                        if (h.price <= maxPrice) {
-                            matches.push({ id: doc.id, ...h });
-                        }
-                    });
-
-                    // Pick first match or closest price if none match under budget
-                    if (matches.length > 0) {
-                        bestMatch = matches[0];
-                    }
-                }
-
-                if (bestMatch) {
-                    const house = bestMatch;
-                    const id = house.id;
-                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
-
-                    recommendation = {
-                        title: house.title,
-                        desc: `¡Encontrada! Esta casa encaja con tu presupuesto y preferencias.`,
-                        img: img,
-                        link: `detalle-casa.html?id=${id}`,
-                        btnText: 'Ver Esta Casa'
-                    };
-                } else {
-                    // Fallback if no specific house found
-                    const fallbackImages = {
-                        'madera': 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-                        'hormigon': 'https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80',
-                        'acero': 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80'
-                    };
-
-                    recommendation = {
-                        title: `Casa de ${category.charAt(0).toUpperCase() + category.slice(1)} Ideal`,
-                        desc: "No tenemos una coincidencia exacta ahora mismo, pero mira nuestro catálogo completo de este estilo.",
-                        img: fallbackImages[category] || fallbackImages['madera'],
-                        link: `catalogo.html?category=${category}`,
-                        btnText: 'Ver Catálogo'
-                    };
-                }
-
-                // Render Result
-                document.getElementById('resultTitle').textContent = recommendation.title;
-                document.getElementById('resultDesc').textContent = recommendation.desc;
-                document.getElementById('resultCard').innerHTML = `
-                    <div class="house-card" style="max-width: 400px; margin: 0 auto; text-align: left;">
-                        <div class="house-image">
-                            <img src="${recommendation.img}" alt="Resultado">
-                        </div>
-                        <div class="house-content">
-                            <a href="${recommendation.link}" class="btn btn-primary" style="width: 100%; text-align: center;">
-                                ${recommendation.btnText} <i class="fa-solid fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                `;
-
-                showStep('Result');
-                document.getElementById('progress').style.width = '100%';
-
-            } catch (e) {
-                console.error(e);
-                alert('Ocurrió un error al buscar recomendaciones.');
-            }
-        }
-    </script>
-
-    <!-- Footer Global (Corrected Position) -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
 </body>
 
 </html>

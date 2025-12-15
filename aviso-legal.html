@@ -4,138 +4,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviso Legal | Prehouses</title>
+    <title>Aviso Legal - Prehouses</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .legal-container {
+            max-width: 900px;
+            margin: 140px auto 80px;
+            padding: 0 20px;
+        }
+
+        .legal-card {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .legal-card h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .legal-card .last-updated {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+        }
+
+        .legal-card h2 {
+            color: var(--secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .legal-card h3 {
+            color: var(--secondary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .legal-card p,
+        .legal-card li {
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .legal-card ul {
+            margin-left: 30px;
+        }
+
+        .legal-card strong {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .legal-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
-            </a>
+            <a href="index.html" class="logo"><i class="fa-solid fa-house-chimney"></i> Prehouses</a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
                 <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
                         Usuarios</a></li>
             </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
-        </ul>
-    </div>
+    <div class="legal-container">
+        <div class="legal-card">
+            <h1>Aviso Legal</h1>
+            <p class="last-updated">Última actualización: 15 de diciembre de 2024</p>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
+            <h2>1. Datos Identificativos</h2>
+            <p>En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la
+                Información y Comercio Electrónico (LSSI-CE), se informa de los siguientes datos:</p>
+            <ul>
+                <li><strong>Denominación social:</strong> Prehouses</li>
+                <li><strong>Domicilio:</strong> España</li>
+                <li><strong>Email:</strong> prehouses24h@gmail.com</li>
+                <li><strong>Sitio web:</strong> https://prehouses-es-9ybg.onrender.com</li>
+            </ul>
 
-    <div class="container" style="padding: 140px 0 80px;">
-        <h1 class="section-title" style="text-align: left;">Aviso Legal</h1>
-        <div
-            style="background: white; padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
-            <p><strong>Última actualización: 03 de Diciembre de 2025</strong></p>
-            <br>
-            <h3>1. Datos Identificativos</h3>
-            <p>En cumplimiento con el deber de información recogido en artículo 10 de la Ley 34/2002, de 11 de julio, de
-                Servicios de la Sociedad de la Información y del Comercio Electrónico, a continuación se reflejan los
-                siguientes datos: la empresa titular de dominio web es Prehouses (en adelante Prehouses), con domicilio
-                a estos efectos en Calle Ejemplo, Madrid. Correo electrónico de contacto: info@prehouses.es del sitio
-                web.</p>
-            <br>
-            <h3>2. Usuarios</h3>
-            <p>El acceso y/o uso de este portal de Prehouses atribuye la condición de USUARIO, que acepta, desde dicho
-                acceso y/o uso, las Condiciones Generales de Uso aquí reflejadas.</p>
-            <br>
-            <h3>3. Uso del Portal</h3>
-            <p>Prehouses proporciona el acceso a multitud de informaciones, servicios, programas o datos (en adelante,
-                "los contenidos") en Internet pertenecientes a Prehouses o a sus licenciantes a los que el USUARIO pueda
-                tener acceso. El USUARIO asume la responsabilidad del uso del portal.</p>
-            <br>
-            <h3>4. Exclusión de Garantías y Responsabilidad</h3>
-            <p>Prehouses no se hace responsable, en ningún caso, de los daños y perjuicios de cualquier naturaleza que
-                pudieran ocasionar, a título enunciativo: errores u omisiones en los contenidos, falta de disponibilidad
-                del portal o la transmisión de virus o programas maliciosos o lesivos en los contenidos, a pesar de
-                haber adoptado todas las medidas tecnológicas necesarias para evitarlo.</p>
-            <br>
-            <h3>5. Modificaciones</h3>
-            <p>Prehouses se reserva el derecho de efectuar sin previo aviso las modificaciones que considere oportunas
-                en su portal, pudiendo cambiar, suprimir o añadir tanto los contenidos y servicios que se presten a
-                través de la misma como la forma en la que éstos aparezcan presentados o localizados en su portal.</p>
+            <h2>2. Objeto</h2>
+            <p>El presente aviso legal regula el uso y utilización del sitio web <strong>Prehouses</strong>, del que es
+                titular la entidad mencionada anteriormente.</p>
+            <p>La navegación por el sitio web atribuye la condición de usuario del mismo e implica la aceptación plena y
+                sin reservas de todas y cada una de las disposiciones incluidas en este Aviso Legal.</p>
+
+            <h2>3. Servicios</h2>
+            <p>A través del sitio web se facilita a los usuarios el acceso y la utilización de los siguientes servicios:
+            </p>
+            <ul>
+                <li>Plataforma de búsqueda y comparación de casas prefabricadas</li>
+                <li>Conexión entre usuarios y empresas fabricantes</li>
+                <li>Gestión de consultas y leads</li>
+                <li>Publicación de anuncios de casas prefabricadas (para empresas)</li>
+                <li>Calculadora de financiación</li>
+                <li>Contenido informativo sobre casas prefabricadas</li>
+            </ul>
+
+            <h2>4. Responsabilidad</h2>
+
+            <h3>4.1 Responsabilidad del Contenido</h3>
+            <p>Prehouses no se hace responsable de:</p>
+            <ul>
+                <li>La veracidad, exactitud o actualización de la información publicada por terceros (empresas
+                    anunciantes)</li>
+                <li>Los contenidos, productos o servicios ofrecidos por empresas anunciantes</li>
+                <li>Las transacciones realizadas entre usuarios y empresas</li>
+                <li>Los daños derivados del uso indebido de la plataforma</li>
+            </ul>
+
+            <h3>4.2 Disponibilidad del Servicio</h3>
+            <p>Prehouses no garantiza la disponibilidad continua e ininterrumpida del sitio web. No obstante, realizará
+                sus mejores esfuerzos para mantener el servicio operativo.</p>
+
+            <h3>4.3 Enlaces Externos</h3>
+            <p>El sitio web puede contener enlaces a sitios de terceros. Prehouses no se responsabiliza del contenido de
+                dichos sitios ni de las prácticas de privacidad de los mismos.</p>
+
+            <h2>5. Propiedad Intelectual e Industrial</h2>
+            <p>Todos los contenidos del sitio web (textos, imágenes, diseño, código, logos, marcas) son propiedad de
+                Prehouses o de sus licenciantes y están protegidos por las leyes de propiedad intelectual e industrial.
+            </p>
+            <p>Queda prohibido:</p>
+            <ul>
+                <li>La reproducción, distribución o modificación de los contenidos sin autorización</li>
+                <li>El uso comercial de los contenidos</li>
+                <li>La extracción sistemática de datos (scraping)</li>
+                <li>La ingeniería inversa del código fuente</li>
+            </ul>
+
+            <h2>6. Protección de Datos</h2>
+            <p>El tratamiento de datos personales se rige por nuestra <a href="privacidad.html"
+                    style="color: var(--primary);">Política de Privacidad</a>, que cumple con el Reglamento General de
+                Protección de Datos (GDPR) y la Ley Orgánica de Protección de Datos (LOPD).</p>
+
+            <h2>7. Uso Aceptable</h2>
+            <p>El usuario se compromete a utilizar el sitio web de forma lícita y a no realizar actividades que:</p>
+            <ul>
+                <li>Infrinjan derechos de terceros</li>
+                <li>Contengan virus o código malicioso</li>
+                <li>Constituyan spam o publicidad no autorizada</li>
+                <li>Vulneren la seguridad del sitio</li>
+                <li>Supongan competencia desleal</li>
+            </ul>
+
+            <h2>8. Exclusión de Garantías</h2>
+            <p>Prehouses no garantiza:</p>
+            <ul>
+                <li>La ausencia de errores en el sitio web</li>
+                <li>La ausencia de virus o elementos dañinos</li>
+                <li>La invulnerabilidad del sitio a ataques informáticos</li>
+                <li>La exactitud de la información publicada por terceros</li>
+            </ul>
+
+            <h2>9. Modificaciones</h2>
+            <p>Prehouses se reserva el derecho de modificar este Aviso Legal en cualquier momento. Los cambios entrarán
+                en vigor desde su publicación en el sitio web.</p>
+
+            <h2>10. Legislación Aplicable y Jurisdicción</h2>
+            <p>Este Aviso Legal se rige por la legislación española. Para la resolución de cualquier controversia, las
+                partes se someten a los Juzgados y Tribunales de España, renunciando expresamente a cualquier otro fuero
+                que pudiera corresponderles.</p>
+
+            <h2>11. Contacto</h2>
+            <p>Para cualquier consulta relacionada con este Aviso Legal, puede contactar con nosotros en:</p>
+            <ul>
+                <li><strong>Email:</strong> prehouses24h@gmail.com</li>
+            </ul>
+
+            <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #e2e8f0; text-align: center;">
+                <p><a href="privacidad.html" style="color: var(--primary); margin: 0 15px;">Política de Privacidad</a> |
+                    <a href="terminos.html" style="color: var(--primary); margin: 0 15px;">Términos y Condiciones</a> |
+                    <a href="cookies.html" style="color: var(--primary); margin: 0 15px;">Política de Cookies</a>
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-            <footer>
+    <footer style="background: var(--secondary); color: white; padding: 40px 0; text-align: center; margin-top: 80px;">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
+            <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
         </div>
     </footer>
-
 </body>
 
 </html>
