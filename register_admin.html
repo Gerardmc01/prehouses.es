@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Admin User</title>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+</head>
+
+<body
+    style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background: #f0f4f8;">
+
+    <div
+        style="background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+        <h2 style="color: #2563eb;">Crear Usuario Administrador</h2>
+        <p>Email: <strong>prehouses24h@gmail.com</strong></p>
+        <p>Password: <strong>123456</strong></p>
+
+        <button onclick="createAdmin()" id="btn"
+            style="background: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-size: 16px;">
+            Crear Usuario y Acceder
+        </button>
+
+        <div id="status" style="margin-top: 20px; color: #475569;">Esperando acción...</div>
+    </div>
+
+    <script>
+        async function createAdmin() {
+            const btn = document.getElementById('btn');
+            const status = document.getElementById('status');
+            btn.disabled = true;
+            status.textContent = 'Procesando...';
+
+            const email = 'prehouses24h@gmail.com';
+            const password = '123456';
+
+            try {
+                // 1. Try to Register
+                try {
+                    const result = await auth.createUserWithEmailAndPassword(email, password);
+                    status.textContent = '✅ Usuario CREADO correctamente. Iniciando sesión...';
+                    await saveUser(result.user);
+                } catch (error) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        status.textContent = '⚠️ El usuario ya existe. Intentando iniciar sesión...';
+                        await auth.signInWithEmailAndPassword(email, password);
+                        status.textContent = '✅ Sesión iniciada correctamente.';
+                    } else {
+                        throw error;
+                    }
+                }
+
+                // 2. Refresh User & Redirect
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error(error);
+                status.textContent = '❌ Error: ' + error.message;
+                btn.disabled = false;
+            }
+        }
+
+        async function saveUser(user) {
+            await db.collection('users').doc(user.uid).set({
+                email: user.email,
+                userType: 'empresa', // Set as admin/empresa
+                displayName: 'Admin Prehouses',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'approved'
+            }, { merge: true });
+        }
+    </script>
+</body>
+
+</html>
