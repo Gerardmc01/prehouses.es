@@ -4,56 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Publicar Nueva Casa | Prehouses</title>
+    <title>Publicar Casa - Prehouses</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
-
     <style>
-        .publish-container {
-            max-width: 800px;
-            margin: 140px auto 60px;
-            padding: 0 20px;
-        }
-
-        .publish-card {
+        .form-section {
             background: white;
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .publish-header {
-            text-align: center;
+            padding: 30px;
+            border-radius: 16px;
             margin-bottom: 30px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 20px;
+            border: 1px solid #e2e8f0;
         }
 
-        .publish-header h1 {
+        .form-section h3 {
+            margin-bottom: 20px;
             color: var(--secondary);
-            margin-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
         .form-group {
             margin-bottom: 20px;
-        }
-
-        .form-group.full-width {
-            grid-column: span 2;
         }
 
         .form-group label {
@@ -70,343 +48,329 @@
             padding: 12px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            font-family: 'Outfit', sans-serif;
-            transition: all 0.3s;
+            font-size: 1rem;
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(35, 77, 211, 0.1);
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .image-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
 
-        .btn-submit:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .preview-image {
-            width: 100%;
-            height: 200px;
-            background: #f8fafc;
-            border: 2px dashed #cbd5e1;
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
             overflow: hidden;
-            color: #94a3b8;
         }
 
-        .preview-image img {
+        .image-preview-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
-
-            .form-group.full-width {
-                grid-column: span 1;
-            }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container nav-container">
-            <a href="index.html" class="logo">
-                <img src="favicon_prehouses_1764872622091.png" alt="Logo Prehouses"
-                    style="width: 30px; height: 30px; margin-right: 10px; border-radius: 4px;">
-                Prehouses
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" style="text-decoration: none; color: white;">
+                <h2><i class="fa-solid fa-house-chimney"></i> Prehouses</h2>
             </a>
-            <ul class="nav-links">
-                <li><a href="dashboard-empresa.html">Volver al Panel</a></li>
-                <li><a href="#" onclick="auth.signOut()">Cerrar Sesión</a></li>
-            </ul>
         </div>
-    </nav>
+        <div class="sidebar-user">
+            <div class="user-avatar" id="sidebarAvatar">E</div>
+            <div class="user-info">
+                <div class="user-name" id="sidebarName">Empresa</div>
+                <div class="user-email" id="sidebarEmail">email@empresa.com</div>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard-empresa.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+            <a href="dashboard-empresa.html#inventorySection"><i class="fa-solid fa-home"></i> Mis Casas</a>
+            <a href="dashboard-empresa.html#leadsSection"><i class="fa-solid fa-envelope"></i> Mensajes</a>
+            <a href="publicar-casa.html" class="active"><i class="fa-solid fa-plus"></i> Publicar Casa</a>
+            <a href="#" onclick="logout()"><i class="fa-solid fa-sign-out-alt"></i> Cerrar Sesión</a>
+        </nav>
+    </div>
 
-    <div class="publish-container">
-        <div class="publish-card">
-            <div class="publish-header">
-                <h1><i class="fa-solid fa-plus-circle"></i> Publicar Nueva Casa</h1>
-                <p>Añade un nuevo modelo a tu catálogo</p>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container" style="max-width: 1000px; padding: 40px 20px;">
+            <div style="margin-bottom: 30px;">
+                <a href="dashboard-empresa.html" style="color: var(--primary); text-decoration: none;">
+                    <i class="fa-solid fa-arrow-left"></i> Volver al Dashboard
+                </a>
             </div>
 
-            <form id="publishForm" onsubmit="publishHouse(event)">
-                <div class="form-grid">
-                    <!-- Basic Info -->
-                    <div class="form-group full-width">
-                        <label>Nombre del Modelo</label>
-                        <input type="text" id="houseTitle" placeholder="Ej: Modelo Nordic Eco 80" required>
-                    </div>
+            <h1 style="margin-bottom: 10px;">Publicar Nueva Propiedad</h1>
+            <p style="color: var(--text-light); margin-bottom: 40px;">Completa todos los campos para publicar tu casa en
+                el catálogo de Prehouses.</p>
 
+            <form id="publishHouseForm" onsubmit="handlePublishHouse(event)">
+
+                <!-- Información Básica -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-info-circle"></i> Información Básica</h3>
                     <div class="form-group">
-                        <label>Precio (€)</label>
-                        <input type="number" id="housePrice" placeholder="45000" required>
+                        <label>Título de la Propiedad *</label>
+                        <input type="text" id="houseTitle" required placeholder="Ej: Casa Moderna 120m²">
                     </div>
-
-                    <div class="form-group">
-                        <label>Categoría</label>
-                        <select id="houseCategory" required>
-                            <option value="hormigon">Hormigón</option>
-                            <option value="madera">Madera</option>
-                            <option value="acero">Acero / Steel Frame</option>
-                            <option value="modular">Modular</option>
-                            <option value="movil">Mobile Home</option>
-                            <option value="container">Contenedor</option>
-                        </select>
-                    </div>
-
-                    <!-- Specs -->
-                    <div class="form-group">
-                        <label>Superficie (m²)</label>
-                        <input type="number" id="houseArea" placeholder="80" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Habitaciones</label>
-                        <input type="number" id="houseBedrooms" placeholder="2" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Baños</label>
-                        <input type="number" id="houseBathrooms" placeholder="1" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Plazo de entrega (meses)</label>
-                        <input type="text" id="houseDelivery" placeholder="Ej: 3-4 meses">
-                    </div>
-
-                    <!-- Description -->
-                    <div class="form-group full-width">
-                        <label>Descripción Detallada</label>
-                        <textarea id="houseDescription" rows="5"
-                            placeholder="Describe las características, acabados y ventajas de este modelo..."
-                            required></textarea>
-                    </div>
-
-                    <!-- Image -->
-                    <!-- Image -->
-                    <div class="form-group full-width">
-                        <label>Imagen Principal</label>
-
-                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                            <button type="button" class="btn btn-sm btn-outline"
-                                style="background:var(--primary); color:white;" onclick="switchImageTab('url')"
-                                id="tabUrl">Usar URL</button>
-                            <button type="button" class="btn btn-sm btn-outline" onclick="switchImageTab('upload')"
-                                id="tabUpload">Subir Archivo</button>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Precio (€) *</label>
+                            <input type="number" id="housePrice" required min="0" placeholder="75000">
                         </div>
-
-                        <!-- URL Input -->
-                        <div id="imageInputUrl">
-                            <input type="url" id="houseImage" placeholder="https://..."
-                                onchange="updatePreview(this.value)">
+                        <div class="form-group">
+                            <label>Superficie (m²) *</label>
+                            <input type="number" id="houseArea" required min="1" placeholder="120">
                         </div>
-
-                        <!-- File Input -->
-                        <div id="imageInputUpload" style="display: none;">
-                            <div style="border: 2px dashed #e2e8f0; padding: 20px; text-align: center; border-radius: 8px; background: #f8fafc; cursor: pointer;"
-                                onclick="document.getElementById('houseFile').click()">
-                                <i class="fa-solid fa-cloud-arrow-up"
-                                    style="font-size: 2rem; color: #94a3b8; margin-bottom: 10px;"></i>
-                                <p style="margin: 0; color: #64748b;">Click para seleccionar imagen</p>
-                                <input type="file" id="houseFile" accept="image/*" style="display: none;"
-                                    onchange="handleFileUpload(this)">
-                            </div>
-                            <p id="uploadStatus"
-                                style="font-size: 0.8rem; color: #64748b; margin-top: 5px; text-align: center;"></p>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Habitaciones *</label>
+                            <input type="number" id="houseBedrooms" required min="0" placeholder="3">
                         </div>
-
-                        <div class="preview-image" id="imagePreview" style="margin-top: 15px;">
-                            <i class="fa-solid fa-image fa-2x"></i>
+                        <div class="form-group">
+                            <label>Baños *</label>
+                            <input type="number" id="houseBathrooms" required min="0" placeholder="2">
                         </div>
-                        <input type="hidden" id="finalImageUrl">
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Categoría *</label>
+                            <select id="houseCategory" required>
+                                <option value="">Selecciona una categoría</option>
+                                <option value="madera">Casa de Madera</option>
+                                <option value="hormigon">Casa de Hormigón</option>
+                                <option value="acero">Casa de Acero</option>
+                                <option value="modular">Casa Modular</option>
+                                <option value="movil">Mobile Home</option>
+                                <option value="container">Casa Container</option>
+                                <option value="ecologica">Casa Ecológica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiempo de Entrega</label>
+                            <input type="text" id="houseDelivery" placeholder="Ej: 3 meses">
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    <i class="fa-solid fa-paper-plane"></i> Publicar Casa
-                </button>
+                <!-- Descripción -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-align-left"></i> Descripción</h3>
+                    <div class="form-group">
+                        <label>Descripción Completa *</label>
+                        <textarea id="houseDescription" required
+                            placeholder="Describe las características principales de la casa, materiales, acabados, ventajas..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Imágenes -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-images"></i> Imágenes</h3>
+                    <div class="form-group">
+                        <label>URLs de Imágenes (una por línea) *</label>
+                        <textarea id="houseImages" required placeholder="https://ejemplo.com/imagen1.jpg
+https://ejemplo.com/imagen2.jpg
+https://ejemplo.com/imagen3.jpg"></textarea>
+                        <small style="color: var(--text-light); display: block; margin-top: 5px;">
+                            Introduce las URLs de las imágenes de tu casa. Mínimo 1 imagen, recomendado 4-6.
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Características Adicionales -->
+                <div class="form-section">
+                    <h3><i class="fa-solid fa-list-check"></i> Características Adicionales</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Eficiencia Energética</label>
+                            <select id="houseEnergy">
+                                <option value="">No especificado</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Año de Construcción</label>
+                            <input type="number" id="houseYear" min="2000" max="2030" placeholder="2024">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Características Destacadas (separadas por comas)</label>
+                        <input type="text" id="houseFeatures"
+                            placeholder="Ej: Paneles solares, Domótica, Jardín, Garaje">
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        <i class="fa-solid fa-check"></i> Publicar Casa
+                    </button>
+                    <a href="dashboard-empresa.html" class="btn btn-outline"
+                        style="flex: 1; text-align: center; text-decoration: none;">
+                        <i class="fa-solid fa-times"></i> Cancelar
+                    </a>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Firebase Config -->
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
 
     <script>
         let currentUser = null;
-        let companyData = null;
 
-        // Auth Check
+        // Check auth
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                window.location.href = 'usuarios.html';
+                window.location.href = 'empresas.html';
                 return;
             }
-
             currentUser = user;
 
-            // Check if approved company
-            const doc = await db.collection('users').doc(user.uid).get();
-            if (doc.exists) {
-                companyData = doc.data();
-                if (companyData.userType !== 'empresa') {
-                    alert('Solo para empresas.');
-                    window.location.href = 'dashboard-usuario.html';
-                } else if (companyData.status !== 'approved') {
-                    alert('Tu cuenta debe estar APROBADA para publicar.');
-                    window.location.href = 'dashboard-empresa.html';
-                }
-            }
-        });
+            // Check if user is empresa
+            const userDoc = await db.collection('users').doc(user.uid).get();
+            const userData = userDoc.data();
 
-        // Tab Logic
-        function switchImageTab(tab) {
-            document.getElementById('imageInputUrl').style.display = tab === 'url' ? 'block' : 'none';
-            document.getElementById('imageInputUpload').style.display = tab === 'upload' ? 'block' : 'none';
-
-            document.getElementById('tabUrl').style.background = tab === 'url' ? 'var(--primary)' : 'white';
-            document.getElementById('tabUrl').style.color = tab === 'url' ? 'white' : 'var(--primary)';
-
-            document.getElementById('tabUpload').style.background = tab === 'upload' ? 'var(--primary)' : 'white';
-            document.getElementById('tabUpload').style.color = tab === 'upload' ? 'white' : 'var(--primary)';
-        }
-
-        // Preview
-        function updatePreview(url) {
-            const preview = document.getElementById('imagePreview');
-            document.getElementById('finalImageUrl').value = url;
-            if (url) {
-                preview.innerHTML = `<img src="${url}" onerror="this.src=''; this.parentElement.innerHTML='<i class=\'fa-solid fa-triangle-exclamation\'></i> Error imagen';">`;
-            }
-        }
-
-        // Upload Logic
-        async function handleFileUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const status = document.getElementById('uploadStatus');
-            status.innerText = 'Subiendo...';
-            status.style.color = 'blue';
-
-            try {
-                // Try Firebase Storage first
-                const storageRef = firebase.storage().ref();
-                const fileRef = storageRef.child(`houses/${Date.now()}_${file.name}`);
-
-                await fileRef.put(file);
-                const url = await fileRef.getDownloadURL();
-
-                updatePreview(url);
-                status.innerText = '✅ Subida completada';
-                status.style.color = 'green';
-
-            } catch (error) {
-                console.error('Storage Error:', error);
-
-                // Fallback to Base64 if storage fails (e.g. not enabled)
-                if (file.size > 500000) { // Limit 500kb for Base64
-                    status.innerText = '⚠️ Error: Storage no habilitado y archivo muy grande (>500kb). Usa una URL.';
-                    status.style.color = 'red';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onloadend = function () {
-                    updatePreview(reader.result);
-                    status.innerText = '⚠️ Usando modo local (Storage no detectado).';
-                    status.style.color = 'orange';
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Publish House
-        async function publishHouse(e) {
-            e.preventDefault();
-
-            const finalImage = document.getElementById('finalImageUrl').value;
-            if (!finalImage) {
-                alert('Debes seleccionar o subir una imagen principal');
+            if (!userData || userData.userType !== 'empresa') {
+                alert('Esta página es solo para empresas');
+                window.location.href = 'index.html';
                 return;
             }
 
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Publicando...';
+            // Update sidebar
+            document.getElementById('sidebarName').textContent = userData.name || 'Empresa';
+            document.getElementById('sidebarEmail').textContent = user.email;
+            document.getElementById('sidebarAvatar').textContent = (userData.name || 'E').charAt(0).toUpperCase();
+        });
 
-            // ... (rest of function)
+        async function handlePublishHouse(event) {
+            event.preventDefault();
+
+            if (!currentUser) {
+                alert('Debes iniciar sesión');
+                return;
+            }
+
+            // Get form data
+            const title = document.getElementById('houseTitle').value.trim();
+            const price = parseInt(document.getElementById('housePrice').value);
+            const area = parseInt(document.getElementById('houseArea').value);
+            const bedrooms = parseInt(document.getElementById('houseBedrooms').value);
+            const bathrooms = parseInt(document.getElementById('houseBathrooms').value);
+            const category = document.getElementById('houseCategory').value;
+            const delivery = document.getElementById('houseDelivery').value.trim();
+            const description = document.getElementById('houseDescription').value.trim();
+            const imagesText = document.getElementById('houseImages').value.trim();
+            const energy = document.getElementById('houseEnergy').value;
+            const year = document.getElementById('houseYear').value;
+            const features = document.getElementById('houseFeatures').value.trim();
+
+            // Parse images (one URL per line)
+            const images = imagesText.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+
+            if (images.length === 0) {
+                alert('Debes añadir al menos una imagen');
+                return;
+            }
+
+            // Get company data
+            const userDoc = await db.collection('users').doc(currentUser.uid).get();
+            const userData = userDoc.data();
+
             try {
-                const houseData = {
-                    title: document.getElementById('houseTitle').value,
-                    price: Number(document.getElementById('housePrice').value),
-                    category: document.getElementById('houseCategory').value,
-                    area: Number(document.getElementById('houseArea').value),
-                    bedrooms: Number(document.getElementById('houseBedrooms').value),
-                    bathrooms: Number(document.getElementById('houseBathrooms').value),
-                    deliveryTime: document.getElementById('houseDelivery').value,
-                    description: document.getElementById('houseDescription').value,
-                    images: [finalImage], // Use final image
-
-                    // Metadata
+                // Create house document
+                await db.collection('houses').add({
+                    title: title,
+                    price: price,
+                    area: area,
+                    bedrooms: bedrooms,
+                    bathrooms: bathrooms,
+                    category: category,
+                    deliveryTime: delivery || 'Consultar',
+                    description: description,
+                    images: images,
+                    energyRating: energy || null,
+                    year: year ? parseInt(year) : null,
+                    features: features ? features.split(',').map(f => f.trim()) : [],
                     companyId: currentUser.uid,
-                    companyName: companyData.name || 'Empresa',
+                    companyName: userData.name || 'Empresa',
                     companyEmail: currentUser.email,
+                    status: 'active',
                     createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    views: 0,
-                    status: 'active'
-                };
-
-                // Save to Firestore
-                await db.collection('houses').add(houseData);
-
-                // Update company stats (increment published count)
-                await db.collection('users').doc(currentUser.uid).update({
-                    casasPublicadas: firebase.firestore.FieldValue.increment(1)
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                alert('✅ ¡Casa publicada con éxito!');
-                window.location.href = 'dashboard-empresa.html';
+                alert('✅ ¡Casa publicada correctamente! Ahora aparecerá en el catálogo.');
+                window.location.href = 'dashboard-empresa.html#inventorySection';
 
             } catch (error) {
-                console.error('Error:', error);
-                alert('❌ Error al publicar: ' + error.message);
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Publicar Casa';
+                console.error('Error publishing house:', error);
+                alert('❌ Error al publicar la casa. Inténtalo de nuevo.');
             }
         }
-    </script>
-    <script src="js/support.js"></script>
 
+        function logout() {
+            auth.signOut().then(() => {
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
 </body>
 
 </html>
