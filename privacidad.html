@@ -4,14 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Política de Privacidad | Prehouses</title>
+    <title>Política de Privacidad - Prehouses</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .legal-container {
+            max-width: 900px;
+            margin: 140px auto 80px;
+            padding: 0 20px;
+        }
+
+        .legal-card {
+            background: white;
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .legal-card h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .legal-card .last-updated {
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+        }
+
+        .legal-card h2 {
+            color: var(--secondary);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .legal-card h3 {
+            color: var(--secondary);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .legal-card p,
+        .legal-card li {
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .legal-card ul {
+            margin-left: 30px;
+        }
+
+        .legal-card strong {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .legal-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-
-        <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -21,113 +79,154 @@
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
                 <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
                         Usuarios</a></li>
             </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
-        </ul>
-    </div>
+    <div class="legal-container">
+        <div class="legal-card">
+            <h1>Política de Privacidad</h1>
+            <p class="last-updated">Última actualización: 15 de diciembre de 2024</p>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
+            <p>En <strong>Prehouses</strong>, accesible desde https://prehouses-es-9ybg.onrender.com, la privacidad de
+                nuestros visitantes es una de nuestras principales prioridades. Este documento de Política de Privacidad
+                contiene información sobre los tipos de datos que recopilamos y cómo los utilizamos.</p>
 
-    <div class="container" style="padding: 140px 0 80px;">
-        <h1 class="section-title" style="text-align: left;">Política de Privacidad</h1>
-        <div
-            style="background: white; padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.05);">
-            <p><strong>Última actualización: 03 de Diciembre de 2025</strong></p>
-            <br>
-            <h3>1. Responsable del Tratamiento</h3>
-            <p>Prehouses informa a los usuarios de que los Datos de Carácter Personal que recoge (por ejemplo, a través
-                de los formularios de contacto) son objeto de tratamiento automatizado y se incorporan a los
-                correspondientes ficheros.</p>
-            <br>
-            <h3>2. Finalidad</h3>
-            <p>La recogida y tratamiento automatizado de los Datos de Carácter Personal tiene como finalidad el
-                mantenimiento de la relación contractual en su caso establecida con Prehouses, así como el desempeño de
-                las tareas de información, formación, comercialización y otras actividades propias de la empresa.</p>
-            <br>
-            <h3>3. Cesión de Datos</h3>
-            <p>Prehouses no cederá los datos personales a terceros, salvo obligación legal o cuando sea necesario para
-                la prestación del servicio solicitado (por ejemplo, enviar una solicitud de contacto a un fabricante de
-                casas).</p>
-            <br>
-            <h3>4. Derechos ARCO</h3>
-            <p>El usuario podrá en todo momento ejercitar los derechos de acceso, rectificación, cancelación y oposición
-                mediante un email a info@prehouses.es.</p>
+            <h2>1. Información que Recopilamos</h2>
+
+            <h3>1.1 Información Personal</h3>
+            <p>Cuando te registras en nuestra plataforma, podemos solicitar la siguiente información:</p>
+            <ul>
+                <li><strong>Nombre completo</strong></li>
+                <li><strong>Dirección de correo electrónico</strong></li>
+                <li><strong>Número de teléfono</strong></li>
+                <li><strong>Información de la empresa</strong> (si te registras como empresa): nombre comercial, CIF,
+                    sitio web</li>
+            </ul>
+
+            <h3>1.2 Información de Uso</h3>
+            <p>Recopilamos automáticamente cierta información cuando visitas nuestra web:</p>
+            <ul>
+                <li>Dirección IP</li>
+                <li>Tipo de navegador y versión</li>
+                <li>Páginas visitadas y tiempo de permanencia</li>
+                <li>Fecha y hora de las visitas</li>
+                <li>Dispositivo utilizado</li>
+            </ul>
+
+            <h3>1.3 Cookies</h3>
+            <p>Utilizamos cookies para mejorar tu experiencia en nuestra web. Las cookies son pequeños archivos de texto
+                que se almacenan en tu dispositivo. Puedes configurar tu navegador para rechazar cookies, aunque esto
+                puede afectar a la funcionalidad del sitio.</p>
+
+            <h2>2. Cómo Utilizamos tu Información</h2>
+            <p>Utilizamos la información recopilada para los siguientes propósitos:</p>
+            <ul>
+                <li><strong>Proporcionar y mantener nuestro servicio</strong></li>
+                <li><strong>Gestionar tu cuenta de usuario</strong></li>
+                <li><strong>Procesar y gestionar tus consultas</strong> sobre propiedades</li>
+                <li><strong>Enviar comunicaciones</strong> relacionadas con el servicio</li>
+                <li><strong>Mejorar nuestra plataforma</strong> mediante análisis de uso</li>
+                <li><strong>Prevenir fraudes</strong> y garantizar la seguridad</li>
+                <li><strong>Cumplir con obligaciones legales</strong></li>
+            </ul>
+
+            <h2>3. Base Legal para el Tratamiento (GDPR)</h2>
+            <p>Procesamos tus datos personales bajo las siguientes bases legales:</p>
+            <ul>
+                <li><strong>Consentimiento:</strong> Has dado tu consentimiento explícito para el procesamiento de tus
+                    datos</li>
+                <li><strong>Ejecución de contrato:</strong> El procesamiento es necesario para la prestación de nuestros
+                    servicios</li>
+                <li><strong>Interés legítimo:</strong> Para mejorar nuestros servicios y prevenir fraudes</li>
+                <li><strong>Obligación legal:</strong> Para cumplir con requisitos legales y regulatorios</li>
+            </ul>
+
+            <h2>4. Compartir tu Información</h2>
+            <p>No vendemos, comercializamos ni transferimos tu información personal a terceros, excepto en los
+                siguientes casos:</p>
+            <ul>
+                <li><strong>Empresas anunciantes:</strong> Cuando envías una consulta sobre una propiedad, compartimos
+                    tu información de contacto con la empresa propietaria del anuncio</li>
+                <li><strong>Proveedores de servicios:</strong> Compartimos datos con proveedores que nos ayudan a operar
+                    la plataforma (hosting, email, analytics)</li>
+                <li><strong>Cumplimiento legal:</strong> Cuando sea requerido por ley o para proteger nuestros derechos
+                </li>
+            </ul>
+
+            <h2>5. Tus Derechos (GDPR)</h2>
+            <p>Bajo el Reglamento General de Protección de Datos (GDPR), tienes los siguientes derechos:</p>
+            <ul>
+                <li><strong>Derecho de acceso:</strong> Puedes solicitar una copia de tus datos personales</li>
+                <li><strong>Derecho de rectificación:</strong> Puedes solicitar la corrección de datos inexactos</li>
+                <li><strong>Derecho de supresión:</strong> Puedes solicitar la eliminación de tus datos</li>
+                <li><strong>Derecho de limitación:</strong> Puedes solicitar la limitación del procesamiento</li>
+                <li><strong>Derecho de portabilidad:</strong> Puedes solicitar la transferencia de tus datos</li>
+                <li><strong>Derecho de oposición:</strong> Puedes oponerte al procesamiento de tus datos</li>
+                <li><strong>Derecho a retirar el consentimiento:</strong> Puedes retirar tu consentimiento en cualquier
+                    momento</li>
+            </ul>
+            <p>Para ejercer cualquiera de estos derechos, contacta con nosotros en:
+                <strong>prehouses24h@gmail.com</strong></p>
+
+            <h2>6. Seguridad de los Datos</h2>
+            <p>Implementamos medidas de seguridad técnicas y organizativas apropiadas para proteger tus datos
+                personales:</p>
+            <ul>
+                <li>Cifrado SSL/TLS para todas las comunicaciones</li>
+                <li>Autenticación segura mediante Firebase</li>
+                <li>Acceso restringido a datos personales</li>
+                <li>Copias de seguridad regulares</li>
+                <li>Monitoreo de seguridad continuo</li>
+            </ul>
+
+            <h2>7. Retención de Datos</h2>
+            <p>Conservamos tus datos personales durante el tiempo necesario para cumplir con los fines descritos en esta
+                política, a menos que la ley requiera o permita un período de retención más largo.</p>
+            <ul>
+                <li><strong>Cuentas activas:</strong> Mientras tu cuenta esté activa</li>
+                <li><strong>Cuentas inactivas:</strong> Hasta 2 años después de la última actividad</li>
+                <li><strong>Consultas y leads:</strong> Hasta 5 años para fines comerciales y legales</li>
+            </ul>
+
+            <h2>8. Transferencias Internacionales</h2>
+            <p>Tus datos pueden ser transferidos y almacenados en servidores ubicados fuera del Espacio Económico
+                Europeo (EEE). En tales casos, nos aseguramos de que existan garantías adecuadas para proteger tus datos
+                conforme al GDPR.</p>
+
+            <h2>9. Menores de Edad</h2>
+            <p>Nuestros servicios no están dirigidos a menores de 18 años. No recopilamos intencionadamente información
+                personal de menores. Si descubrimos que hemos recopilado datos de un menor, los eliminaremos
+                inmediatamente.</p>
+
+            <h2>10. Cambios en esta Política</h2>
+            <p>Podemos actualizar nuestra Política de Privacidad periódicamente. Te notificaremos cualquier cambio
+                publicando la nueva política en esta página y actualizando la fecha de "Última actualización".</p>
+
+            <h2>11. Contacto</h2>
+            <p>Si tienes preguntas sobre esta Política de Privacidad o deseas ejercer tus derechos, contáctanos:</p>
+            <ul>
+                <li><strong>Email:</strong> prehouses24h@gmail.com</li>
+                <li><strong>Responsable:</strong> Prehouses</li>
+                <li><strong>Dirección:</strong> España</li>
+            </ul>
+
+            <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid #e2e8f0; text-align: center;">
+                <p><a href="terminos.html" style="color: var(--primary); margin: 0 15px;">Términos y Condiciones</a> |
+                    <a href="cookies.html" style="color: var(--primary); margin: 0 15px;">Política de Cookies</a> |
+                    <a href="aviso-legal.html" style="color: var(--primary); margin: 0 15px;">Aviso Legal</a>
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Footer -->
-            <footer>
+    <footer style="background: var(--secondary); color: white; padding: 40px 0; text-align: center; margin-top: 80px;">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">
-                        El portal líder de casas prefabricadas en España.
-                        Encuentra tu hogar ideal hoy mismo.
-                    </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Explorar</h4>
-                    <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
-            </div>
+            <p>&copy; 2024 Prehouses. Todos los derechos reservados.</p>
         </div>
     </footer>
-
 </body>
 
 </html>
