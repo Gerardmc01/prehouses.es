@@ -349,18 +349,31 @@
                 document.getElementById('welcomeTitle').textContent = `Panel de Control, ${companyName}`;
                 document.getElementById('userEmail').textContent = currentUser.email;
 
-                // Estadísticas
-                const casasEl = document.getElementById('casasCount');
-                if (casasEl) casasEl.textContent = userData.casasPublicadas || 0;
+                // Calcular estadísticas reales desde Firestore
+                try {
+                    const housesSnapshot = await db.collection('houses')
+                        .where('companyId', '==', currentUser.uid)
+                        .get();
 
-                const viewsEl = document.getElementById('viewsCount');
-                if (viewsEl) viewsEl.textContent = userData.visualizaciones || 0;
+                    const leadsSnapshot = await db.collection('leads')
+                        .where('companyId', '==', currentUser.uid)
+                        .get();
 
-                const consultasEl = document.getElementById('consultasCount');
-                if (consultasEl) consultasEl.textContent = userData.consultas || 0;
+                    document.getElementById('casasCount').textContent = housesSnapshot.size;
+                    document.getElementById('consultasCount').textContent = leadsSnapshot.size;
 
-                const ratingEl = document.getElementById('ratingCount');
-                if (ratingEl) ratingEl.textContent = userData.rating || '-';
+                    // Views count (placeholder - would need analytics tracking)
+                    document.getElementById('viewsCount').textContent = userData.visualizaciones || 0;
+                    document.getElementById('ratingCount').textContent = userData.rating || '-';
+
+                } catch (statsError) {
+                    console.error('Error loading stats:', statsError);
+                    // Fallback to user data if queries fail
+                    document.getElementById('casasCount').textContent = userData.casasPublicadas || 0;
+                    document.getElementById('consultasCount').textContent = userData.consultas || 0;
+                    document.getElementById('viewsCount').textContent = userData.visualizaciones || 0;
+                    document.getElementById('ratingCount').textContent = userData.rating || '-';
+                }
 
                 // Información detallada
                 const companyInfoEl = document.getElementById('companyInfo');

@@ -187,14 +187,31 @@
 
                 // Actualizar Main Header
                 const welcomeTitle = document.getElementById('welcomeTitle');
-                if (welcomeTitle) welcomeTitle.textContent = `Hola, ${userName}`;
+                if (welcomeTitle) welcomeTitle.textContent = `Hola, ${userName} 👋`;
 
                 // Cargar Contenido
                 loadFavorites();
                 loadConsultas();
+                loadAlertas();
 
             } catch (error) {
                 console.error('Error cargando datos:', error);
+            }
+        }
+
+        // Load Alerts
+        async function loadAlertas() {
+            try {
+                // Get user's alerts from Firestore (price changes, new similar houses, etc.)
+                const snapshot = await db.collection('alerts')
+                    .where('userId', '==', currentUser.uid)
+                    .where('active', '==', true)
+                    .get();
+
+                document.getElementById('alertasCount').textContent = snapshot.size;
+            } catch (error) {
+                console.error('Error loading alerts:', error);
+                document.getElementById('alertasCount').textContent = '0';
             }
         }
 
