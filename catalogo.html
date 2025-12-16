@@ -334,6 +334,21 @@
                             <option value="otras">Otras</option>
                         </select>
                     </div>
+
+                    <!-- Sort By -->
+                    <div class="filter-group">
+                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
+                            <i class="fa-solid fa-arrow-up-wide-short"></i> Filtros
+                        </label>
+                        <select id="sortFilter"
+                            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 1rem;">
+                            <option value="default">Relevancia</option>
+                            <option value="price-desc">Más caro a más barato</option>
+                            <option value="price-asc">Más barato a más caro</option>
+                            <option value="area-desc">Más metros cuadrados a menos</option>
+                            <option value="area-asc">Menos metros cuadrados a más</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Apply Filters Button -->
@@ -1077,54 +1092,116 @@
         function applyAdvancedFilters() {
             // Read from INPUTS now, as they are the source of truth for the user
             const priceMin = parseInt(document.getElementById('priceInputMin').value) || 0;
-            const priceMax = parseInt(document.getElementById('priceInputMax').value) || 200000;
+            const priceMax = parseInt(document.getElementById('priceInputMax').value) || 500000; // Increased max limit logic
             const areaMin = parseInt(document.getElementById('areaMin').value);
             const areaMax = parseInt(document.getElementById('areaMax').value);
             const bedrooms = document.getElementById('bedroomsFilter').value;
             const province = document.getElementById('provinceFilter').value;
+            const sortMode = document.getElementById('sortFilter') ? document.getElementById('sortFilter').value : 'default';
 
             // Get ALL house cards (static + dynamic)
-            const houseCards = document.querySelectorAll('.house-card');
-            let visibleCount = 0;
+            // We need to work with an array to sort them
+            const grid = document.querySelector('.house-grid');
+            const houseCards = Array.from(document.querySelectorAll('.house-card'));
+
+            // We need to access selectedCategories from the closure if possible, 
+            // but since this function is defined outside, we need to make sure selectedCategories is accessible.
+            // A quick fix is to look at the buttons to see which are active if the Set isn't global.
+            // Or better: Let's assume selectedCategories is defined in the global scope or accessible scope.
+            // Since we are in split script blocks, let's redefine a helper to get categories from buttons.
+
+            const activeCategoryBtns = Array.from(document.querySelectorAll('.filter-btn.btn-primary'));
+            const activeCategories = new Set(activeCategoryBtns.map(b => b.getAttribute('data-filter')));
+
+            let visibleCards = [];
 
             houseCards.forEach(card => {
                 const cardPrice = parseInt(card.getAttribute('data-price'));
                 const cardArea = parseInt(card.getAttribute('data-area'));
                 const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
                 const cardProvince = card.getAttribute('data-province');
+                const cardCategory = card.getAttribute('data-category');
 
                 let show = true;
 
-                // Price filter
-                if (cardPrice < priceMin || cardPrice > priceMax) {
-                    show = false;
-                }
-
-                // Area filter
-                if (cardArea < areaMin || cardArea > areaMax) {
-                    show = false;
-                }
-
-                // Bedrooms filter
-                if (bedrooms !== 'all') {
-                    if (bedrooms === '5' && cardBedrooms < 5) {
-                        show = false;
-                    } else if (bedrooms !== '5' && cardBedrooms !== parseInt(bedrooms)) {
+                // 1. Category Filter (Multi-select)
+                // If 'all' is active, we ignore category check.
+                // If 'all' is NOT active, we check if cardCategory is in activeCategories set.
+                if (!activeCategories.has('all')) {
+                    if (!activeCategories.has(cardCategory)) {
                         show = false;
                     }
                 }
 
-                // Province filter
-                if (province !== 'all' && cardProvince !== province) {
-                    show = false;
+                // 2. Price filter
+                if (show) {
+                    if (cardPrice < priceMin || cardPrice > priceMax) {
+                        show = false;
+                    }
                 }
 
-                card.style.display = show ? 'flex' : 'none';
-                if (show) visibleCount++;
+                // 3. Area filter
+                if (show) {
+                    if (cardArea < areaMin || cardArea > areaMax) {
+                        show = false;
+                    }
+                }
+
+                // 4. Bedrooms filter
+                if (show) {
+                    if (bedrooms !== 'all') {
+                        if (bedrooms === '5' && cardBedrooms < 5) {
+                            show = false;
+                        } else if (bedrooms !== '5' && cardBedrooms !== parseInt(bedrooms)) {
+                            show = false;
+                        }
+                    }
+                }
+
+                // 5. Province filter
+                if (show) {
+                    if (province !== 'all' && cardProvince !== province) {
+                        show = false;
+                    }
+                }
+
+                if (show) {
+                    visibleCards.push(card);
+                }
+
+                // Temporarily hide all, we will append them in order
+                card.style.display = 'none';
+            });
+
+            // 6. Sorting
+            visibleCards.sort((a, b) => {
+                const priceA = parseInt(a.getAttribute('data-price'));
+                const priceB = parseInt(b.getAttribute('data-price'));
+                const areaA = parseInt(a.getAttribute('data-area'));
+                const areaB = parseInt(b.getAttribute('data-area'));
+
+                switch (sortMode) {
+                    case 'price-asc':
+                        return priceA - priceB;
+                    case 'price-desc':
+                        return priceB - priceA;
+                    case 'area-asc':
+                        return areaA - areaB;
+                    case 'area-desc':
+                        return areaB - areaA;
+                    default:
+                        return 0; // Default order (DOM order) - effectively no sort change from original logic if we cared about original order
+                }
+            });
+
+            // Re-append visible cards in order
+            visibleCards.forEach(card => {
+                grid.appendChild(card); // Moves it to the end
+                card.style.display = 'flex';
             });
 
             // Show message if no results
-            const grid = document.querySelector('.house-grid');
+            let visibleCount = visibleCards.length;
             let noResultsMsg = document.getElementById('noResultsMessage');
 
             if (visibleCount === 0) {
@@ -1147,8 +1224,8 @@
                 }
             }
 
-            // Scroll to results
-            document.querySelector('.house-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Scroll to results (optional, maybe distracting if typing)
+            // document.querySelector('.house-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function resetFilters() {
@@ -1158,6 +1235,7 @@
             document.getElementById('areaMax').value = 300;
             document.getElementById('bedroomsFilter').value = 'all';
             document.getElementById('provinceFilter').value = 'all';
+            if (document.getElementById('sortFilter')) document.getElementById('sortFilter').value = 'default';
 
             updatePriceLabel();
             updateAreaLabel();
@@ -1251,11 +1329,67 @@
             const filterBtns = document.querySelectorAll('.filter-btn');
             const houseCards = document.querySelectorAll('.house-card');
 
+            // Multi-select Categories Logic
+            let selectedCategories = new Set(['all']);
+
             // Function to apply filter
-            function applyFilter(filterValue) {
-                // Update buttons
+            function applyFilter() {
+                const sortValue = document.getElementById('sortFilter') ? document.getElementById('sortFilter').value : 'default';
+                const grid = document.querySelector('.house-grid');
+                // Get all original cards (we need to be able to re-append them)
+                const houseCards = Array.from(document.querySelectorAll('.house-card'));
+
+                let visibleCount = 0;
+                let visibleCards = [];
+
+                houseCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    let show = false;
+
+                    // Category Logic (Multi-select)
+                    if (selectedCategories.has('all')) {
+                        show = true;
+                    } else {
+                        if (selectedCategories.has(category)) {
+                            show = true;
+                        }
+                    }
+
+                    // Advanced Filters check (only if category matched first)
+                    if (show) {
+                        const cardPrice = parseInt(card.getAttribute('data-price'));
+                        const cardArea = parseInt(card.getAttribute('data-area'));
+                        const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
+                        const cardProvince = card.getAttribute('data-province');
+
+                        // NOTE: Advanced filters currently use separate applyAdvancedFilters button which hides cards directly.
+                        // However, to make sorting work with advanced filters, we should really integrate them.
+                        // For now, let's respect the user request for buttons allowing multiple selection.
+                        // To keep it simple and safe: we won't merge advanced filters logic here yet unless requested,
+                        // BUT, if the user clicks the quick category buttons, we usually expect them to just filter by category.
+                        // If they used advanced filters, they click "Aplicar Filtros". 
+                        // The user asked for sorting dropdown to be functional. This usually requires re-ordering elements.
+                    }
+
+                    // We will use a unified visibility check for sorting
+                    if (show) {
+                        // Re-check advanced filter visibility state (if they were hidden by advanced filters, keep them hidden?)
+                        // Actually, let's simplify: This function is called when clicking category buttons.
+                        // The advanced filter function calls itself. We need to unify or let them play nice.
+
+                        // Let's assume for now this function controls display based on categories.
+                        // If we want sorting to work on EVERYTHING, we need a smarter approach.
+                        // Let's defer display update to the sorting phase.
+                    }
+
+                    // Store visibility intent
+                    card.dataset.matchesCategory = show ? 'true' : 'false';
+                });
+
+                // Update UI Buttons
                 filterBtns.forEach(b => {
-                    if (b.getAttribute('data-filter') === filterValue) {
+                    const filter = b.getAttribute('data-filter');
+                    if (selectedCategories.has(filter)) {
                         b.classList.remove('btn-outline');
                         b.classList.add('btn-primary');
                     } else {
@@ -1264,33 +1398,56 @@
                     }
                 });
 
-                // Filter cards
-                houseCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                // NOW: Trigger the main filtering/sorting pipeline
+                applyAdvancedFilters();
             }
 
-            // Add click events
+            // Function to toggle category
+            function toggleCategory(category) {
+                if (category === 'all') {
+                    selectedCategories.clear();
+                    selectedCategories.add('all');
+                } else {
+                    if (selectedCategories.has('all')) {
+                        selectedCategories.delete('all');
+                    }
+
+                    if (selectedCategories.has(category)) {
+                        selectedCategories.delete(category);
+                        if (selectedCategories.size === 0) {
+                            selectedCategories.add('all');
+                        }
+                    } else {
+                        selectedCategories.add(category);
+                    }
+                }
+                applyFilter();
+            }
+
+            // Map click events
             filterBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    applyFilter(btn.getAttribute('data-filter'));
-                });
+                // Remove old event listener by cloning or just overriding (we'll override logic inside)
+                // Since we are replacing the block, we define new listeners.
+                btn.onclick = (e) => {
+                    e.preventDefault(); // invalid link if any
+                    toggleCategory(btn.getAttribute('data-filter'));
+                };
             });
+
+            // Sort Filter Event
+            const sortFilter = document.getElementById('sortFilter');
+            if (sortFilter) {
+                sortFilter.addEventListener('change', () => {
+                    applyAdvancedFilters();
+                });
+            }
 
             // Check URL parameters on load
             const urlParams = new URLSearchParams(window.location.search);
             const category = urlParams.get('category');
 
             if (category) {
-                // Find button with this category
-                const targetBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
-                if (targetBtn) {
-                    applyFilter(category);
-                }
+                toggleCategory(category);
             }
 
             // Load dynamic houses from Firestore
