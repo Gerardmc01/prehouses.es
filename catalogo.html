@@ -267,9 +267,13 @@
                                 style="width: 100%;" oninput="updatePriceLabel()">
                             <div
                                 style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.9rem; color: var(--text-light);">
-                                <span id="priceMinLabel">0€</span>
-                                <span>-</span>
-                                <span id="priceMaxLabel">200.000€</span>
+                                <input type="number" id="priceInputMin" value="0" min="0" max="500000" step="1000"
+                                    style="width: 100px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; color: var(--text-main);"
+                                    onchange="updatePriceFromInput()">
+                                <span style="align-self: center;">-</span>
+                                <input type="number" id="priceInputMax" value="200000" min="0" max="500000" step="1000"
+                                    style="width: 100px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; color: var(--text-main);"
+                                    onchange="updatePriceFromInput()">
                             </div>
                             <input type="range" id="priceMax" min="0" max="200000" value="200000" step="5000"
                                 style="width: 100%; margin-top: 10px;" oninput="updatePriceLabel()">
@@ -1037,11 +1041,30 @@
         }
 
         // Advanced Filters Functions
+
         function updatePriceLabel() {
             const min = document.getElementById('priceMin').value;
             const max = document.getElementById('priceMax').value;
-            document.getElementById('priceMinLabel').textContent = parseInt(min).toLocaleString('es-ES') + '€';
-            document.getElementById('priceMaxLabel').textContent = parseInt(max).toLocaleString('es-ES') + '€';
+
+            // Update inputs
+            document.getElementById('priceInputMin').value = min;
+            document.getElementById('priceInputMax').value = max;
+        }
+
+        function updatePriceFromInput() {
+            const minInput = parseInt(document.getElementById('priceInputMin').value) || 0;
+            const maxInput = parseInt(document.getElementById('priceInputMax').value) || 0;
+
+            // Update sliders (clamped to slider max/min)
+            const sliderMin = document.getElementById('priceMin');
+            const sliderMax = document.getElementById('priceMax');
+
+            // Only update slider if within range, otherwise slider stays at limit
+            if (minInput <= 200000) sliderMin.value = minInput;
+            else sliderMin.value = 200000;
+
+            if (maxInput <= 200000) sliderMax.value = maxInput;
+            else sliderMax.value = 200000;
         }
 
         function updateAreaLabel() {
@@ -1052,8 +1075,9 @@
         }
 
         function applyAdvancedFilters() {
-            const priceMin = parseInt(document.getElementById('priceMin').value);
-            const priceMax = parseInt(document.getElementById('priceMax').value);
+            // Read from INPUTS now, as they are the source of truth for the user
+            const priceMin = parseInt(document.getElementById('priceInputMin').value) || 0;
+            const priceMax = parseInt(document.getElementById('priceInputMax').value) || 200000;
             const areaMin = parseInt(document.getElementById('areaMin').value);
             const areaMax = parseInt(document.getElementById('areaMax').value);
             const bedrooms = document.getElementById('bedroomsFilter').value;
