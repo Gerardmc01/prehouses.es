@@ -67,7 +67,7 @@
     </style>
 </head>
 
-<body>    <!-- Navbar -->
+<body> <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
@@ -79,9 +79,8 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="empresas.html">Acceso Empresas</a></li>
-                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
-                        Usuarios</a></li>
+                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
+                </li>
             </ul>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
@@ -99,67 +98,93 @@
             <li><a href="blog.html">Blog</a></li>
             <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                         class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="empresas.html">Acceso Empresas</a></li>
-            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
-                    Usuarios</a></li>
+            <li><a href="acceso.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso</a></li>
         </ul>
     </div>
 
     <!-- Product Detail Section -->
     <div class="container" style="padding: 140px 20px 80px; max-width: 1400px;">
         <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px;">
-            
+
             <!-- Left Column: Gallery & Info -->
             <div>
                 <div style="display: flex; flex-direction: column; gap: 20px;">
-                    <div style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 500px;">
-                        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Modelo Las Rozas 110m²" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div
+                        style="border-radius: 16px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); height: 500px;">
+                        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+                            alt="Modelo Las Rozas 110m²" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
-                        <div style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 1; box-shadow: 0 0 0 3px var(--primary);">
-                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Vista Principal" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 1; box-shadow: 0 0 0 3px var(--primary);">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+                                alt="Vista Principal" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <div style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
-                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Vista 2" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+                                alt="Vista 2" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <div style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
-                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Vista 3" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+                                alt="Vista 3" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <div style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
-                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80" alt="Vista 4" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div
+                            style="border-radius: 12px; overflow: hidden; cursor: pointer; height: 100px; opacity: 0.7;">
+                            <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+                                alt="Vista 4" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                     </div>
                 </div>
 
                 <div style="margin-top: 40px;">
                     <div style="display: flex; gap: 10px; margin-bottom: 30px;">
-                        <span style="background: white; color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; border: 2px solid var(--primary);">Modular</span><span style="background: #eff6ff; color: #2563eb; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">Familiar</span>
+                        <span
+                            style="background: white; color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; border: 2px solid var(--primary);">Modular</span><span
+                            style="background: #eff6ff; color: #2563eb; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">Familiar</span>
                     </div>
-                    <h1 style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 10px; line-height: 1.2;">Modelo Las Rozas 110m²</h1>
-                    <div style="font-size: 2rem; color: var(--primary); font-weight: 800; margin-bottom: 20px;">75.000€ <span style="font-size: 1rem; color: var(--text-light); font-weight: 400;">(IVA no incluido)</span></div>
+                    <h1 style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 10px; line-height: 1.2;">
+                        Modelo Las Rozas 110m²</h1>
+                    <div style="font-size: 2rem; color: var(--primary); font-weight: 800; margin-bottom: 20px;">75.000€
+                        <span style="font-size: 1rem; color: var(--text-light); font-weight: 400;">(IVA no
+                            incluido)</span></div>
 
                     <div style="background: #f8fafc; padding: 30px; border-radius: 16px; margin-bottom: 30px;">
-                        <h3 style="margin-bottom: 20px; color: var(--secondary);"><i class="fa-solid fa-list-check"></i> Características Principales</h3>
+                        <h3 style="margin-bottom: 20px; color: var(--secondary);"><i class="fa-solid fa-list-check"></i>
+                            Características Principales</h3>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-ruler-combined" style="color: var(--primary);"></i> 110 m² construidos</div>
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-bed" style="color: var(--primary);"></i> 3 Habitaciones</div>
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-bath" style="color: var(--primary);"></i> 2 Baño(s)</div>
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-clock" style="color: var(--primary);"></i> Entrega 3 meses</div>
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> Alta durabilidad</div>
-                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-leaf" style="color: var(--primary);"></i> Eficiencia energética</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i
+                                    class="fa-solid fa-ruler-combined" style="color: var(--primary);"></i> 110 m²
+                                construidos</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-bed"
+                                    style="color: var(--primary);"></i> 3 Habitaciones</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-bath"
+                                    style="color: var(--primary);"></i> 2 Baño(s)</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-clock"
+                                    style="color: var(--primary);"></i> Entrega 3 meses</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i
+                                    class="fa-solid fa-shield-halved" style="color: var(--primary);"></i> Alta
+                                durabilidad</div>
+                            <div style="display: flex; align-items: center; gap: 10px;"><i class="fa-solid fa-leaf"
+                                    style="color: var(--primary);"></i> Eficiencia energética</div>
                         </div>
                     </div>
 
                     <div>
                         <h3 style="margin-bottom: 15px; color: var(--secondary);">Descripción del Modelo</h3>
-                        <p style="line-height: 1.8; color: var(--text-light);">Casa modular diseñada para el confort familiar con espacios bien distribuidos.</p><br><p style="line-height: 1.8; color: var(--text-light);">Con <strong>3 habitaciones y 2 baños</strong> en 110 m², perfecta para familias que buscan calidad de vida.</p>
+                        <p style="line-height: 1.8; color: var(--text-light);">Casa modular diseñada para el confort
+                            familiar con espacios bien distribuidos.</p><br>
+                        <p style="line-height: 1.8; color: var(--text-light);">Con <strong>3 habitaciones y 2
+                                baños</strong> en 110 m², perfecta para familias que buscan calidad de vida.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Right Column: Contact Form -->
             <div>
-                <div style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: sticky; top: 140px;">
+                <div
+                    style="background: white; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: sticky; top: 140px;">
                     <h3 style="margin-bottom: 10px;">Contactar Fabricante</h3>
                     <p style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-light);">
                         Solicita más información o un presupuesto personalizado.
@@ -167,19 +192,24 @@
                     <form onsubmit="event.preventDefault(); sendLead();">
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nombre Completo</label>
-                            <input type="text" id="leadName" placeholder="Tu nombre" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <input type="text" id="leadName" placeholder="Tu nombre"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         </div>
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">Email</label>
-                            <input type="email" id="leadEmail" placeholder="tu@email.com" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <input type="email" id="leadEmail" placeholder="tu@email.com"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         </div>
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">Teléfono</label>
-                            <input type="tel" id="leadPhone" placeholder="+34 600 000 000" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <input type="tel" id="leadPhone" placeholder="+34 600 000 000"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
                         </div>
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: 600;">Mensaje</label>
-                            <textarea id="leadMessage" rows="4" placeholder="Hola, estoy interesado en Modelo Las Rozas 110m²..." style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
+                            <textarea id="leadMessage" rows="4"
+                                placeholder="Hola, estoy interesado en Modelo Las Rozas 110m²..."
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" style="width: 100%;">Enviar Solicitud</button>
                         <p style="margin-top: 15px; font-size: 0.8rem; text-align: center; color: var(--text-light);">
@@ -247,7 +277,7 @@
             await db.collection('favorites').add({ userId: currentUser.uid, houseId, houseTitle: currentHouse.title, housePrice: currentHouse.price, houseImage: currentHouse.images[0], createdAt: new Date() });
             alert('Añadido a favoritos');
         }
-    
+
         async function sendLead() {
             const name = document.getElementById('leadName').value.trim();
             const email = document.getElementById('leadEmail').value.trim();

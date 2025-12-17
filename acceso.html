@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Optimization -->
+    <title>Acceso | Prehouses - Elige tu perfil</title>
+    <meta name="description"
+        content="Accede a Prehouses como usuario particular para buscar casas o como empresa para gestionar tu catálogo.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        .access-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 140px 20px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .access-container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .access-header {
+            margin-bottom: 50px;
+        }
+
+        .access-header h1 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .access-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .access-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .access-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .access-card:hover .access-icon {
+            transform: scale(1.1);
+        }
+
+        .icon-user {
+            background: #eff6ff;
+            color: var(--primary);
+        }
+
+        .icon-business {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .access-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .access-card p {
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .btn-access {
+            margin-top: auto;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-user {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-business {
+            background: #10b981;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-house-chimney"></i> Prehouses
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                            class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
+                </li>
+            </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="acceso.html" class="btn btn-primary"
+                    style="width: 100%; margin-top: 20px; text-align: center;">Acceso</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="access-page">
+        <div class="access-container">
+            <div class="access-header">
+                <h1>Selecciona tu Perfil</h1>
+                <p>Elige cómo quieres acceder a Prehouses</p>
+            </div>
+
+            <div class="access-grid">
+                <!-- User Card -->
+                <a href="usuarios.html" class="access-card">
+                    <div class="access-icon icon-user">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h2>Soy Particular</h2>
+                    <p>Busco mi casa prefabricada ideal. Guarda favoritos, contacta con empresas y recibe ofertas
+                        exclusivas.</p>
+                    <span class="btn-access btn-user">Acceso Usuarios</span>
+                </a>
+
+                <!-- Business Card -->
+                <a href="empresas.html" class="access-card">
+                    <div class="access-icon icon-business">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h2>Soy Empresa</h2>
+                    <p>Fabricante o distribuidor. Publica tus modelos, gestiona tus leads y aumenta tus ventas hoy
+                        mismo.</p>
+                    <span class="btn-access btn-business">Acceso Empresas</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+            document.querySelector('.mobile-menu-toggle').classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
