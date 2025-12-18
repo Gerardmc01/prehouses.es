@@ -14,6 +14,53 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/toast.js"></script>
+
+    <style>
+        .fw-section {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Message Styles */
+        .message-item {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            background: #f8fafc;
+        }
+
+        .message-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Alert Styles */
+        .alert-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,23 +84,27 @@
             </div>
 
             <nav class="dash-nav">
-                <a href="#" class="dash-link active">
+                <a href="#" onclick="switchSection('overview')" class="dash-link active" id="nav-overview">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Resumen</span>
+                </a>
+                <a href="#" onclick="switchSection('favorites')" class="dash-link" id="nav-favorites">
                     <i class="fa-solid fa-heart"></i>
                     <span>Mis Favoritos</span>
                 </a>
-                <a href="#" class="dash-link">
+                <a href="#" onclick="switchSection('alerts')" class="dash-link" id="nav-alerts">
                     <i class="fa-solid fa-bell"></i>
                     <span>Alertas</span>
                 </a>
-                <a href="#" class="dash-link">
+                <a href="#" onclick="switchSection('messages')" class="dash-link" id="nav-messages">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Mensajes</span>
                 </a>
-                <a href="#" class="dash-link">
+                <a href="#" onclick="switchSection('ai')" class="dash-link" id="nav-ai">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                     <span>Asesor IA</span>
                 </a>
-                <a href="#" class="dash-link">
+                <a href="#" onclick="switchSection('settings')" class="dash-link" id="nav-settings">
                     <i class="fa-solid fa-gear"></i>
                     <span>Configuración</span>
                 </a>
@@ -69,77 +120,123 @@
         <main class="dash-main">
             <header class="dash-header">
                 <div class="dash-title">
-                    <div class="breadcrumb">Panel de Usuario / Resumen</div>
-                    <h1 id="welcomeTitle">Bienvenido</h1>
-                </div>
-
-                <div class="dash-search-container">
-                    <div class="dash-search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Buscar en mis listas...">
-                    </div>
+                    <div class="breadcrumb" id="breadcrumbText">Panel de Usuario / Resumen</div>
+                    <h1 id="pageTitle">Bienvenido</h1>
                 </div>
             </header>
 
-            <!-- STATS ROW -->
-            <div class="dash-grid-stats">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon blue">
-                            <i class="fa-solid fa-heart"></i>
+            <!-- SECTION: OVERVIEW -->
+            <div id="section-overview" class="fw-section">
+                <!-- Stats Row -->
+                <div class="dash-grid-stats">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon blue"><i class="fa-solid fa-heart"></i></div>
                         </div>
+                        <div class="stat-value" id="favoritosCount">0</div>
+                        <div class="stat-label">Casas Favoritas</div>
                     </div>
-                    <div class="stat-value" id="favoritosCount">0</div>
-                    <div class="stat-label">Casas Favoritas</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon green">
-                            <i class="fa-solid fa-envelope-open-text"></i>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon green"><i class="fa-solid fa-envelope-open-text"></i></div>
                         </div>
+                        <div class="stat-value" id="consultasCount">0</div>
+                        <div class="stat-label">Consultas Enviadas</div>
                     </div>
-                    <div class="stat-value" id="consultasCount">0</div>
-                    <div class="stat-label">Consultas Enviadas</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <div class="stat-icon purple">
-                            <i class="fa-solid fa-bell"></i>
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <div class="stat-icon purple"><i class="fa-solid fa-bell"></i></div>
                         </div>
+                        <div class="stat-value" id="alertasCount">0</div>
+                        <div class="stat-label">Alertas Activas</div>
                     </div>
-                    <div class="stat-value" id="alertasCount">0</div>
-                    <div class="stat-label">Alertas Activas</div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="section-header">
+                    <h2>Actividad Reciente</h2>
+                </div>
+                <div id="recentActivityList"
+                    style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 20px;">
+                    <p style="color: #64748b; text-align: center;">Cargando actividad...</p>
                 </div>
             </div>
 
-            <!-- FAVORITES SECTION -->
-            <div class="section-header">
-                <h2>Mis Casas Guardadas</h2>
-                <a href="catalogo.html" class="btn-dash btn-dash-primary">
-                    <i class="fa-solid fa-plus"></i> Explorar Más
-                </a>
-            </div>
-
-            <div id="favoritesList" class="dash-cards-grid">
-                <!-- Loading State -->
-                <div class="empty-dashboard">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                    <p>Cargando tus casas...</p>
+            <!-- SECTION: FAVORITES -->
+            <div id="section-favorites" class="fw-section" style="display:none">
+                <div class="section-header">
+                    <h2>Mis Casas Guardadas</h2>
+                    <a href="catalogo.html" class="btn-dash btn-dash-primary"><i class="fa-solid fa-plus"></i> Explorar
+                        Más</a>
+                </div>
+                <div id="favoritesList" class="dash-cards-grid">
+                    <div class="empty-dashboard"><i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Cargando favoritos...</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- RECENT MESSAGES SECTION -->
-            <div class="section-header" style="margin-top: 50px;">
-                <h2>Historial de Consultas</h2>
+            <!-- SECTION: ALERTS -->
+            <div id="section-alerts" class="fw-section" style="display:none">
+                <div class="section-header">
+                    <h2>Mis Alertas de Búsqueda</h2>
+                    <button onclick="createAlert()" class="btn-dash btn-dash-primary"><i class="fa-solid fa-plus"></i>
+                        Nueva Alerta</button>
+                </div>
+                <div id="alertsList">
+                    <div class="empty-dashboard">
+                        <i class="fa-regular fa-bell-slash"></i>
+                        <p>No tienes alertas configuradas.</p>
+                        <p style="font-size: 0.9rem; margin-top: 5px;">Recibe avisos cuando publiquen casas en tu zona.
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <div id="consultasHistory"
-                style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
-                <!-- Table-like list for messages -->
-                <div class="empty-dashboard">
-                    <p>No hay consultas recientes.</p>
+            <!-- SECTION: MESSAGES -->
+            <div id="section-messages" class="fw-section" style="display:none">
+                <div class="section-header">
+                    <h2>Historial de Consultas</h2>
+                </div>
+                <div id="consultasHistory"
+                    style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
+                    <div class="empty-dashboard">
+                        <p>Cargando mensajes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION: AI ASSISTANT -->
+            <div id="section-ai" class="fw-section" style="display:none; height: 80vh;">
+                <iframe src="asesor.html"
+                    style="width: 100%; height: 100%; border: none; border-radius: 16px; background: #f8fafc;"></iframe>
+            </div>
+
+            <!-- SECTION: SETTINGS -->
+            <div id="section-settings" class="fw-section" style="display:none">
+                <div class="dashboard-card" style="max-width: 600px;">
+                    <h3 style="margin-bottom: 20px; color: #0f172a;">Editar Perfil</h3>
+                    <form onsubmit="updateProfile(event)">
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nombre Completo</label>
+                            <input type="text" id="settingsName" class="dash-search"
+                                style="width: 100%; background: white;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email (No
+                                editable)</label>
+                            <input type="email" id="settingsEmail" disabled class="dash-search"
+                                style="width: 100%; background: #f1f5f9; color: #94a3b8;">
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nueva Contraseña
+                                (Opcional)</label>
+                            <input type="password" id="settingsPass" placeholder="Dejar en blanco para mantener"
+                                class="dash-search" style="width: 100%; background: white;">
+                        </div>
+                        <button type="submit" class="btn-dash btn-dash-primary" style="width: 100%;">Guardar
+                            Cambios</button>
+                    </form>
                 </div>
             </div>
 
@@ -155,189 +252,203 @@
         let currentUser = null;
         let userData = null;
 
-        // Proteger página - solo usuarios autenticados
+        // AUTH & INIT
         auth.onAuthStateChanged(async (user) => {
             if (!user) {
-                // Redirigir si no hay sesión
                 window.location.href = 'usuarios.html';
                 return;
             }
-
             currentUser = user;
             await loadUserData();
+            loadFavorites();
+            loadConsultas();
+            // Load alerts mocked or real
         });
 
-        // Cargar datos del usuario
+        // SPA NAVIGATION
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.fw-section').forEach(el => el.style.display = 'none');
+            // Show target
+            document.getElementById('section-' + sectionId).style.display = 'block';
+
+            // Update Sidebar Active State
+            document.querySelectorAll('.dash-link').forEach(el => el.classList.remove('active'));
+            const navLink = document.getElementById('nav-' + sectionId);
+            if (navLink) navLink.classList.add('active');
+
+            // Update Headers
+            const titles = {
+                'overview': 'Bienvenido',
+                'favorites': 'Mis Favoritos',
+                'alerts': 'Centro de Alertas',
+                'messages': 'Bandeja de Entrada',
+                'ai': 'Tu Asesor Inteligente',
+                'settings': 'Configuración de Cuenta'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionId] || 'Panel';
+            document.getElementById('breadcrumbText').textContent = `Panel de Usuario / ${titles[sectionId] || sectionId}`;
+        }
+
+        // LOAD USER DATA
         async function loadUserData() {
             try {
-                // Obtener datos de Firestore
                 const userDoc = await db.collection('users').doc(currentUser.uid).get();
                 userData = userDoc.exists ? userDoc.data() : {};
-
                 const userName = userData.name || currentUser.displayName || 'Usuario';
 
-                // Actualizar Sidebar
-                const sidebarName = document.getElementById('sidebarName');
-                const sidebarEmail = document.getElementById('sidebarEmail');
-                const sidebarAvatar = document.getElementById('sidebarAvatar');
+                // Sidebar
+                document.getElementById('sidebarName').textContent = userName;
+                document.getElementById('sidebarEmail').textContent = currentUser.email;
+                document.getElementById('sidebarAvatar').innerHTML = userName.charAt(0).toUpperCase();
 
-                if (sidebarName) sidebarName.textContent = userName;
-                if (sidebarEmail) sidebarEmail.textContent = currentUser.email;
-                if (sidebarAvatar) sidebarAvatar.innerHTML = userName.charAt(0).toUpperCase();
+                // Settings Form Pre-fill
+                document.getElementById('settingsName').value = userName;
+                document.getElementById('settingsEmail').value = currentUser.email;
 
-                // Actualizar Main Header
-                const welcomeTitle = document.getElementById('welcomeTitle');
-                if (welcomeTitle) welcomeTitle.textContent = `Hola, ${userName} 👋`;
+                // Welcome
+                document.getElementById('pageTitle').textContent = `Hola, ${userName}`;
 
-                // Cargar Contenido
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // --- FEATURE: FAVORITES ---
+        async function loadFavorites() {
+            const list = document.getElementById('favoritesList');
+            const snapshot = await db.collection('favorites').where('userId', '==', currentUser.uid).get();
+            document.getElementById('favoritosCount').textContent = snapshot.size;
+
+            if (snapshot.empty) {
+                list.innerHTML = `<div class="empty-dashboard"><i class="fa-solid fa-heart-crack"></i><p>Sin favoritos aún.</p><a href="catalogo.html" class="btn-dash btn-dash-primary" style="margin-top:10px;">Ver Catálogo</a></div>`;
+                return;
+            }
+
+            let html = '';
+            snapshot.forEach(doc => {
+                const d = doc.data();
+                html += `
+                <div class="property-card-dashboard">
+                    <img src="${d.houseImage || 'https://via.placeholder.com/300'}" class="property-img">
+                    <div class="property-info">
+                        <div class="property-price">${(d.housePrice || 0).toLocaleString()}€</div>
+                        <h3 class="property-title">${d.houseTitle || 'Casa'}</h3>
+                        <div class="property-actions">
+                            <a href="detalle-casa.html?id=${d.houseId}" class="btn-dash btn-dash-primary">Ver</a>
+                            <button onclick="removeFavorite('${doc.id}')" class="btn-dash btn-dash-outline" style="color:#ef4444;"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>`;
+            });
+            list.innerHTML = html;
+        }
+
+        async function removeFavorite(id) {
+            if (confirm('¿Borrar de favoritos?')) {
+                await db.collection('favorites').doc(id).delete();
                 loadFavorites();
-                loadConsultas();
-                loadAlertas();
-
-            } catch (error) {
-                console.error('Error cargando datos:', error);
             }
         }
 
-        // Load Alerts
-        async function loadAlertas() {
-            try {
-                // Get user's alerts from Firestore (price changes, new similar houses, etc.)
-                const snapshot = await db.collection('alerts')
-                    .where('userId', '==', currentUser.uid)
-                    .where('active', '==', true)
-                    .get();
-
-                document.getElementById('alertasCount').textContent = snapshot.size;
-            } catch (error) {
-                console.error('Error loading alerts:', error);
-                document.getElementById('alertasCount').textContent = '0';
-            }
-        }
-
+        // --- FEATURE: MESSAGES ---
         async function loadConsultas() {
             const container = document.getElementById('consultasHistory');
-            try {
-                const snapshot = await db.collection('leads')
-                    .where('userEmail', '==', currentUser.email)
-                    .orderBy('createdAt', 'desc')
-                    .limit(5)
-                    .get();
+            const recentContainer = document.getElementById('recentActivityList');
 
-                if (snapshot.empty) {
-                    container.innerHTML = `
-                        <div class="empty-dashboard">
-                            <i class="fa-regular fa-paper-plane"></i>
-                            <p>No has enviado ninguna consulta todavía.</p>
-                        </div>`;
-                    document.getElementById('consultasCount').textContent = 0;
-                    return;
-                }
+            const snapshot = await db.collection('leads')
+                .where('userEmail', '==', currentUser.email)
+                .orderBy('createdAt', 'desc')
+                .limit(10)
+                .get();
 
-                let html = '';
-                snapshot.forEach(doc => {
-                    const lead = doc.data();
-                    const date = lead.createdAt?.toDate().toLocaleDateString('es-ES') || 'Reciente';
+            document.getElementById('consultasCount').textContent = snapshot.size;
 
-                    html += `
-                        <div style="padding: 20px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #0f172a;">${lead.houseTitle || 'Consulta General'}</h4>
-                                <p style="margin: 0; color: #64748b; font-size: 0.9rem;">"${lead.message}"</p>
-                            </div>
-                            <div style="text-align: right;">
-                                <span style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">${date}</span>
-                                <span style="background: #eff6ff; color: #2563eb; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">Enviado</span>
-                            </div>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                document.getElementById('consultasCount').textContent = snapshot.size;
+            if (snapshot.empty) {
+                const emptyParams = `<div class="empty-dashboard"><i class="fa-regular fa-paper-plane"></i><p>No hay mensajes.</p></div>`;
+                container.innerHTML = emptyParams;
+                recentContainer.innerHTML = emptyParams;
+                return;
+            }
 
-            } catch (error) {
-                console.error('Error loading consultas:', error);
+            let html = '';
+            snapshot.forEach(doc => {
+                const l = doc.data();
+                const date = l.createdAt?.toDate().toLocaleDateString() || 'Hoy';
+                const item = `
+                <div class="message-item">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                        <strong style="color:#0f172a;">${l.houseTitle || 'Consulta General'}</strong>
+                        <span style="font-size:0.8rem; color:#94a3b8;">${date}</span>
+                    </div>
+                    <p style="margin:0; color:#64748b; font-size:0.95rem;">"${l.message}"</p>
+                    <div style="margin-top:8px;">
+                         <span class="badge-approved" style="background:#eff6ff; color:#2563eb;">Enviado</span>
+                    </div>
+                </div>`;
+                html += item;
+            });
 
-                // Fallback si no hay índice
-                if (error.code === 'failed-precondition') {
-                    container.innerHTML = '<p class="empty-dashboard" style="color:#64748b;">Consultando mensajes...</p>';
-                }
+            container.innerHTML = html;
+            recentContainer.innerHTML = html; // Reuse for overview
+        }
+
+        // --- FEATURE: ALERTS (Mocked for now as backend logic is complex) ---
+        function createAlert() {
+            const area = prompt("¿De qué zona buscas casa? (Escribe 'Madrid', 'Barcelona'...)");
+            if (area) {
+                const alertsList = document.getElementById('alertsList');
+                // Remove empty state if present
+                if (alertsList.querySelector('.empty-dashboard')) alertsList.innerHTML = '';
+
+                const newAlert = `
+                <div class="alert-card">
+                    <div>
+                        <h4 style="margin:0 0 5px 0; color:#0f172a;">Zona: ${area}</h4>
+                        <p style="margin:0; font-size:0.9rem; color:#64748b;">Cualquier precio</p>
+                    </div>
+                    <button class="btn-icon" onclick="this.parentElement.remove()" style="color:#ef4444;"><i class="fa-solid fa-trash"></i></button>
+                </div>`;
+                alertsList.insertAdjacentHTML('afterbegin', newAlert);
+                alert('✅ Alerta creada. Te avisaremos cuando haya casas en ' + area);
+
+                // Update counter visually
+                let count = parseInt(document.getElementById('alertasCount').textContent) || 0;
+                document.getElementById('alertasCount').textContent = count + 1;
             }
         }
 
-        // Cargar casas favoritas
-        async function loadFavorites() {
-            const favoritesList = document.getElementById('favoritesList');
+        // --- FEATURE: SETTINGS ---
+        async function updateProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('settingsName').value;
+            const newPass = document.getElementById('settingsPass').value;
 
             try {
-                const snapshot = await db.collection('favorites')
-                    .where('userId', '==', currentUser.uid)
-                    .get();
+                // Update Firestore
+                await db.collection('users').doc(currentUser.uid).update({ name: newName });
 
-                const totalFavs = snapshot.size;
-                document.getElementById('favoritosCount').textContent = totalFavs;
+                // Update Auth Profile
+                await currentUser.updateProfile({ displayName: newName });
 
-                if (snapshot.empty) {
-                    favoritesList.innerHTML = `
-                        <div class="empty-dashboard" style="grid-column: 1 / -1;">
-                            <i class="fa-solid fa-heart-crack"></i>
-                            <p>Tu lista de favoritos está vacía.</p>
-                            <a href="catalogo.html" class="btn-dash btn-dash-primary" style="display: inline-flex; margin-top: 15px; width: auto;">Ir al Catálogo</a>
-                        </div>
-                    `;
-                    return;
+                // Update Password if provided
+                if (newPass) {
+                    await currentUser.updatePassword(newPass);
                 }
 
-                const favorites = [];
-                snapshot.forEach(doc => {
-                    favorites.push({ id: doc.id, ...doc.data() });
-                });
-
-                // Renderizar Tarjetas Nuevas
-                let html = '';
-                favorites.forEach(data => {
-                    if (!data.houseId) return;
-
-                    const title = data.houseTitle || 'Casa Guardada';
-                    const price = data.housePrice || '-';
-                    const img = data.houseImage || 'https://via.placeholder.com/400x300';
-                    const link = `detalle-casa.html?id=${data.houseId}`;
-                    const displayPrice = typeof price === 'number' ? price.toLocaleString() + '€' : price;
-
-                    html += `
-                        <div class="property-card-dashboard">
-                            <img src="${img}" alt="${title}" class="property-img">
-                            <div class="property-info">
-                                <div class="property-price">${displayPrice}</div>
-                                <h3 class="property-title">${title}</h3>
-                                <div class="property-actions">
-                                    <a href="${link}" class="btn-dash btn-dash-primary">Ver Detalles</a>
-                                    <button onclick="removeFavorite('${data.id}')" class="btn-dash btn-dash-outline" style="flex: 0; padding: 8px 12px; color: #ef4444; border-color: #fee2e2; background: #fef2f2;">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                favoritesList.innerHTML = html;
-
+                alert('✅ Perfil actualizado correctamente');
+                loadUserData(); // Refresh UI
             } catch (error) {
-                console.error('Error loading favorites:', error);
-                favoritesList.innerHTML = '<p class="empty-dashboard">Error al cargar favoritos.</p>';
-            }
-        }
-
-        async function removeFavorite(docId) {
-            if (confirm('¿Eliminar de favoritos?')) {
-                await db.collection('favorites').doc(docId).delete();
-                loadFavorites(); // Reload grid
+                console.error(error);
+                alert('Error al actualizar: ' + error.message);
+                if (error.code === 'auth/requires-recent-login') {
+                    alert('Por seguridad, cierra sesión y vuelve a entrar para cambiar la contraseña.');
+                }
             }
         }
 
         async function logout() {
-            if (confirm('¿Cerrar sesión?')) {
+            if (confirm('¿Salir?')) {
                 await auth.signOut();
                 window.location.href = 'index.html';
             }
