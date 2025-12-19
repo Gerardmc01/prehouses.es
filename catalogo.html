@@ -461,11 +461,18 @@
 
         async function loadHouses(categoryFilter) {
             try {
-                // Fetch all houses sorted by newer first
-                const snap = await db.collection('houses').orderBy('createdAt', 'desc').limit(100).get();
+                // Fetch all houses
+                const snap = await db.collection('houses').get();
                 allHouses = [];
                 snap.forEach(doc => {
                     allHouses.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Sort by createdAt descending in memory
+                allHouses.sort((a, b) => {
+                    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+                    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+                    return dateB - dateA;
                 });
 
                 filterHouses(categoryFilter);

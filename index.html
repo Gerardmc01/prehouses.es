@@ -183,12 +183,22 @@
                 document.addEventListener('DOMContentLoaded', async () => {
                     const container = document.getElementById('featuredHousesGrid');
                     try {
-                        const snapshot = await db.collection('houses')
-                            .orderBy('createdAt', 'desc')
-                            .limit(3)
-                            .get();
+                        const snapshot = await db.collection('houses').get();
+                        let allHouses = [];
+                        snapshot.forEach(doc => {
+                            allHouses.push({ id: doc.id, ...doc.data() });
+                        });
 
-                        if (snapshot.empty) {
+                        // Sort by createdAt descending in memory
+                        allHouses.sort((a, b) => {
+                            const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+                            const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+                            return dateB - dateA;
+                        });
+
+                        const latestHouses = allHouses.slice(0, 3);
+
+                        if (latestHouses.length === 0) {
                             container.innerHTML = `
                                 <div style="grid-column: 1/-1; text-align: center; padding: 40px; border: 2px dashed #e2e8f0; border-radius: 12px;">
                                     <i class="fa-solid fa-house-chimney" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px;"></i>
@@ -200,12 +210,11 @@
                         }
 
                         let html = '';
-                        snapshot.forEach(doc => {
-                            const house = doc.data();
+                        latestHouses.forEach(house => {
                             const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
 
                             html += `
-                                <a href="detalle-casa.html?id=${doc.id}" class="house-card">
+                                <a href="detalle-casa.html?id=${house.id}" class="house-card">
                                     <div class="house-image">
                                         <span class="house-badge" style="background: #10b981;">Novedad</span>
                                         <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
