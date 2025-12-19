@@ -460,29 +460,33 @@
         let currentFilteredHouses = [];
 
         async function loadHouses(categoryFilter) {
+            console.log("Loading houses for category:", categoryFilter);
             try {
-                // Fetch all houses
                 const snap = await db.collection('houses').get();
+                console.log("Fetched houses:", snap.size);
                 allHouses = [];
                 snap.forEach(doc => {
                     allHouses.push({ id: doc.id, ...doc.data() });
                 });
 
-                // Sort by createdAt descending in memory
+                // Robust sort
                 allHouses.sort((a, b) => {
-                    const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-                    const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-                    return dateB - dateA;
+                    const timeA = (a.createdAt && a.createdAt.seconds) ? a.createdAt.seconds : 0;
+                    const timeB = (b.createdAt && b.createdAt.seconds) ? b.createdAt.seconds : 0;
+                    return timeB - timeA;
                 });
 
-                filterHouses(categoryFilter);
+                renderGrid(allHouses);
+                if (categoryFilter && categoryFilter !== 'all') {
+                    filterHouses(categoryFilter);
+                }
 
             } catch (error) {
-                console.error("Error loading houses:", error);
+                console.error("CRITICAL ERROR loading houses:", error);
                 catalogGrid.innerHTML = `
-                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-light);">
-                        <i class="fa-solid fa-cloud-bolt" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
-                        <p>Error cargando el catálogo. Revisa tu conexión.</p>
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #ef4444;">
+                        <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                        <p>Error: ${error.message}</p>
                     </div>`;
             }
         }
