@@ -162,6 +162,102 @@
                 </div>
             </div>
 
+<<<<<<< HEAD
+            <!-- ACCOUNT LEVEL SECTION -->
+            <div class="account-level-card" id="accountLevelSection">
+                <div class="account-level-header">
+                    <div class="level-avatar-container">
+                        <div class="level-avatar" id="levelAvatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="level-badge" id="levelBadge">1</div>
+                        <label class="upload-profile-btn" title="Subir foto de perfil">
+                            <i class="fa-solid fa-camera"></i>
+                            <input type="file" accept="image/*" onchange="handleProfileImageUpload(event)">
+                        </label>
+                    </div>
+                    <div class="level-info">
+                        <div class="level-title">
+                            Nivel de Cuenta
+                            <span class="info-tooltip">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <div class="tooltip-content">
+                                    Tu Nivel de Cuenta indica tu fidelidad. Sube de nivel para que las empresas sepan
+                                    que pueden confiar en un posible cliente como tú.
+                                </div>
+                            </span>
+                        </div>
+                        <h2 class="level-number">Nivel <span id="currentLevel">1</span></h2>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar-fill" id="levelProgressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-percentage" id="levelProgressText">0% completado</div>
+                </div>
+
+                <div class="missions-grid" id="missionsGrid">
+                    <!-- Misiones se cargarán dinámicamente -->
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <h4 class="mission-title">Verifica tu teléfono</h4>
+                            <div class="mission-status">
+                                <i class="fa-solid fa-circle"></i>
+                            </div>
+                        </div>
+                        <p class="mission-description">Añade y verifica tu número de teléfono para mayor seguridad</p>
+                        <div class="mission-progress-bar">
+                            <div class="mission-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="mission-progress-text">0% completado</div>
+                    </div>
+
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <h4 class="mission-title">Da me gusta a 3 casas</h4>
+                            <div class="mission-status">
+                                <i class="fa-solid fa-circle"></i>
+                            </div>
+                        </div>
+                        <p class="mission-description">Guarda 3 casas diferentes en tus favoritos</p>
+                        <div class="mission-progress-bar">
+                            <div class="mission-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="mission-progress-text">0 / 3 casas</div>
+                    </div>
+
+                    <div class="mission-card">
+                        <div class="mission-header">
+                            <h4 class="mission-title">Visita 3 días seguidos</h4>
+                            <div class="mission-status">
+                                <i class="fa-solid fa-circle"></i>
+                            </div>
+                        </div>
+                        <p class="mission-description">Inicia sesión durante 3 días consecutivos</p>
+                        <div class="mission-progress-bar">
+                            <div class="mission-progress-fill" style="width: 0%"></div>
+                        </div>
+                        <div class="mission-progress-text">0 / 3 días</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAVORITES SECTION -->
+            <div class="section-header">
+                <h2>Mis Casas Guardadas</h2>
+                <a href="catalogo.html" class="btn-dash btn-dash-primary">
+                    <i class="fa-solid fa-plus"></i> Explorar Más
+                </a>
+            </div>
+
+            <div id="favoritesList" class="dash-cards-grid">
+                <!-- Loading State -->
+                <div class="empty-dashboard">
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                    <p>Cargando tus casas...</p>
+=======
             <!-- SECTION: FAVORITES -->
             <div id="section-favorites" class="fw-section" style="display:none">
                 <div class="section-header">
@@ -173,6 +269,7 @@
                     <div class="empty-dashboard"><i class="fa-solid fa-spinner fa-spin"></i>
                         <p>Cargando favoritos...</p>
                     </div>
+>>>>>>> 27acf479b91896a57132d85c2e602ad721789848
                 </div>
             </div>
 
@@ -247,6 +344,7 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
+    <script src="js/account-level.js"></script>
 
     <script>
         let currentUser = null;
@@ -453,6 +551,193 @@
                 window.location.href = 'index.html';
             }
         }
+
+        // ========================================
+        // ACCOUNT LEVEL SYSTEM
+        // ========================================
+
+        let accountLevelSystem = null;
+
+        // Inicializar sistema de niveles
+        async function initializeAccountLevel() {
+            try {
+                accountLevelSystem = new AccountLevelSystem(currentUser.uid);
+                await accountLevelSystem.initialize();
+                await loadAccountLevelUI();
+
+                // Registrar visita diaria
+                await accountLevelSystem.registerDailyVisit();
+
+                // Recargar UI después de registrar visita
+                await loadAccountLevelUI();
+            } catch (error) {
+                console.error('Error initializing account level:', error);
+            }
+        }
+
+        // Cargar UI del sistema de niveles
+        async function loadAccountLevelUI() {
+            try {
+                await accountLevelSystem.loadCurrentData();
+
+                const level = accountLevelSystem.currentLevel;
+                const progress = accountLevelSystem.calculateProgress();
+                const missions = accountLevelSystem.getCurrentMissions();
+                const userData = (await db.collection('users').doc(currentUser.uid).get()).data();
+                const accountLevel = userData.accountLevel || {};
+
+                // Actualizar nivel y badge
+                document.getElementById('currentLevel').textContent = level;
+                document.getElementById('levelBadge').textContent = level;
+
+                // Actualizar avatar
+                const levelAvatar = document.getElementById('levelAvatar');
+                if (accountLevel.profileImage) {
+                    levelAvatar.innerHTML = `<img src="${accountLevel.profileImage}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                } else {
+                    const userName = userData.name || currentUser.displayName || 'Usuario';
+                    levelAvatar.innerHTML = userName.charAt(0).toUpperCase();
+                }
+
+                // Actualizar barra de progreso
+                document.getElementById('levelProgressBar').style.width = `${progress}%`;
+                document.getElementById('levelProgressText').textContent = `${progress}% completado`;
+
+                // Actualizar misiones
+                updateMissionsUI(missions);
+
+            } catch (error) {
+                console.error('Error loading account level UI:', error);
+            }
+        }
+
+        // Actualizar UI de misiones
+        function updateMissionsUI(missions) {
+            const missionsGrid = document.getElementById('missionsGrid');
+
+            const missionData = [
+                {
+                    key: 'verifyPhone',
+                    title: 'Verifica tu teléfono',
+                    description: 'Añade y verifica tu número de teléfono para mayor seguridad',
+                    icon: 'fa-phone',
+                    progressText: (m) => m.completed ? '100% completado' : '0% completado'
+                },
+                {
+                    key: 'likeThreeHouses',
+                    title: 'Da me gusta a 3 casas',
+                    description: 'Guarda 3 casas diferentes en tus favoritos',
+                    icon: 'fa-heart',
+                    progressText: (m) => `${m.count || 0} / 3 casas`
+                },
+                {
+                    key: 'visitThreeDays',
+                    title: 'Visita 3 días seguidos',
+                    description: 'Inicia sesión durante 3 días consecutivos',
+                    icon: 'fa-calendar-check',
+                    progressText: (m) => `${(m.visitDays || []).length} / 3 días`
+                }
+            ];
+
+            let html = '';
+            missionData.forEach(mission => {
+                const missionInfo = missions[mission.key] || { completed: false, progress: 0 };
+                const completedClass = missionInfo.completed ? 'completed' : '';
+                const statusIcon = missionInfo.completed ? 'fa-check' : 'fa-circle';
+
+                html += `
+                    <div class="mission-card ${completedClass}">
+                        <div class="mission-header">
+                            <h4 class="mission-title">
+                                <i class="fa-solid ${mission.icon}" style="margin-right: 8px;"></i>
+                                ${mission.title}
+                            </h4>
+                            <div class="mission-status ${completedClass}">
+                                <i class="fa-solid ${statusIcon}"></i>
+                            </div>
+                        </div>
+                        <p class="mission-description">${mission.description}</p>
+                        <div class="mission-progress-bar">
+                            <div class="mission-progress-fill" style="width: ${missionInfo.progress || 0}%"></div>
+                        </div>
+                        <div class="mission-progress-text">${mission.progressText(missionInfo)}</div>
+                    </div>
+                `;
+            });
+
+            missionsGrid.innerHTML = html;
+        }
+
+        // Subir foto de perfil
+        async function handleProfileImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validar tipo de archivo
+            if (!file.type.startsWith('image/')) {
+                alert('Por favor selecciona una imagen válida');
+                return;
+            }
+
+            // Validar tamaño (máx 2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('La imagen no debe superar 2MB');
+                return;
+            }
+
+            try {
+                // Convertir a base64 para almacenar en Firestore
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const imageUrl = e.target.result;
+
+                    // Guardar en Firestore
+                    await accountLevelSystem.uploadProfileImage(imageUrl);
+
+                    // Actualizar UI
+                    await loadAccountLevelUI();
+
+                    alert('✅ Foto de perfil actualizada correctamente');
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error('Error uploading profile image:', error);
+                alert('❌ Error al subir la imagen');
+            }
+        }
+
+        // Modificar loadUserData para incluir sistema de niveles
+        const originalLoadUserData = loadUserData;
+        loadUserData = async function () {
+            await originalLoadUserData();
+            await initializeAccountLevel();
+        };
+
+        // Modificar loadFavorites para actualizar misión de likes
+        const originalLoadFavorites = loadFavorites;
+        loadFavorites = async function () {
+            await originalLoadFavorites();
+
+            // Actualizar contador de likes en la misión
+            if (accountLevelSystem) {
+                const favCount = parseInt(document.getElementById('favoritosCount').textContent) || 0;
+                const currentMissions = accountLevelSystem.getCurrentMissions();
+                const currentLikes = currentMissions.likeThreeHouses?.count || 0;
+
+                // Si hay más favoritos que los registrados, actualizar
+                if (favCount > currentLikes) {
+                    const levelKey = `level${accountLevelSystem.currentLevel}`;
+                    await db.collection('users').doc(currentUser.uid).update({
+                        [`accountLevel.missions.${levelKey}.likeThreeHouses.count`]: favCount,
+                        [`accountLevel.missions.${levelKey}.likeThreeHouses.progress`]: Math.min((favCount / 3) * 100, 100),
+                        [`accountLevel.missions.${levelKey}.likeThreeHouses.completed`]: favCount >= 3
+                    });
+
+                    await accountLevelSystem.checkLevelUp();
+                    await loadAccountLevelUI();
+                }
+            }
+        };
     </script>
 </body>
 

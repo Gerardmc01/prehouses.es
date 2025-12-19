@@ -9,19 +9,36 @@
     <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Estilos mejorados del formulario */
         .form-section {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            padding: 35px;
+            border-radius: 20px;
             margin-bottom: 30px;
             border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
         }
 
         .form-section h3 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: var(--secondary);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 12px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section h3 i {
+            color: var(--primary);
+            font-size: 1.4rem;
         }
 
         .form-grid {
@@ -36,52 +53,115 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--secondary);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .form-group label .required {
+            color: #ef4444;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-group input.valid {
+            border-color: #10b981;
+        }
+
+        .form-group input.invalid {
+            border-color: #ef4444;
         }
 
         .form-group textarea {
-            min-height: 120px;
+            min-height: 140px;
             resize: vertical;
+            font-family: inherit;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 5px;
         }
 
         .image-upload {
-            border: 2px dashed #e2e8f0;
-            border-radius: 12px;
-            padding: 40px;
+            border: 3px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 50px 40px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
         }
 
         .image-upload:hover {
             border-color: var(--primary);
-            background: #f8fafc;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            transform: scale(1.02);
+        }
+
+        .image-upload i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .image-upload p {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 5px;
         }
 
         .image-preview {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
         }
 
         .image-preview-item {
             position: relative;
-            aspect-ratio: 1;
-            border-radius: 8px;
+            aspect-ratio: 4/3;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .image-preview-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
         .image-preview-item img {
@@ -92,23 +172,111 @@
 
         .image-preview-item .remove-btn {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ef4444;
+            top: 8px;
+            right: 8px;
+            background: rgba(239, 68, 68, 0.9);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .image-preview-item .remove-btn:hover {
+            background: #dc2626;
+            transform: scale(1.1);
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 16px;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+        }
+
+        .progress-step::after {
+            content: '';
+            position: absolute;
+            top: 25px;
+            right: -50%;
+            width: 100%;
+            height: 3px;
+            background: #cbd5e1;
+            z-index: 0;
+        }
+
+        .progress-step:last-child::after {
+            display: none;
+        }
+
+        .progress-step.active .step-number {
+            background: var(--primary);
+            color: white;
+        }
+
+        .progress-step.completed .step-number {
+            background: #10b981;
+            color: white;
+        }
+
+        .progress-step.completed::after {
+            background: #10b981;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .progress-indicator {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .progress-step::after {
+                display: none;
+            }
+
+            .form-section {
+                padding: 25px 20px;
             }
         }
     </style>
@@ -151,38 +319,58 @@
             <p style="color: var(--text-light); margin-bottom: 40px;">Completa todos los campos para publicar tu casa en
                 el catálogo de Prehouses.</p>
 
+            <!-- Indicador de Progreso -->
+            <div class="progress-indicator">
+                <div class="progress-step completed">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Información</div>
+                </div>
+                <div class="progress-step active">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Detalles</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Imágenes</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Publicar</div>
+                </div>
+            </div>
+
             <form id="publishHouseForm" onsubmit="handlePublishHouse(event)">
 
                 <!-- Información Básica -->
                 <div class="form-section">
                     <h3><i class="fa-solid fa-info-circle"></i> Información Básica</h3>
                     <div class="form-group">
-                        <label>Título de la Propiedad *</label>
+                        <label>Título de la Propiedad <span class="required">*</span></label>
                         <input type="text" id="houseTitle" required placeholder="Ej: Casa Moderna 120m²">
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Precio (€) *</label>
+                            <label>Precio (€) <span class="required">*</span></label>
                             <input type="number" id="housePrice" required min="0" placeholder="75000">
                         </div>
                         <div class="form-group">
-                            <label>Superficie (m²) *</label>
+                            <label>Superficie (m²) <span class="required">*</span></label>
                             <input type="number" id="houseArea" required min="1" placeholder="120">
                         </div>
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Habitaciones *</label>
+                            <label>Habitaciones <span class="required">*</span></label>
                             <input type="number" id="houseBedrooms" required min="0" placeholder="3">
                         </div>
                         <div class="form-group">
-                            <label>Baños *</label>
+                            <label>Baños <span class="required">*</span></label>
                             <input type="number" id="houseBathrooms" required min="0" placeholder="2">
                         </div>
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Categoría *</label>
+                            <label>Categoría <span class="required">*</span></label>
                             <select id="houseCategory" required>
                                 <option value="">Selecciona una categoría</option>
                                 <option value="madera">Casa de Madera</option>
@@ -205,9 +393,11 @@
                 <div class="form-section">
                     <h3><i class="fa-solid fa-align-left"></i> Descripción</h3>
                     <div class="form-group">
-                        <label>Descripción Completa *</label>
+                        <label>Descripción Completa <span class="required">*</span></label>
                         <textarea id="houseDescription" required
-                            placeholder="Describe las características principales de la casa, materiales, acabados, ventajas..."></textarea>
+                            placeholder="Describe las características principales de la casa, materiales, acabados, ventajas..."
+                            oninput="updateCharCounter()"></textarea>
+                        <div class="char-counter" id="charCounter">0 / 1000 caracteres</div>
                     </div>
                 </div>
 
@@ -215,14 +405,16 @@
                 <div class="form-section">
                     <h3><i class="fa-solid fa-images"></i> Imágenes</h3>
                     <div class="form-group">
-                        <label>URLs de Imágenes (una por línea) *</label>
+                        <label>URLs de Imágenes <span class="required">*</span></label>
                         <textarea id="houseImages" required placeholder="https://ejemplo.com/imagen1.jpg
 https://ejemplo.com/imagen2.jpg
-https://ejemplo.com/imagen3.jpg"></textarea>
-                        <small style="color: var(--text-light); display: block; margin-top: 5px;">
-                            Introduce las URLs de las imágenes de tu casa. Mínimo 1 imagen, recomendado 4-6.
+https://ejemplo.com/imagen3.jpg" oninput="updateImagePreview()"></textarea>
+                        <small>
+                            <i class="fa-solid fa-lightbulb"></i> Introduce las URLs de las imágenes de tu casa (una por
+                            línea). Mínimo 1 imagen, recomendado 4-6.
                         </small>
                     </div>
+                    <div id="imagePreviewContainer" class="image-preview"></div>
                 </div>
 
                 <!-- Características Adicionales -->
@@ -246,9 +438,10 @@ https://ejemplo.com/imagen3.jpg"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Características Destacadas (separadas por comas)</label>
+                        <label>Características Destacadas</label>
                         <input type="text" id="houseFeatures"
                             placeholder="Ej: Paneles solares, Domótica, Jardín, Garaje">
+                        <small><i class="fa-solid fa-tags"></i> Separa cada característica con una coma</small>
                     </div>
                 </div>
 
@@ -298,6 +491,50 @@ https://ejemplo.com/imagen3.jpg"></textarea>
             document.getElementById('sidebarEmail').textContent = user.email;
             document.getElementById('sidebarAvatar').textContent = (userData.name || 'E').charAt(0).toUpperCase();
         });
+
+        // Contador de caracteres para descripción
+        function updateCharCounter() {
+            const textarea = document.getElementById('houseDescription');
+            const counter = document.getElementById('charCounter');
+            const length = textarea.value.length;
+            counter.textContent = `${length} / 1000 caracteres`;
+
+            if (length > 1000) {
+                counter.style.color = '#ef4444';
+            } else if (length > 800) {
+                counter.style.color = '#f59e0b';
+            } else {
+                counter.style.color = '#94a3b8';
+            }
+        }
+
+        // Preview de imágenes
+        function updateImagePreview() {
+            const textarea = document.getElementById('houseImages');
+            const container = document.getElementById('imagePreviewContainer');
+            const urls = textarea.value.split('\n').map(url => url.trim()).filter(url => url.length > 0);
+
+            if (urls.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            urls.forEach((url, index) => {
+                // Validar que sea una URL válida
+                const isValid = url.startsWith('http://') || url.startsWith('https://');
+
+                html += `
+                    <div class="image-preview-item">
+                        <img src="${isValid ? url : 'https://via.placeholder.com/400x300?text=URL+Inválida'}" 
+                             alt="Preview ${index + 1}"
+                             onerror="this.src='https://via.placeholder.com/400x300?text=Error+al+cargar'">
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
 
         async function handlePublishHouse(event) {
             event.preventDefault();

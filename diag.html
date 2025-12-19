@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DB Diagnostic</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+</head>
+
+<body>
+    <div id="results">Running diagnostic...</div>
+    <script>
+        async function run() {
+            const db = firebase.firestore();
+            const results = document.getElementById('results');
+            try {
+                const snap = await db.collection('houses').get();
+                if (snap.empty) {
+                    results.innerHTML = '<h1>DB IS EMPTY!</h1>';
+                } else {
+                    let html = `<h1>Found ${snap.size} houses:</h1><ul>`;
+                    snap.forEach(doc => {
+                        html += `<li>ID: ${doc.id} - Title: ${doc.data().title} - Img: ${doc.data().images[0]}</li>`;
+                    });
+                    html += '</ul>';
+                    results.innerHTML = html;
+                }
+            } catch (error) {
+                results.innerHTML = 'Error: ' + error.message;
+            }
+        }
+        run();
+    </script>
+</body>
+
+</html>
