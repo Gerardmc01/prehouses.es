@@ -18,6 +18,14 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script>
+        const db = firebase.firestore();
+    </script>
 </head>
 
 <body>
@@ -163,90 +171,33 @@
             </p>
 
             <div class="house-grid" id="featuredHousesGrid">
-                <!-- House 1 (Static Fallback) -->
-                <a href="detalle-casa-nordic.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Más Vendida</span>
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Moderna">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">45.000€</div>
-                        </div>
-                        <h3 class="house-title">Modelo Nordic Eco</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 80m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 2 (Static Fallback) -->
-                <a href="detalle-casa-villa.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Premium</span>
-                        <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada de Lujo">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">120.000€</div>
-                        </div>
-                        <h3 class="house-title">Villa Modular Premium</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 150m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 3 (Static Fallback) -->
-                <a href="detalle-casa-wood.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Oferta</span>
-                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Rústica">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">35.000€</div>
-                        </div>
-                        <h3 class="house-title">Cabaña Prefabricada Wood</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 60m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
+                <!-- Loading State -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-light);">
+                    <i class="fa-solid fa-spinner fa-spin"
+                        style="font-size: 2rem; margin-bottom: 15px; color: var(--primary);"></i>
+                    <p>Cargando novedades...</p>
+                </div>
             </div>
 
             <script>
                 document.addEventListener('DOMContentLoaded', async () => {
                     const container = document.getElementById('featuredHousesGrid');
                     try {
-                        // Get 3 latest houses form Firestore
                         const snapshot = await db.collection('houses')
                             .orderBy('createdAt', 'desc')
                             .limit(3)
                             .get();
 
-                        if (snapshot.empty) return; // Keep static fallback
+                        if (snapshot.empty) {
+                            container.innerHTML = `
+                                <div style="grid-column: 1/-1; text-align: center; padding: 40px; border: 2px dashed #e2e8f0; border-radius: 12px;">
+                                    <i class="fa-solid fa-house-chimney" style="font-size: 3rem; color: #cbd5e1; margin-bottom: 15px;"></i>
+                                    <h3 style="color: var(--secondary); margin-bottom: 10px;">Próximamente</h3>
+                                    <p style="color: var(--text-light);">Estamos actualizando nuestro catálogo.</p>
+                                </div>
+                            `;
+                            return;
+                        }
 
                         let html = '';
                         snapshot.forEach(doc => {
@@ -281,6 +232,7 @@
 
                     } catch (error) {
                         console.error('Error loading featured houses:', error);
+                        container.innerHTML = '<p style="text-align:center; width:100%;">No se pudieron cargar las casas.</p>';
                     }
                 });
             </script>
