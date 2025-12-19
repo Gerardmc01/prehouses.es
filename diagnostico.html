@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnóstico Firestore</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 40px;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        .house {
+            background: #334155;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #10b981;
+        }
+
+        .empty {
+            color: #ef4444;
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔍 Diagnóstico de Base de Datos</h1>
+        <div id="status">Conectando a Firestore...</div>
+        <div id="houses"></div>
+        <button onclick="location.reload()">Recargar</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9cOlnbxJv9t-bEgiPQJOPgj7gR0v5xwc",
+            authDomain: "prehouses-b224d.firebaseapp.com",
+            projectId: "prehouses-b224d",
+            storageBucket: "prehouses-b224d.firebasestorage.app",
+            messagingSenderId: "996192688774",
+            appId: "1:996192688774:web:00bdafc2e2ddc26bcd8f07",
+            measurementId: "G-0PL4DH2ZGL"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function checkDatabase() {
+            const statusEl = document.getElementById('status');
+            const housesEl = document.getElementById('houses');
+
+            try {
+                statusEl.innerHTML = '⏳ Consultando colección "houses"...';
+
+                const snapshot = await db.collection('houses').get();
+
+                statusEl.innerHTML = `✅ Conexión exitosa. Total de casas: <strong>${snapshot.size}</strong>`;
+
+                if (snapshot.empty) {
+                    housesEl.innerHTML = '<div class="empty">❌ NO HAY CASAS EN LA BASE DE DATOS<br><br>Necesitas ejecutar reset-total.html</div>';
+                } else {
+                    let html = '';
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        html += `
+                            <div class="house">
+                                <strong>ID:</strong> ${doc.id}<br>
+                                <strong>Título:</strong> ${data.title || 'Sin título'}<br>
+                                <strong>Precio:</strong> ${data.price || 0}€<br>
+                                <strong>Área:</strong> ${data.area || 0}m²<br>
+                                <strong>Habitaciones:</strong> ${data.rooms || 0}<br>
+                                <strong>Empresa:</strong> ${data.companyName || 'Sin empresa'}<br>
+                                <strong>Imágenes:</strong> ${Array.isArray(data.images) ? data.images.length : 0}<br>
+                                <strong>Creada:</strong> ${data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString() : 'Sin fecha'}
+                            </div>
+                        `;
+                    });
+                    housesEl.innerHTML = html;
+                }
+
+            } catch (error) {
+                statusEl.innerHTML = `❌ Error: ${error.message}`;
+                housesEl.innerHTML = `<pre>${error.stack}</pre>`;
+            }
+        }
+
+        checkDatabase();
+    </script>
+</body>
+
+</html>

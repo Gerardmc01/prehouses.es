@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Total - Primera Casa Real</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            max-width: 700px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .warning strong {
+            color: #92400e;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .loading {
+            background: #dbeafe;
+            color: #1e40af;
+            display: block;
+        }
+
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .progress {
+            margin-top: 15px;
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔥 Reset Total + Primera Casa</h1>
+        <p style="color: #64748b; font-size: 1.1rem;">
+            Borra todas las casas y añade la Casa Hormigón y Acero 80 m²
+        </p>
+
+        <div class="warning">
+            <strong>⚠️ ATENCIÓN:</strong>
+            Este proceso eliminará TODAS las casas existentes en Firestore y añadirá únicamente la casa de La Fábrica de
+            Casas.
+        </div>
+
+        <button class="btn" id="btnReset" onclick="resetAndAdd()">
+            BORRAR TODO Y AÑADIR CASA REAL
+        </button>
+
+        <div id="status" class="status"></div>
+        <div id="progress" class="progress"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9cOlnbxJv9t-bEgiPQJOPgj7gR0v5xwc",
+            authDomain: "prehouses-b224d.firebaseapp.com",
+            projectId: "prehouses-b224d",
+            storageBucket: "prehouses-b224d.firebasestorage.app",
+            messagingSenderId: "996192688774",
+            appId: "1:996192688774:web:00bdafc2e2ddc26bcd8f07",
+            measurementId: "G-0PL4DH2ZGL"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        console.log('✅ Firebase inicializado correctamente');
+
+        async function resetAndAdd() {
+            const statusEl = document.getElementById('status');
+            const progressEl = document.getElementById('progress');
+            const btn = document.getElementById('btnReset');
+
+            btn.disabled = true;
+            statusEl.className = 'status loading';
+            statusEl.style.display = 'block';
+            statusEl.innerHTML = '⏳ Paso 1/2: Eliminando casas antiguas...';
+            progressEl.textContent = '';
+
+            try {
+                // PASO 1: Borrar todas las casas
+                const snapshot = await db.collection('houses').get();
+                const totalDocs = snapshot.size;
+
+                progressEl.textContent = `Encontradas ${totalDocs} casas para eliminar...`;
+
+                let deleted = 0;
+                for (const doc of snapshot.docs) {
+                    await doc.ref.delete();
+                    deleted++;
+                    progressEl.textContent = `Eliminadas ${deleted}/${totalDocs} casas...`;
+                }
+
+                statusEl.innerHTML = '⏳ Paso 2/2: Añadiendo casa real...';
+                progressEl.textContent = 'Base de datos limpia ✓';
+
+                // PASO 2: Añadir la casa real
+                const houseData = {
+                    title: "Casa Hormigón y Acero 80 m²",
+                    price: 84500,
+                    area: 80,
+                    rooms: 3,
+                    bathrooms: 2,
+                    location: "España",
+                    description: `Todos nuestros diseño de casas prefabricadas serán adaptados a las necesidades del cliente y al espacio que éste tenga.
+
+Tenemos los precios más competitivos del mercado en cuanto a casas prefabricadas de hormigón con estructuras de acero. Son viviendas únicas a un precio inferior a la media de las casas construidas hoy en día.
+
+Como podéis ver en este modelo hemos optado por la elección de un espacio abierto y muy minimalista que obtiene el certificado energético superior a los de la media.
+
+Puedes consultar entre diversas opciones de revestimiento interiores, exteriores, piedra artificial, piedra natural, entre otros.
+
+Características:
+• Casa con tres habitaciones.
+• Salón – comedor.
+• Cuartos de baños al gusto del cliente.
+• Cocina con azulejos personalizables.
+• Suelos elegir entre una gran variedad.
+• Ventanas de aluminio y cristales Climalit.
+
+Si tienes alguna duda escribe a info@lafabricadecasas.es`,
+                    images: [
+                        "img/houses/hormigon_acero_1.jpg",
+                        "img/houses/hormigon_acero_2.png",
+                        "img/houses/hormigon_acero_3.jpg",
+                        "img/houses/hormigon_acero_4.png",
+                        "img/houses/hormigon_acero_5.png"
+                    ],
+                    companyId: "la_fabrica_casas",
+                    companyName: "La Fábrica de Casas",
+                    contactEmail: "info@lafabricadecasas.es",
+                    companyWeb: "https://lafabricadecasas.es/",
+                    category: "hormigon",
+                    featured: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                const docRef = await db.collection('houses').add(houseData);
+
+                statusEl.className = 'status success';
+                statusEl.innerHTML = `
+                    ✅ ¡PROCESO COMPLETADO!<br><br>
+                    ✓ Todas las casas antiguas eliminadas<br>
+                    ✓ Casa Hormigón y Acero 80m² añadida<br><br>
+                    <small style="color: #64748b;">ID: ${docRef.id}</small>
+                `;
+                progressEl.innerHTML = '<a href="catalogo.html" class="link">Ver Catálogo →</a>';
+
+                console.log('✅ Reset completado. Casa añadida con ID:', docRef.id);
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                statusEl.className = 'status error';
+                statusEl.innerHTML = `❌ Error: ${error.message}<br><small>${error.stack}</small>`;
+                progressEl.textContent = 'Revisa la consola del navegador (F12) para más detalles';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

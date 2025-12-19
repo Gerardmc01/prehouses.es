@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalle de Casa | Prehouses</title>
-    <link rel="stylesheet" href="styles.css?v=3">
-    <!-- ... -->
-    <script src="js/comparator-logic.js?v=2"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?v=3">
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -18,88 +16,216 @@
 
     <style>
         .detail-container {
-            margin-top: 140px;
+            margin-top: 120px;
             margin-bottom: 60px;
         }
 
         .detail-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 1.8fr 1fr;
             gap: 40px;
         }
 
-        .detail-gallery {
-            border-radius: 16px;
+        /* Galería de Imágenes */
+        .gallery-container {
+            background: white;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
         }
 
-        .main-image {
+        .main-img-wrapper {
             width: 100%;
-            height: 400px;
-            background: #f1f5f9;
+            height: 500px;
+            overflow: hidden;
         }
 
-        .main-image img {
+        .main-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .detail-info h1 {
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 10px;
+        .thumbnails {
+            display: flex;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            overflow-x: auto;
         }
 
-        .detail-price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
+        .thumb {
+            width: 100px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .thumb:hover {
+            opacity: 0.7;
+        }
+
+        /* Información Principal */
+        .property-brief {
             margin-bottom: 30px;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+        .property-brief h1 {
+            font-size: 2.5rem;
+            color: #0f172a;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
         }
 
-        .feature-item {
+        .property-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2563eb;
+            margin-bottom: 20px;
+        }
+
+        .quick-specs {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-light);
+            gap: 30px;
+            padding: 20px 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 30px;
         }
 
-        .contact-form-card {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            position: sticky;
-            top: 120px;
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        .form-group {
+        .spec-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .description-text {
+            line-height: 1.8;
+            color: #475569;
+            font-size: 1.05rem;
+        }
+
+        .description-text p {
             margin-bottom: 15px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 0.9rem;
+        /* Sidebar: Panel de Empresa */
+        .company-panel {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px;
+            position: sticky;
+            top: 120px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            text-align: center;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px;
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            background: #eff6ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: #2563eb;
+        }
+
+        .company-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+
+        .company-status {
+            color: #16a34a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .contact-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-call {
+            background: #2563eb;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-call:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-web {
+            background: #f8fafc;
+            color: #0f172a;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-family: inherit;
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-web:hover {
+            background: #f1f5f9;
+        }
+
+        .fav-action {
+            margin-top: 20px;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .fav-action.active {
+            color: #ef4444;
         }
 
         @media (max-width: 900px) {
@@ -107,211 +233,10 @@
                 grid-template-columns: 1fr;
             }
 
-            .mobile-actions {
-                display: flex !important;
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                background: white;
-                padding: 15px;
-                box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-                z-index: 9999;
-                gap: 15px;
-                align-items: center;
+            .company-panel {
+                position: static;
+                margin-top: 30px;
             }
-
-            .mobile-actions button {
-                width: 50px;
-                height: 50px;
-                border-radius: 12px;
-                border: 2px solid #e2e8f0;
-                background: white;
-                font-size: 1.2rem;
-                color: var(--secondary);
-                cursor: pointer;
-            }
-
-            .mobile-actions button.active {
-                color: red;
-                border-color: red;
-                background: #fff0f0;
-            }
-
-            .mobile-actions .btn-primary {
-                background: var(--primary) !important;
-                color: white !important;
-                border: none !important;
-                flex: 1;
-                font-weight: 600;
-                width: auto;
-            }
-
-            .detail-container {
-                margin-bottom: 100px;
-            }
-        }
-
-        /* Drawer Styles */
-        .comparison-drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            display: none;
-        }
-
-        .comparison-drawer {
-            position: fixed;
-            top: 0;
-            right: -450px;
-            width: 400px;
-            max-width: 90vw;
-            height: 100vh;
-            background: white;
-            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-            z-index: 10000;
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 24px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .comparison-drawer.open {
-            right: 0;
-        }
-
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .drawer-house-card {
-            display: flex;
-            gap: 15px;
-            padding: 12px;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            background: white;
-        }
-
-        .drawer-house-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .drawer-house-img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            background: #f1f5f9;
-        }
-
-        /* Modal VS Styles */
-        .vs-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 10001;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .vs-content {
-            background: white;
-            width: 100%;
-            max-width: 900px;
-            border-radius: 24px;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-        }
-
-        .vs-header {
-            padding: 20px 30px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .vs-body {
-            overflow-y: auto;
-            padding: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .vs-body {
-                gap: 20px;
-                padding: 15px;
-            }
-        }
-
-        .vs-column {
-            text-align: center;
-        }
-
-        .vs-img-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-            border-radius: 16px;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-        }
-
-        .vs-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .vs-price {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 10px 0;
-        }
-
-        .vs-stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9;
-            font-size: 0.95rem;
-        }
-
-        .vs-stat-label {
-            color: var(--text-light);
-            font-weight: 500;
-        }
-
-        .vs-stat-value {
-            font-weight: 600;
-            color: var(--secondary);
         }
     </style>
 </head>
@@ -333,447 +258,203 @@
                 <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
                 </li>
             </ul>
-            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <ul>
-            <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html">Catálogo</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
-                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="acceso.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso</a></li>
-        </ul>
+    <div class="container detail-container">
+        <div class="detail-grid">
+
+            <!-- CONTENIDO IZQUIERDA -->
+            <div class="detail-main">
+                <div class="gallery-container">
+                    <div class="main-img-wrapper">
+                        <img id="mainImg" src="https://via.placeholder.com/1200x800" alt="Casa">
+                    </div>
+                    <div class="thumbnails" id="thumbGallery">
+                        <!-- Thumbs via JS -->
+                    </div>
+                </div>
+
+                <div class="property-brief">
+                    <h1 id="houseTitle">Cargando casa...</h1>
+                    <div class="property-price" id="housePrice">-</div>
+                </div>
+
+                <div class="quick-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Superficie</span>
+                        <span class="spec-value" id="houseArea">- m²</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Habitaciones</span>
+                        <span class="spec-value" id="houseRooms">-</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Baños</span>
+                        <span class="spec-value" id="houseBaths">-</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Ubicación</span>
+                        <span class="spec-value" id="houseLoc">-</span>
+                    </div>
+                </div>
+
+                <div class="description-text" id="houseDesc">
+                    <!-- Descripción -->
+                </div>
+            </div>
+
+            <!-- SIDEBAR DERECHA -->
+            <div class="detail-sidebar">
+                <div class="company-panel">
+                    <div class="company-logo">
+                        <i class="fa-solid fa-building"></i>
+                    </div>
+                    <div class="company-name" id="compName">Empresa S.A.</div>
+                    <div class="company-status">
+                        <i class="fa-solid fa-certificate"></i> Empresa Verificada
+                    </div>
+
+                    <div class="contact-actions">
+                        <a href="#" id="btnMail" class="btn-call">
+                            <i class="fa-solid fa-envelope"></i> Contactar Empresa
+                        </a>
+                        <a href="#" id="btnWeb" target="_blank" class="btn-web">
+                            <i class="fa-solid fa-globe"></i> Visitar Web
+                        </a>
+                    </div>
+
+                    <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 20px;">
+                        Menciona que vienes de <strong>Prehouses</strong> para recibir un trato preferencial.
+                    </p>
+
+                    <hr style="margin: 20px 0; border: none; border-top: 1px solid #f1f5f9;">
+
+                    <button class="fav-action" id="favBtn" onclick="toggleFavorite()">
+                        <i class="fa-regular fa-heart"></i> Añadir a Favoritos
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
     <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            const toggle = document.querySelector('.mobile-menu-toggle');
-            menu.classList.toggle('active');
-            toggle.classList.toggle('active');
-        }
-    </script>
-    <script src="js/support.js"></script>
-    <script src="js/toast.js"></script>
-    <script src="js/comparator-logic.js"></script>
-
-    <script>
-        // --- INSTANT COMPARATOR LOGIC ---
-        // Replaces old localStorage logic on this page for instant gratification
-        function addToComparisonWithCurrent() {
-            openComparisonDrawer();
-        }
-
-        let comparisonCandidates = [];
-
-        async function openComparisonDrawer() {
-            document.getElementById('comparisonDrawer').classList.add('open');
-            document.getElementById('drawerOverlay').style.display = 'block';
-
-            if (comparisonCandidates.length > 0) {
-                renderDrawerList();
-                return;
-            }
-
-            try {
-                // Load candidates (same category if possible)
-                let q = db.collection('houses');
-                if (currentHouse && currentHouse.category) {
-                    q = q.where('category', '==', currentHouse.category).limit(10);
-                } else {
-                    q = q.limit(10);
-                }
-
-                const snap = await q.get();
-                comparisonCandidates = [];
-                snap.forEach(doc => {
-                    if (doc.id !== houseId) { // Exclude itself
-                        comparisonCandidates.push({ id: doc.id, ...doc.data() });
-                    }
-                });
-                renderDrawerList();
-
-            } catch (e) {
-                console.error(e);
-                document.getElementById('drawerList').innerHTML = '<p>Error cargando lista</p>';
-            }
-        }
-
-        function closeComparisonDrawer() {
-            document.getElementById('comparisonDrawer').classList.remove('open');
-            document.getElementById('drawerOverlay').style.display = 'none';
-        }
-
-        function renderDrawerList() {
-            const list = document.getElementById('drawerList');
-            if (comparisonCandidates.length === 0) {
-                list.innerHTML = '<p style="text-align:center; padding:20px;">No hay casas similares para comparar en esta categoría.</p>';
-                return;
-            }
-
-            let html = '';
-            comparisonCandidates.forEach(h => {
-                const img = Array.isArray(h.images) ? h.images[0] : (h.image || 'https://via.placeholder.com/100');
-                const price = typeof h.price === 'number' ? h.price.toLocaleString() + '€' : h.price;
-
-                html += `
-                    <div class="drawer-house-card" onclick="openVsModal('${h.id}')">
-                        <img src="${img}" class="drawer-house-img" alt="${h.title}" onerror="this.src='https://via.placeholder.com/100'">
-                        <div style="flex:1;">
-                            <h4 style="margin:0 0 5px 0; font-size:0.95rem; line-height:1.2;">${h.title}</h4>
-                            <p style="margin:0; font-weight:700; color:var(--primary); font-size:1.1rem;">${price}</p>
-                            <span style="font-size:0.8rem; color:#64748b; margin-top:5px; display:inline-block;"><i class="fa-solid fa-arrow-right-arrow-left"></i> Comparar</span>
-                        </div>
-                    </div>
-                `;
-            });
-            list.innerHTML = html;
-        }
-
-        function openVsModal(otherId) {
-            const other = comparisonCandidates.find(c => c.id === otherId);
-            if (!other) return;
-
-            closeComparisonDrawer();
-
-            const currentImg = Array.isArray(currentHouse.images) ? currentHouse.images[0] : (currentHouse.image || '');
-            const otherImg = Array.isArray(other.images) ? other.images[0] : (other.image || '');
-
-            const renderVal = (v, suffix = '') => ((v !== undefined && v !== null && v !== '') ? v + suffix : '-');
-            const formatPrice = (p) => typeof p === 'number' ? p.toLocaleString() : p;
-
-            const html = `
-                <div class="vs-column">
-                    <div class="vs-img-wrapper"><img src="${currentImg}" onerror="this.src='https://via.placeholder.com/400'"></div>
-                    <h3 style="color:var(--secondary); font-size:1.2rem; margin-bottom:5px;">${currentHouse.title}</h3>
-                    <div class="vs-price">${formatPrice(currentHouse.price)}€</div>
-                    <div style="background:#f0fdf4; color:#166534; padding:5px 10px; border-radius:20px; display:inline-block; font-size:0.8rem; font-weight:600; margin-bottom:15px;">Casa Actual</div>
-                    
-                    <div class="vs-stat-row"><span class="vs-stat-label">Superficie</span> <span class="vs-stat-value">${renderVal(currentHouse.area, ' m²')}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Habitaciones</span> <span class="vs-stat-value">${renderVal(currentHouse.bedrooms)}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Baños</span> <span class="vs-stat-value">${renderVal(currentHouse.bathrooms)}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Entrega</span> <span class="vs-stat-value">${renderVal(currentHouse.deliveryTime)}</span></div>
-                </div>
-                
-                <div class="vs-column" style="border-left: 1px solid #f1f5f9;">
-                    <div class="vs-img-wrapper"><img src="${otherImg}" onerror="this.src='https://via.placeholder.com/400'"></div>
-                    <h3 style="color:var(--secondary); font-size:1.2rem; margin-bottom:5px;">${other.title}</h3>
-                    <div class="vs-price">${formatPrice(other.price)}€</div>
-                    <div style="background:#e0f2fe; color:#0369a1; padding:5px 10px; border-radius:20px; display:inline-block; font-size:0.8rem; font-weight:600; margin-bottom:15px;">Comparada</div>
-                    
-                    <div class="vs-stat-row"><span class="vs-stat-label">Superficie</span> <span class="vs-stat-value">${renderVal(other.area, ' m²')}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Habitaciones</span> <span class="vs-stat-value">${renderVal(other.bedrooms)}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Baños</span> <span class="vs-stat-value">${renderVal(other.bathrooms)}</span></div>
-                    <div class="vs-stat-row"><span class="vs-stat-label">Entrega</span> <span class="vs-stat-value">${renderVal(other.deliveryTime)}</span></div>
-                    
-                    <a href="detalle-casa.html?id=${other.id}" class="btn btn-outline" style="width:100%; margin-top:20px;">Ver Ficha</a>
-                </div>
-            `;
-
-            document.getElementById('vsBody').innerHTML = html;
-            document.getElementById('vsModal').style.display = 'flex';
-        }
-
-        function closeVsModal() {
-            document.getElementById('vsModal').style.display = 'none';
-        }
         const urlParams = new URLSearchParams(window.location.search);
         const houseId = urlParams.get('id');
         let currentHouse = null;
         let currentUser = null;
 
-        // Auth Listener
-        auth.onAuthStateChanged(user => {
+        // Auth
+        firebase.auth().onAuthStateChanged(user => {
             currentUser = user;
-            if (user) {
-                document.getElementById('leadEmail').value = user.email;
-                checkFavorite();
-            }
+            if (user) checkFavorite();
         });
 
-        // Datos de Fallback para casas no encontradas o demos
-        const demoHouse = {
-            title: "Casa Modelo Premium (Demo)",
-            price: 85000,
-            area: 120,
-            bedrooms: 3,
-            bathrooms: 2,
-            deliveryTime: "3-4 meses",
-            description: "Esta es una ficha de ejemplo para demostrar el diseño. Una casa modular moderna con acabados de primera calidad, eficiencia energética A+ y diseño bioclimático adaptable a cualquier terreno.",
-            images: ["https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&q=80"],
-            companyId: "demo_company",
-            category: "madera"
-        };
-
-        async function loadHouse() {
+        // Load property
+        async function loadProperty() {
             if (!houseId) {
-                // Si no hay ID, mostrar demo
-                currentHouse = demoHouse;
-                renderHouse(currentHouse);
+                document.body.innerHTML = "<h2 style='text-align:center; padding-top:200px;'>No se especificó ID de casa</h2>";
                 return;
             }
 
             try {
                 const doc = await db.collection('houses').doc(houseId).get();
+
                 if (!doc.exists) {
-                    // En lugar de error, mostramos la Demo House para que no se vea feo
-                    console.log('Casa no encontrada, mostrando demo');
-                    currentHouse = { ...demoHouse, title: "Modelo No Disponible (Visualización)" };
-                    renderHouse(currentHouse);
+                    document.body.innerHTML = "<h2 style='text-align:center; padding-top:200px;'>Casa no encontrada</h2>";
                     return;
                 }
 
                 currentHouse = doc.data();
-                // Validar que tenga imagen, si no, usar fallback
-                if (!currentHouse.images && !currentHouse.image) {
-                    currentHouse.images = demoHouse.images;
-                }
-                renderHouse(currentHouse);
+                renderProperty();
 
             } catch (error) {
-                console.error('Error loading house:', error);
-                // Fallback en caso de error de red
-                currentHouse = demoHouse;
-                renderHouse(currentHouse);
+                console.error('Error loading property:', error);
+                document.body.innerHTML = `<h2 style='text-align:center; padding-top:200px;'>Error al cargar la casa: ${error.message}</h2>`;
             }
         }
 
-        function renderHouse(house) {
-            document.title = `${house.title} | Prehouses`;
-            document.getElementById('houseTitle').textContent = house.title;
-            document.getElementById('housePrice').textContent = `${house.price.toLocaleString()}€`;
-            document.getElementById('houseArea').textContent = house.area;
-            document.getElementById('houseBedrooms').textContent = house.bedrooms;
-            document.getElementById('houseBathrooms').textContent = house.bathrooms;
-            document.getElementById('houseDelivery').textContent = house.deliveryTime || 'Consultar';
-            document.getElementById('houseDescription').textContent = house.description;
-            const companyLink = house.companyId ? `<a href="empresa-perfil.html?id=${house.companyId}" style="color: var(--primary); text-decoration: none; font-weight: bold;">${house.companyName || 'la empresa'}</a>` : 'la empresa';
-            document.getElementById('companyName').innerHTML = companyLink;
+        function renderProperty() {
+            document.title = `${currentHouse.title} | Prehouses`;
+            document.getElementById('houseTitle').textContent = currentHouse.title;
+            document.getElementById('housePrice').textContent = currentHouse.price ? currentHouse.price.toLocaleString() + '€' : 'Consultar';
+            document.getElementById('houseArea').textContent = currentHouse.area + ' m²';
+            document.getElementById('houseRooms').textContent = currentHouse.rooms;
+            document.getElementById('houseBaths').textContent = currentHouse.bathrooms;
+            document.getElementById('houseLoc').textContent = currentHouse.location || 'España';
 
-            // Image handling (array or string)
-            let imageUrl = '';
-            if (Array.isArray(house.images) && house.images.length > 0) {
-                imageUrl = house.images[0];
-            } else if (typeof house.images === 'string') {
-                imageUrl = house.images;
-            } else if (house.image) {
-                imageUrl = house.image;
-            }
+            // Descripción formateada
+            const desc = currentHouse.description || '';
+            document.getElementById('houseDesc').innerHTML = desc.split('\n').map(p => `<p>${p}</p>`).join('');
 
-            if (imageUrl) {
-                document.getElementById('houseImage').src = imageUrl;
-            }
-
-            // --- SEO & SOCIAL SHARING ---
-            updateMetaTags(house, imageUrl);
-
-            // Load Similar Houses
-            loadSimilarHouses(house.category);
-        }
-
-        function updateMetaTags(house, imageUrl) {
-            // Title
-            document.title = `${house.title} | Prehouses`;
-
-            // Meta Description
-            const desc = `Compra ${house.title} por ${parseInt(house.price).toLocaleString()}€. ${house.description.substring(0, 150)}...`;
-            setMetaTag('name', 'description', desc);
-
-            // Open Graph (Facebook, LinkedIn, WhatsApp)
-            setMetaTag('property', 'og:title', `${house.title} | Prehouses`);
-            setMetaTag('property', 'og:description', desc);
-            setMetaTag('property', 'og:image', imageUrl);
-            setMetaTag('property', 'og:url', window.location.href);
-            setMetaTag('property', 'og:type', 'product');
-
-            // Twitter Card
-            setMetaTag('name', 'twitter:card', 'summary_large_image');
-            setMetaTag('name', 'twitter:title', `${house.title} | Prehouses`);
-            setMetaTag('name', 'twitter:description', desc);
-            setMetaTag('name', 'twitter:image', imageUrl);
-        }
-
-        function setMetaTag(attrName, attrValue, content) {
-            let element = document.querySelector(`meta[${attrName}="${attrValue}"]`);
-            if (!element) {
-                element = document.createElement('meta');
-                element.setAttribute(attrName, attrValue);
-                document.head.appendChild(element);
-            }
-            element.setAttribute('content', content);
-        }
-
-        async function loadSimilarHouses(category) {
-            if (!category) {
-                document.getElementById('similarHousesSection').style.display = 'none';
-                return;
-            }
-
-            const container = document.getElementById('similarHousesGrid');
-            try {
-                const snapshot = await db.collection('houses')
-                    .where('category', '==', category)
-                    .limit(4)
-                    .get();
-
-                let html = '';
-                let count = 0;
-
-                snapshot.forEach(doc => {
-                    if (doc.id === houseId || count >= 3) return;
-
-                    const house = doc.data();
-                    const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
-
-                    html += `
-                        <a href="detalle-casa.html?id=${doc.id}" class="house-card">
-                            <div class="house-image">
-                                <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
-                            </div>
-                            <div class="house-content">
-                                <div class="house-header">
-                                    <div class="house-price">${parseInt(house.price).toLocaleString()}€</div>
-                                </div>
-                                <h3 class="house-title">${house.title}</h3>
-                                <div class="house-footer">
-                                    <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Casa</span>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                    count++;
+            // Imágenes
+            const images = currentHouse.images || [];
+            if (images.length > 0) {
+                document.getElementById('mainImg').src = images[0];
+                const thumbCont = document.getElementById('thumbGallery');
+                images.forEach(img => {
+                    const t = document.createElement('img');
+                    t.src = img;
+                    t.className = 'thumb';
+                    t.onclick = () => document.getElementById('mainImg').src = img;
+                    thumbCont.appendChild(t);
                 });
-
-                if (html) {
-                    container.innerHTML = html;
-                } else {
-                    document.getElementById('similarHousesSection').style.display = 'none';
-                }
-
-            } catch (error) {
-                console.error('Error loading similar houses:', error);
-                document.getElementById('similarHousesSection').style.display = 'none';
             }
+
+            // Info Empresa
+            document.getElementById('compName').textContent = currentHouse.companyName || 'La Fábrica de Casas';
+            document.getElementById('btnMail').href = `mailto:${currentHouse.contactEmail || 'info@lafabricadecasas.es'}?subject=Consulta sobre ${currentHouse.title}`;
+            document.getElementById('btnWeb').href = currentHouse.companyWeb || 'https://lafabricadecasas.es/';
         }
 
-        // Send Lead
-        async function sendLead(e) {
-            e.preventDefault();
-            const btn = document.getElementById('leadBtn');
-            btn.disabled = true;
-            btn.innerText = 'Enviando...';
-
-            try {
-                await db.collection('leads').add({
-                    houseId: houseId,
-                    houseTitle: currentHouse.title,
-                    companyId: currentHouse.companyId,
-                    userName: document.getElementById('leadName').value,
-                    userEmail: document.getElementById('leadEmail').value,
-                    userPhone: document.getElementById('leadPhone').value,
-                    message: document.getElementById('leadMessage').value,
-                    status: 'nuevo',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert('✅ Solicitud enviada correctamente. La empresa te contactará pronto.');
-                e.target.reset();
-            } catch (error) {
-                console.error('Error sending lead:', error);
-                alert('Error al enviar solicitud');
-            } finally {
-                btn.disabled = false;
-                btn.innerText = 'Enviar Solicitud';
-            }
-        }
-
-        // Favorites Logic
-        function updateFavUI(isSaved) {
-            const targets = [
-                { id: 'favBtn', textSaved: ' Guardado', textUnsaved: ' Guardar Favorito' },
-                { id: 'mobileFavBtn', textSaved: '', textUnsaved: '' },
-                { id: 'mainFavBtn', textSaved: '<span>Guardado</span>', textUnsaved: '<span>Favorito</span>' }
-            ];
-
-            targets.forEach(t => {
-                const btn = document.getElementById(t.id);
-                if (!btn) return;
-
-                const icon = isSaved ? '<i class="fa-solid fa-heart" style="color: red;"></i>' : '<i class="fa-regular fa-heart"></i>';
-
-                if (t.id === 'mainFavBtn') {
-                    btn.innerHTML = `${icon} ${isSaved ? t.textSaved : t.textUnsaved}`;
-                } else {
-                    btn.innerHTML = `${icon}${isSaved ? t.textSaved : t.textUnsaved}`;
-                }
-
-                if (isSaved) btn.classList.add('active');
-                else btn.classList.remove('active');
-            });
-        }
-
+        // Favoritos Logic
         async function checkFavorite() {
-            if (!currentUser || !houseId) return;
             const snap = await db.collection('favorites')
                 .where('userId', '==', currentUser.uid)
                 .where('houseId', '==', houseId)
                 .get();
-
             if (!snap.empty) {
-                updateFavUI(true);
+                const btn = document.getElementById('favBtn');
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i> En Favoritos';
             }
         }
 
         async function toggleFavorite() {
-            if (!currentUser) return alert('Debes iniciar sesión para guardar favoritos.');
-
+            if (!currentUser) {
+                alert('Inicia sesión para guardar favoritos');
+                return;
+            }
             const btn = document.getElementById('favBtn');
-            const isSaved = btn.innerHTML.includes('fa-solid');
+            const isActive = btn.classList.contains('active');
 
-            // Optimistic UI update
-            updateFavUI(!isSaved);
-
-            try {
-                if (isSaved) {
-                    // Remove
-                    const snap = await db.collection('favorites')
-                        .where('userId', '==', currentUser.uid)
-                        .where('houseId', '==', houseId)
-                        .get();
-                    snap.forEach(doc => doc.ref.delete());
-                    // console.log('Removed'); 
-                } else {
-                    // Add
-                    await db.collection('favorites').add({
-                        userId: currentUser.uid,
-                        houseId: houseId,
-                        houseTitle: currentHouse.title,
-                        housePrice: currentHouse.price,
-                        houseImage: document.getElementById('houseImage').src,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                    // console.log('Added');
-                }
-            } catch (error) {
-                console.error('Error toggling favorite:', error);
-                // Revert UI on error
-                updateFavUI(isSaved);
-                alert('Error al guardar favorito');
+            if (isActive) {
+                const snap = await db.collection('favorites')
+                    .where('userId', '==', currentUser.uid)
+                    .where('houseId', '==', houseId)
+                    .get();
+                snap.forEach(d => d.ref.delete());
+                btn.classList.remove('active');
+                btn.innerHTML = '<i class="fa-regular fa-heart"></i> Añadir a Favoritos';
+            } else {
+                await db.collection('favorites').add({
+                    userId: currentUser.uid,
+                    houseId: houseId,
+                    houseTitle: currentHouse.title,
+                    housePrice: currentHouse.price,
+                    houseImage: currentHouse.images[0],
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                btn.classList.add('active');
+                btn.innerHTML = '<i class="fa-solid fa-heart"></i> En Favoritos';
             }
         }
 
-        // Init
-        loadHouse();
+        loadProperty();
     </script>
-
 </body>
 
 </html>

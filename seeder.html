@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prehouses Real Initial Seed</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+</head>
+
+<body style="font-family: sans-serif; padding: 40px; text-align: center; background: #f1f5f9;">
+    <h1 style="color: #0f172a;">🚀 Publicando Casa Real</h1>
+    <p>Borrando demos y activando "La Fábrica de Casas".</p>
+    <div id="status" style="margin-top: 20px; font-weight: bold; color: #2563eb; font-size: 1.2rem;">Esperando...</div>
+
+    <script>
+        window.onload = async () => {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = "⏳ Borrando antiguas...";
+
+            try {
+                // 1. Limpiar casas
+                const snap = await db.collection('houses').get();
+                const slice = snap.docs;
+                for (let doc of slice) {
+                    await db.collection('houses').doc(doc.id).delete();
+                }
+
+                statusEl.textContent = "🏠 Publicando Casa Hormigón y Acero...";
+
+                // 2. Subir Casa Real
+                const houseData = {
+                    title: "Casa Hormigón y Acero 80 m²",
+                    price: 84500,
+                    area: 80,
+                    rooms: 3,
+                    bathrooms: 2,
+                    location: "España",
+                    description: `Todos nuestros diseño de casas prefabricadas serán adaptados a las necesidades del cliente y al espacio que éste tenga. 
+                    
+Tenemos los precios más competitivos del mercado en cuanto a casas prefabricadas de hormigón con estructuras de acero. Son viviendas únicas a un precio inferior a la media de las casas construidas hoy en día.
+                    
+Como podéis ver en este modelo hemos optado por la elección de un espacio abierto y muy minimalista que obtiene el certificado energético superior a los de la media. 
+                    
+Puedes consultar entre diversas opciones de revestimiento interiores, exteriores, piedra artificial, piedra natural, entre otros.
+                    
+Características:
+• Casa con tres habitaciones.
+• Salón – comedor.
+• Cuartos de baños al gusto del cliente.
+• Cocina con azulejos personalizables.
+• Suelos elegir entre una gran variedad.
+• Ventanas de aluminio y cristales Climalit.
+                    
+Si tienes alguna duda escribe a info@lafabricadecasas.es`,
+                    images: [
+                        "img/houses/hormigon_acero_1.jpg",
+                        "img/houses/hormigon_acero_2.png",
+                        "img/houses/hormigon_acero_3.jpg",
+                        "img/houses/hormigon_acero_4.png",
+                        "img/houses/hormigon_acero_5.png"
+                    ],
+                    companyId: "la_fabrica_casas_id",
+                    companyName: "La Fábrica de Casas",
+                    contactEmail: "info@lafabricadecasas.es",
+                    companyWeb: "https://lafabricadecasas.es/",
+                    category: "hormigon",
+                    featured: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                await db.collection('houses').add(houseData);
+
+                statusEl.textContent = "✅ ¡TERMINADO! Ya puedes entrar a la web.";
+                statusEl.style.color = "#16a34a";
+                console.log("Casa publicada.");
+
+            } catch (err) {
+                console.error(err);
+                statusEl.textContent = "❌ Error: " + err.message;
+                statusEl.style.color = "#ef4444";
+            }
+        };
+    </script>
+</body>
+
+</html>

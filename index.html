@@ -163,78 +163,9 @@
             </p>
 
             <div class="house-grid" id="featuredHousesGrid">
-                <!-- House 1 (Static Fallback) -->
-                <a href="detalle-casa-nordic.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Más Vendida</span>
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Moderna">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">45.000€</div>
-                        </div>
-                        <h3 class="house-title">Modelo Nordic Eco</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 80m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 2 (Static Fallback) -->
-                <a href="detalle-casa-villa.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Premium</span>
-                        <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada de Lujo">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">120.000€</div>
-                        </div>
-                        <h3 class="house-title">Villa Modular Premium</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 150m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 3 (Static Fallback) -->
-                <a href="detalle-casa-wood.html" class="house-card">
-                    <div class="house-image">
-                        <span class="house-badge">Oferta</span>
-                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Rústica">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">35.000€</div>
-                        </div>
-                        <h3 class="house-title">Cabaña Prefabricada Wood</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 60m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
+                <!-- Las casas se cargarán dinámicamente desde Firestore -->
             </div>
+
 
             <script>
                 document.addEventListener('DOMContentLoaded', async () => {
@@ -350,6 +281,11 @@
             </div>
         </div>
     </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
 
 </body>
 
