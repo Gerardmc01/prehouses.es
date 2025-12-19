@@ -196,12 +196,13 @@
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
-                <li><a href="catalogo.html" class="active">Catálogo</a></li>
+                <li><a href="catalogo.html">Catálogo</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
-                </li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
@@ -215,11 +216,13 @@
     <div class="mobile-menu" id="mobileMenu">
         <ul>
             <li><a href="index.html">Inicio</a></li>
-            <li><a href="catalogo.html" class="active">Catálogo</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                         class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="acceso.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
         </ul>
     </div>
 
@@ -252,7 +255,7 @@
                     <i class="fa-solid fa-sliders"></i> Búsqueda Avanzada
                 </h3>
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
 
                     <!-- Price Range Slider -->
                     <div class="filter-group">
@@ -264,13 +267,9 @@
                                 style="width: 100%;" oninput="updatePriceLabel()">
                             <div
                                 style="display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.9rem; color: var(--text-light);">
-                                <input type="number" id="priceInputMin" value="0" min="0" max="500000" step="1000"
-                                    style="width: 100px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; color: var(--text-main);"
-                                    onchange="updatePriceFromInput()">
-                                <span style="align-self: center;">-</span>
-                                <input type="number" id="priceInputMax" value="200000" min="0" max="500000" step="1000"
-                                    style="width: 100px; padding: 5px; border: 1px solid #cbd5e1; border-radius: 6px; text-align: center; color: var(--text-main);"
-                                    onchange="updatePriceFromInput()">
+                                <span id="priceMinLabel">0€</span>
+                                <span>-</span>
+                                <span id="priceMaxLabel">200.000€</span>
                             </div>
                             <input type="range" id="priceMax" min="0" max="200000" value="200000" step="5000"
                                 style="width: 100%; margin-top: 10px;" oninput="updatePriceLabel()">
@@ -331,21 +330,6 @@
                             <option value="otras">Otras</option>
                         </select>
                     </div>
-
-                    <!-- Sort By -->
-                    <div class="filter-group">
-                        <label style="font-weight: 600; margin-bottom: 10px; display: block; color: var(--secondary);">
-                            <i class="fa-solid fa-arrow-up-wide-short"></i> Filtros
-                        </label>
-                        <select id="sortFilter"
-                            style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; font-size: 1rem;">
-                            <option value="default">Relevancia</option>
-                            <option value="price-desc">Más caro a más barato</option>
-                            <option value="price-asc">Más barato a más caro</option>
-                            <option value="area-desc">Más metros cuadrados a menos</option>
-                            <option value="area-asc">Menos metros cuadrados a más</option>
-                        </select>
-                    </div>
                 </div>
 
                 <!-- Apply Filters Button -->
@@ -370,456 +354,12 @@
                 <button class="btn btn-outline filter-btn" data-filter="movil">Móvil / Tiny</button>
             </div>
 
-            <div class="house-grid">
-                <!-- House New: Granito -->
-                <!-- House New: Granito -->
-                <a href="detalle-casa-granito.html" class="house-card" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge"
-                            style="background: white; color: var(--primary); font-weight: 700;">Hormigón</span>
-                        <img src="images/houses/granito/main.png" alt="Modelo Granito 70m2">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">Consultar</div>
-                        </div>
-                        <h3 class="house-title">Modelo Granito 70m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 70m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 3 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center; display: block;">Ver
-                                Ficha Completa</span>
-                        </div>
-                    </div>
-                </a>
-                <!-- House 1: Madera -->
-                <a href="detalle-casa-nordic.html" class="house-card" data-category="madera" data-price="45000"
-                    data-area="80" data-bedrooms="2" data-province="madrid" id="card_house_nordic">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_nordic')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <span class="house-badge">Más Vendida</span>
-                        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Moderna">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">45.000€</div>
-                        </div>
-                        <h3 class="house-title">Modelo Nordic Eco</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 80m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 2: Hormigon -->
-                <a href="detalle-casa-villa.html" class="house-card" data-category="hormigon" data-price="120000"
-                    data-area="150" data-bedrooms="4" data-province="barcelona" id="card_house_villa">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_villa')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <span class="house-badge">Premium</span>
-                        <img src="https://images.unsplash.com/photo-1600596542815-22b4899975d6?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada de Lujo">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">120.000€</div>
-                        </div>
-                        <h3 class="house-title">Villa Modular Premium</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 150m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 3: Madera -->
-                <a href="detalle-casa-wood.html" class="house-card" data-category="madera" data-price="35000"
-                    data-area="60" data-bedrooms="1" data-province="valencia" id="card_house_wood">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_wood')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <span class="house-badge">Oferta</span>
-                        <img src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Rústica">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">35.000€</div>
-                        </div>
-                        <h3 class="house-title">Cabaña Prefabricada Wood</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 60m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 4: Acero -->
-                <a href="detalle-casa-horizon.html" class="house-card" data-category="acero" data-price="89000"
-                    data-area="120" data-bedrooms="3" data-province="malaga" id="card_house_horizon">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_horizon')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Prefabricada Diseño">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">89.000€</div>
-                        </div>
-                        <h3 class="house-title">Modelo Horizon</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 110m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 3 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baños</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 5: Movil -->
-                <a href="detalle-casa-tiny.html" class="house-card" data-category="movil" data-price="25000"
-                    data-area="30" data-bedrooms="1" data-province="alicante" id="card_house_tiny">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_tiny')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1625573134318-c583c18e3c64?auto=format&fit=crop&w=800&q=80"
-                            alt="Tiny House Prefabricada">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">25.000€</div>
-                        </div>
-                        <h3 class="house-title">Tiny House Mobile</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 30m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 1 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- House 6: Hormigon -->
-                <a href="detalle-casa-elite.html" class="house-card" data-category="hormigon" data-price="150000"
-                    data-area="200" data-bedrooms="5" data-province="sevilla" id="card_house_elite">
-                    <button class="fav-btn" onclick="toggleFav(event, 'house_elite')"><i
-                            class="fa-solid fa-heart"></i></button>
-                    <div class="house-image">
-                        <img src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Modular">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">150.000€</div>
-                        </div>
-                        <h3 class="house-title">Residencia Elite</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 200m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 5 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 3 Baños</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Moderna 120m² -->
-                <a href="detalle-casa.html?id=casa-moderna-120" class="house-card" data-category="modular"
-                    data-price="78000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #2563eb; color: white;">Modular</span>
-                        <img src="https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Moderna 120m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">78.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Moderna 120m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 120m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 3 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Container 45m² -->
-                <a href="detalle-casa.html?id=casa-container-45" class="house-card" data-category="container"
-                    data-price="32000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #dc2626; color: white;">Container</span>
-                        <img src="https://images.unsplash.com/photo-1600047509358-9dc75507daeb?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Container 45m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">32.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Container 45m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 45m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 1 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Villa de Lujo 250m² -->
-                <a href="detalle-casa.html?id=villa-lujo-250" class="house-card" data-category="hormigon"
-                    data-price="195000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #9333ea; color: white;">Premium</span>
-                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
-                            alt="Villa de Lujo 250m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">195.000€</div>
-                        </div>
-                        <h3 class="house-title">Villa de Lujo 250m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 250m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 5 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 4 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Acero Industrial 100m² -->
-                <a href="detalle-casa.html?id=casa-acero-100" class="house-card" data-category="acero"
-                    data-price="58000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #64748b; color: white;">Acero</span>
-                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Acero Industrial 100m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">58.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Acero Industrial 100m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 100m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Ecológica 95m² -->
-                <a href="detalle-casa.html?id=casa-ecologica-95" class="house-card" data-category="ecologica"
-                    data-price="67000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #16a34a; color: white;">Ecológica</span>
-                        <img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Ecológica 95m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">67.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Ecológica 95m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 95m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 3 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Mobile Home Premium 70m² -->
-                <a href="detalle-casa.html?id=mobile-home-premium-70" class="house-card" data-category="movil"
-                    data-price="45000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #f59e0b; color: white;">Mobile Home</span>
-                        <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=800&q=80"
-                            alt="Mobile Home Premium 70m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">45.000€</div>
-                        </div>
-                        <h3 class="house-title">Mobile Home Premium 70m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 70m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Madera Rústica 130m² -->
-                <a href="detalle-casa.html?id=casa-madera-rustica-130" class="house-card" data-category="madera"
-                    data-price="82000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #92400e; color: white;">Madera</span>
-                        <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Madera Rústica 130m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">82.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Madera Rústica 130m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 130m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 2 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Minimalista 85m² -->
-                <a href="detalle-casa.html?id=casa-minimalista-85" class="house-card" data-category="modular"
-                    data-price="54000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #0891b2; color: white;">Minimalista</span>
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Minimalista 85m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">54.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Minimalista 85m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 85m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 2 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Casa Familiar 160m² -->
-                <a href="detalle-casa.html?id=casa-familiar-160" class="house-card" data-category="hormigon"
-                    data-price="98000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #2563eb; color: white;">Familiar</span>
-                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80"
-                            alt="Casa Familiar 160m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">98.000€</div>
-                        </div>
-                        <h3 class="house-title">Casa Familiar 160m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 160m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 4 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 3 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Tiny House Deluxe 40m² -->
-                <a href="detalle-casa.html?id=tiny-house-deluxe-40" class="house-card" data-category="movil"
-                    data-price="35000" style="text-decoration: none; color: inherit;">
-                    <div class="house-image">
-                        <span class="house-badge" style="background: #ec4899; color: white;">Tiny House</span>
-                        <img src="https://images.unsplash.com/photo-1571055107559-3e67626fa8be?auto=format&fit=crop&w=800&q=80"
-                            alt="Tiny House Deluxe 40m²">
-                    </div>
-                    <div class="house-content">
-                        <div class="house-header">
-                            <div class="house-price">35.000€</div>
-                        </div>
-                        <h3 class="house-title">Tiny House Deluxe 40m²</h3>
-                        <div class="house-specs">
-                            <span><i class="fa-solid fa-ruler-combined"></i> 40m²</span>
-                            <span><i class="fa-solid fa-bed"></i> 1 Hab</span>
-                            <span><i class="fa-solid fa-bath"></i> 1 Baño</span>
-                        </div>
-                        <div class="house-footer">
-                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha
-                                Completa</span>
-                        </div>
-                    </div>
-                </a>
-
-            </div>
-
-            <!-- Dynamic Houses from Firestore -->
-            <div id="dynamicHousesSection" style="margin-top: 60px; display: none;">
-                <h2 style="text-align: center; margin-bottom: 40px; color: var(--secondary);">
-                    <i class="fa-solid fa-plus-circle"></i> Más Casas Disponibles
-                </h2>
-                <div class="house-grid" id="dynamicHousesGrid">
-                    <!-- Houses loaded from Firestore will appear here -->
+            <div class="house-grid" id="catalogGrid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-light);">
+                    <i class="fa-solid fa-spinner fa-spin"
+                        style="font-size: 3rem; margin-bottom: 20px; color: var(--primary);"></i>
+                    <h3>Cargando catálogo...</h3>
                 </div>
-            </div>
-
-            <!-- Loading Indicator -->
-            <div id="loadingIndicator" style="text-align: center; padding: 40px; display: none;">
-                <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
-                <p style="margin-top: 15px; color: var(--text-light);">Cargando más casas...</p>
             </div>
         </div>
     </section>
@@ -871,587 +411,172 @@
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/support.js"></script>
+    <script src="js/toast.js"></script>
 
     <script>
+        // Universal Catalog Logic
+        const db = firebase.firestore();
+        const catalogGrid = document.getElementById('catalogGrid');
+        let allHouses = [];
         let currentUser = null;
 
         // Check Auth State
         auth.onAuthStateChanged((user) => {
             currentUser = user;
-            if (user) {
-                loadFavorites();
-            }
         });
 
-        // Toggle Favorite
-        async function toggleFav(event, houseId) {
-            event.preventDefault(); // Prevent navigation
-            event.stopPropagation(); // Stop bubbling
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialCategory = urlParams.get('category') || 'all';
+
+            // Set initial filter button state
+            updateFilterButtons(initialCategory);
+
+            await loadHouses(initialCategory);
+
+            // Filter Click Events
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const cat = btn.dataset.filter;
+                    updateFilterButtons(cat);
+                    filterHouses(cat);
+                });
+            });
+        });
+
+        function updateFilterButtons(activeCategory) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === activeCategory) {
+                    btn.classList.add('btn-primary');
+                    btn.classList.remove('btn-outline');
+                } else {
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-outline');
+                }
+            });
+        }
+
+        let currentFilteredHouses = [];
+
+        async function loadHouses(categoryFilter) {
+            try {
+                // Fetch all houses sorted by newer first
+                const snap = await db.collection('houses').orderBy('createdAt', 'desc').limit(100).get();
+                allHouses = [];
+                snap.forEach(doc => {
+                    allHouses.push({ id: doc.id, ...doc.data() });
+                });
+
+                filterHouses(categoryFilter);
+
+            } catch (error) {
+                console.error("Error loading houses:", error);
+                catalogGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-light);">
+                        <i class="fa-solid fa-cloud-bolt" style="font-size: 3rem; margin-bottom: 10px; opacity: 0.5;"></i>
+                        <p>Error cargando el catálogo. Revisa tu conexión.</p>
+                    </div>`;
+            }
+        }
+
+        function filterHouses(category) {
+            currentFilteredHouses = allHouses;
+            if (category && category !== 'all') {
+                currentFilteredHouses = allHouses.filter(h => h.category === category);
+            }
+            renderGrid(currentFilteredHouses);
+        }
+
+        function renderGrid(houses) {
+            if (!houses || houses.length === 0) {
+                catalogGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: var(--text-light);">
+                        <i class="fa-solid fa-search" style="font-size: 3rem; opacity: 0.3; margin-bottom: 20px;"></i>
+                        <h3>No hay casas aquí</h3>
+                        <p>Prueba con otra categoría.</p>
+                    </div>`;
+                return;
+            }
+
+            catalogGrid.innerHTML = houses.map(h => {
+                // Image Fallback
+                const img = (h.images && h.images.length) ? h.images[0] : (h.image || 'https://via.placeholder.com/600x400?text=Sin+Imagen');
+                const price = typeof h.price === 'number' ? h.price.toLocaleString() : h.price;
+                const badge = h.category ? `<span class="house-badge" style="background: var(--primary); text-transform: capitalize;">${h.category}</span>` : '';
+                const externalBadge = (h.isManual || h.externalUrl) ? `<span class="house-badge" style="background: var(--secondary); left: ${h.category ? 'auto' : '15px'}; right: ${h.category ? '15px' : 'auto'}; border-radius: 4px; padding: 4px 8px; font-size: 0.75rem;"><i class="fa-solid fa-up-right-from-square"></i> Partner</span>` : '';
+
+                return `
+                <a href="detalle-casa.html?id=${h.id}" class="house-card" style="text-decoration: none; color: inherit; animation: fadeIn 0.5s ease;">
+                    <button class="fav-btn" onclick="event.preventDefault(); toggleFav(event, '${h.id}')" style="z-index: 2;">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                    <div class="house-image">
+                        ${badge}
+                        ${externalBadge}
+                        <img src="${img}" alt="${h.title}" loading="lazy" style="height: 220px; object-fit: cover; width: 100%;">
+                    </div>
+                    <div class="house-content">
+                        <div class="house-header">
+                            <div class="house-price">${price}€</div>
+                        </div>
+                        <h3 class="house-title" style="margin: 10px 0; font-size: 1.2rem;">${h.title}</h3>
+                        <div class="house-specs">
+                            <span><i class="fa-solid fa-ruler-combined"></i> ${h.area}m²</span>
+                            <span><i class="fa-solid fa-bed"></i> ${h.bedrooms} Hab</span>
+                            <span><i class="fa-solid fa-bath"></i> ${h.bathrooms} Baño</span>
+                        </div>
+                        <div class="house-footer">
+                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Detalles</span>
+                        </div>
+                    </div>
+                </a>
+                `;
+            }).join('');
+        }
+
+        // Toggle Favorite Logic
+        window.toggleFav = async (event, houseId) => {
+            event.preventDefault();
+            event.stopPropagation();
 
             if (!currentUser) {
-                alert('Debes iniciar sesión para guardar favoritos.');
-                window.location.href = 'usuarios.html';
+                toast.info('Info', 'Inicia sesión para guardar favoritos');
                 return;
             }
 
             const btn = event.currentTarget;
-            const isFav = btn.classList.contains('active');
+            const icon = btn.querySelector('i');
+            const isFav = icon.classList.contains('fa-solid');
 
+            // Optimistic Update
+            if (isFav) {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                toast.info('Eliminado', 'Quitado de favoritos');
+            } else {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                toast.success('Guardado', 'Añadido a favoritos');
+            }
+
+            // Firestore Logic would go here (implement if needed or rely on existing logic if imported)
             try {
                 if (isFav) {
-                    // Remove favorite
-                    const snapshot = await db.collection('favorites')
-                        .where('userId', '==', currentUser.uid)
-                        .where('houseId', '==', houseId)
-                        .get();
-
-                    snapshot.forEach(doc => doc.ref.delete());
-                    btn.classList.remove('active');
+                    const snap = await db.collection('favorites').where('userId', '==', currentUser.uid).where('houseId', '==', houseId).get();
+                    snap.forEach(doc => doc.ref.delete());
                 } else {
-                    // Add favorite
                     await db.collection('favorites').add({
                         userId: currentUser.uid,
                         houseId: houseId,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                        addedAt: new Date()
                     });
-                    btn.classList.add('active');
                 }
-            } catch (error) {
-                console.error('Error updating favorite:', error);
-                alert('Error al actualizar favorito');
+            } catch (e) {
+                console.error(e);
             }
-        }
-
-        // Load Favorites on startup
-        async function loadFavorites() {
-            if (!currentUser) return;
-
-            try {
-                const snapshot = await db.collection('favorites')
-                    .where('userId', '==', currentUser.uid)
-                    .get();
-
-                const favIds = [];
-                snapshot.forEach(doc => favIds.push(doc.data().houseId));
-
-                // Update UI
-                document.querySelectorAll('.fav-btn').forEach(btn => {
-                    // Get house ID from onclick attribute (hacky but works for static)
-                    const onclick = btn.getAttribute('onclick');
-                    const houseId = onclick.match(/'([^']+)'/)[1];
-
-                    if (favIds.includes(houseId)) {
-                        btn.classList.add('active');
-                    }
-                });
-            } catch (error) {
-                console.error('Error loading favorites:', error);
-            }
-        }
-
-        // Comparison Logic
-        let selectedHouses = [];
-
-        function toggleCompare(checkbox, houseId) {
-            const card = document.getElementById('card_' + houseId);
-
-            if (checkbox.checked) {
-                if (selectedHouses.length >= 3) {
-                    alert('Máximo 3 casas para comparar.');
-                    checkbox.checked = false;
-                    return;
-                }
-
-                // Extract Data from DOM
-                const houseData = {
-                    id: houseId,
-                    title: card.querySelector('.house-title').textContent,
-                    price: card.querySelector('.house-price').textContent,
-                    image: card.querySelector('img').src,
-                    area: card.querySelectorAll('.house-specs span')[0].textContent,
-                    rooms: card.querySelectorAll('.house-specs span')[1].textContent,
-                    baths: card.querySelectorAll('.house-specs span')[2].textContent,
-                    category: card.getAttribute('data-category')
-                };
-
-                selectedHouses.push(houseData);
-            } else {
-                selectedHouses = selectedHouses.filter(h => h.id !== houseId);
-            }
-
-            updateComparisonBar();
-        }
-
-        function updateComparisonBar() {
-            const bar = document.getElementById('comparisonBar');
-            const count = document.getElementById('comparisonCount');
-
-            count.textContent = selectedHouses.length;
-
-            if (selectedHouses.length > 0) {
-                bar.classList.add('active');
-            } else {
-                bar.classList.remove('active');
-            }
-        }
-
-        function clearComparison() {
-            selectedHouses = [];
-            document.querySelectorAll('.compare-checkbox input').forEach(cb => cb.checked = false);
-            updateComparisonBar();
-        }
-
-        function openComparison() {
-            const modal = document.getElementById('comparisonModal');
-            const container = document.getElementById('comparisonTableContainer');
-
-            // Build Table
-            let html = '<table class="comparison-table"><tbody>';
-
-            // Rows
-            const rows = [
-                { label: 'Imagen', key: 'image', type: 'image' },
-                { label: 'Modelo', key: 'title', type: 'text' },
-                { label: 'Precio', key: 'price', type: 'text', style: 'font-weight: 700; color: var(--primary); font-size: 1.2rem;' },
-                { label: 'Superficie', key: 'area', type: 'text' },
-                { label: 'Habitaciones', key: 'rooms', type: 'text' },
-                { label: 'Baños', key: 'baths', type: 'text' },
-                { label: 'Categoría', key: 'category', type: 'text', transform: (val) => val.charAt(0).toUpperCase() + val.slice(1) }
-            ];
-
-            rows.forEach(row => {
-                html += `<tr><th>${row.label}</th>`;
-                selectedHouses.forEach(house => {
-                    let content = house[row.key];
-
-                    if (row.type === 'image') {
-                        content = `<img src="${content}" alt="Casa">`;
-                    } else if (row.transform) {
-                        content = row.transform(content);
-                    }
-
-                    const style = row.style ? `style="${row.style}"` : '';
-                    html += `<td ${style}>${content}</td>`;
-                });
-                html += '</tr>';
-            });
-
-            html += '<tr><th>Acción</th>';
-            selectedHouses.forEach(house => {
-                html += `<td><a href="detalle-casa-${house.id.replace('house_', '')}.html" class="btn btn-primary" style="padding: 5px 15px; font-size: 0.9rem;">Ver Ficha</a></td>`;
-            });
-            html += '</tr>';
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
-
-            modal.classList.add('active');
-        }
-
-        function closeComparison() {
-            document.getElementById('comparisonModal').classList.remove('active');
-        }
-
-        // Advanced Filters Functions
-
-        function updatePriceLabel() {
-            const min = document.getElementById('priceMin').value;
-            const max = document.getElementById('priceMax').value;
-
-            // Update inputs
-            document.getElementById('priceInputMin').value = min;
-            document.getElementById('priceInputMax').value = max;
-        }
-
-        function updatePriceFromInput() {
-            const minInput = parseInt(document.getElementById('priceInputMin').value) || 0;
-            const maxInput = parseInt(document.getElementById('priceInputMax').value) || 0;
-
-            // Update sliders (clamped to slider max/min)
-            const sliderMin = document.getElementById('priceMin');
-            const sliderMax = document.getElementById('priceMax');
-
-            // Only update slider if within range, otherwise slider stays at limit
-            if (minInput <= 200000) sliderMin.value = minInput;
-            else sliderMin.value = 200000;
-
-            if (maxInput <= 200000) sliderMax.value = maxInput;
-            else sliderMax.value = 200000;
-        }
-
-        function updateAreaLabel() {
-            const min = document.getElementById('areaMin').value;
-            const max = document.getElementById('areaMax').value;
-            document.getElementById('areaMinLabel').textContent = min + 'm²';
-            document.getElementById('areaMaxLabel').textContent = max + 'm²';
-        }
-
-        function applyAdvancedFilters() {
-            // Read from INPUTS now, as they are the source of truth for the user
-            const priceMin = parseInt(document.getElementById('priceInputMin').value) || 0;
-            const priceMax = parseInt(document.getElementById('priceInputMax').value) || 500000; // Increased max limit logic
-            const areaMin = parseInt(document.getElementById('areaMin').value);
-            const areaMax = parseInt(document.getElementById('areaMax').value);
-            const bedrooms = document.getElementById('bedroomsFilter').value;
-            const province = document.getElementById('provinceFilter').value;
-            const sortMode = document.getElementById('sortFilter') ? document.getElementById('sortFilter').value : 'default';
-
-            // Get ALL house cards (static + dynamic)
-            // We need to work with an array to sort them
-            const grid = document.querySelector('.house-grid');
-            const houseCards = Array.from(document.querySelectorAll('.house-card'));
-
-            // We need to access selectedCategories from the closure if possible, 
-            // but since this function is defined outside, we need to make sure selectedCategories is accessible.
-            // A quick fix is to look at the buttons to see which are active if the Set isn't global.
-            // Or better: Let's assume selectedCategories is defined in the global scope or accessible scope.
-            // Since we are in split script blocks, let's redefine a helper to get categories from buttons.
-
-            const activeCategoryBtns = Array.from(document.querySelectorAll('.filter-btn.btn-primary'));
-            const activeCategories = new Set(activeCategoryBtns.map(b => b.getAttribute('data-filter')));
-
-            let visibleCards = [];
-
-            houseCards.forEach(card => {
-                const cardPrice = parseInt(card.getAttribute('data-price'));
-                const cardArea = parseInt(card.getAttribute('data-area'));
-                const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
-                const cardProvince = card.getAttribute('data-province');
-                const cardCategory = card.getAttribute('data-category');
-
-                let show = true;
-
-                // 1. Category Filter (Multi-select)
-                // If 'all' is active, we ignore category check.
-                // If 'all' is NOT active, we check if cardCategory is in activeCategories set.
-                if (!activeCategories.has('all')) {
-                    if (!activeCategories.has(cardCategory)) {
-                        show = false;
-                    }
-                }
-
-                // 2. Price filter
-                if (show) {
-                    if (cardPrice < priceMin || cardPrice > priceMax) {
-                        show = false;
-                    }
-                }
-
-                // 3. Area filter
-                if (show) {
-                    if (cardArea < areaMin || cardArea > areaMax) {
-                        show = false;
-                    }
-                }
-
-                // 4. Bedrooms filter
-                if (show) {
-                    if (bedrooms !== 'all') {
-                        if (bedrooms === '5' && cardBedrooms < 5) {
-                            show = false;
-                        } else if (bedrooms !== '5' && cardBedrooms !== parseInt(bedrooms)) {
-                            show = false;
-                        }
-                    }
-                }
-
-                // 5. Province filter
-                if (show) {
-                    if (province !== 'all' && cardProvince !== province) {
-                        show = false;
-                    }
-                }
-
-                if (show) {
-                    visibleCards.push(card);
-                }
-
-                // Temporarily hide all, we will append them in order
-                card.style.display = 'none';
-            });
-
-            // 6. Sorting
-            visibleCards.sort((a, b) => {
-                const priceA = parseInt(a.getAttribute('data-price'));
-                const priceB = parseInt(b.getAttribute('data-price'));
-                const areaA = parseInt(a.getAttribute('data-area'));
-                const areaB = parseInt(b.getAttribute('data-area'));
-
-                switch (sortMode) {
-                    case 'price-asc':
-                        return priceA - priceB;
-                    case 'price-desc':
-                        return priceB - priceA;
-                    case 'area-asc':
-                        return areaA - areaB;
-                    case 'area-desc':
-                        return areaB - areaA;
-                    default:
-                        return 0; // Default order (DOM order) - effectively no sort change from original logic if we cared about original order
-                }
-            });
-
-            // Re-append visible cards in order
-            visibleCards.forEach(card => {
-                grid.appendChild(card); // Moves it to the end
-                card.style.display = 'flex';
-            });
-
-            // Show message if no results
-            let visibleCount = visibleCards.length;
-            let noResultsMsg = document.getElementById('noResultsMessage');
-
-            if (visibleCount === 0) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.id = 'noResultsMessage';
-                    noResultsMsg.style.cssText = 'grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-light);';
-                    noResultsMsg.innerHTML = `
-                        <i class="fa-solid fa-house-circle-xmark" style="font-size: 4rem; color: #cbd5e1; margin-bottom: 20px;"></i>
-                        <h3>No se encontraron casas con estos filtros</h3>
-                        <p>Prueba a ajustar los criterios de búsqueda</p>
-                        <button onclick="resetFilters()" class="btn btn-primary" style="margin-top: 20px;">Limpiar Filtros</button>
-                    `;
-                    grid.appendChild(noResultsMsg);
-                }
-                noResultsMsg.style.display = 'block';
-            } else {
-                if (noResultsMsg) {
-                    noResultsMsg.style.display = 'none';
-                }
-            }
-
-            // Scroll to results (optional, maybe distracting if typing)
-            // document.querySelector('.house-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function resetFilters() {
-            document.getElementById('priceMin').value = 0;
-            document.getElementById('priceMax').value = 200000;
-            document.getElementById('areaMin').value = 0;
-            document.getElementById('areaMax').value = 300;
-            document.getElementById('bedroomsFilter').value = 'all';
-            document.getElementById('provinceFilter').value = 'all';
-            if (document.getElementById('sortFilter')) document.getElementById('sortFilter').value = 'default';
-
-            updatePriceLabel();
-            updateAreaLabel();
-
-            const houseCards = document.querySelectorAll('.house-card');
-            houseCards.forEach(card => card.style.display = 'flex');
-
-            const noResultsMsg = document.getElementById('noResultsMessage');
-            if (noResultsMsg) {
-                noResultsMsg.style.display = 'none';
-            }
-        }
-
-        // Load Dynamic Houses from Firestore
-        async function loadDynamicHouses() {
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const dynamicSection = document.getElementById('dynamicHousesSection');
-            const dynamicGrid = document.getElementById('dynamicHousesGrid');
-
-            try {
-                loadingIndicator.style.display = 'block';
-
-                const snapshot = await db.collection('houses')
-                    .orderBy('createdAt', 'desc')
-                    .limit(20)
-                    .get();
-
-                if (snapshot.empty) {
-                    loadingIndicator.style.display = 'none';
-                    return;
-                }
-
-                let html = '';
-                snapshot.forEach(doc => {
-                    const house = doc.data();
-                    const houseId = doc.id;
-
-                    // Map category to match filter system
-                    const category = house.category || 'madera';
-                    const price = house.price || 0;
-                    const area = house.area || 0;
-                    const bedrooms = house.bedrooms || 2;
-                    const province = house.province || 'otras';
-
-                    const imgUrl = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || house.imageUrl || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80');
-
-                    html += `
-                        <a href="detalle-casa.html?id=${houseId}" class="house-card dynamic-house" 
-                           data-category="${category}" 
-                           data-price="${price}" 
-                           data-area="${area}" 
-                           data-bedrooms="${bedrooms}" 
-                           data-province="${province}"
-                           id="card_${houseId}">
-                            <button class="fav-btn" onclick="toggleFav(event, '${houseId}')">
-                                <i class="fa-solid fa-heart"></i>
-                            </button>
-                            <div class="house-image">
-                                <span class="house-badge" style="background: #10b981;">Nueva</span>
-                                <img src="${imgUrl}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Sin+Imagen'">
-                            </div>
-                            <div class="house-content">
-                                <div class="house-header">
-                                    <div class="house-price">${parseInt(price).toLocaleString('es-ES')}€</div>
-                                </div>
-                                <h3 class="house-title">${house.title}</h3>
-                                <div class="house-specs">
-                                    <span><i class="fa-solid fa-ruler-combined"></i> ${area}m²</span>
-                                    <span><i class="fa-solid fa-bed"></i> ${bedrooms} Hab</span>
-                                    <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
-                                </div>
-                                <div class="house-footer">
-                                    <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha Completa</span>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                });
-
-                dynamicGrid.innerHTML = html;
-                dynamicSection.style.display = 'block';
-                loadingIndicator.style.display = 'none';
-
-            } catch (error) {
-                console.error('Error loading dynamic houses:', error);
-                loadingIndicator.style.display = 'none';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            const houseCards = document.querySelectorAll('.house-card');
-
-            // Multi-select Categories Logic
-            let selectedCategories = new Set(['all']);
-
-            // Function to apply filter
-            function applyFilter() {
-                const sortValue = document.getElementById('sortFilter') ? document.getElementById('sortFilter').value : 'default';
-                const grid = document.querySelector('.house-grid');
-                // Get all original cards (we need to be able to re-append them)
-                const houseCards = Array.from(document.querySelectorAll('.house-card'));
-
-                let visibleCount = 0;
-                let visibleCards = [];
-
-                houseCards.forEach(card => {
-                    const category = card.getAttribute('data-category');
-                    let show = false;
-
-                    // Category Logic (Multi-select)
-                    if (selectedCategories.has('all')) {
-                        show = true;
-                    } else {
-                        if (selectedCategories.has(category)) {
-                            show = true;
-                        }
-                    }
-
-                    // Advanced Filters check (only if category matched first)
-                    if (show) {
-                        const cardPrice = parseInt(card.getAttribute('data-price'));
-                        const cardArea = parseInt(card.getAttribute('data-area'));
-                        const cardBedrooms = parseInt(card.getAttribute('data-bedrooms'));
-                        const cardProvince = card.getAttribute('data-province');
-
-                        // NOTE: Advanced filters currently use separate applyAdvancedFilters button which hides cards directly.
-                        // However, to make sorting work with advanced filters, we should really integrate them.
-                        // For now, let's respect the user request for buttons allowing multiple selection.
-                        // To keep it simple and safe: we won't merge advanced filters logic here yet unless requested,
-                        // BUT, if the user clicks the quick category buttons, we usually expect them to just filter by category.
-                        // If they used advanced filters, they click "Aplicar Filtros". 
-                        // The user asked for sorting dropdown to be functional. This usually requires re-ordering elements.
-                    }
-
-                    // We will use a unified visibility check for sorting
-                    if (show) {
-                        // Re-check advanced filter visibility state (if they were hidden by advanced filters, keep them hidden?)
-                        // Actually, let's simplify: This function is called when clicking category buttons.
-                        // The advanced filter function calls itself. We need to unify or let them play nice.
-
-                        // Let's assume for now this function controls display based on categories.
-                        // If we want sorting to work on EVERYTHING, we need a smarter approach.
-                        // Let's defer display update to the sorting phase.
-                    }
-
-                    // Store visibility intent
-                    card.dataset.matchesCategory = show ? 'true' : 'false';
-                });
-
-                // Update UI Buttons
-                filterBtns.forEach(b => {
-                    const filter = b.getAttribute('data-filter');
-                    if (selectedCategories.has(filter)) {
-                        b.classList.remove('btn-outline');
-                        b.classList.add('btn-primary');
-                    } else {
-                        b.classList.remove('btn-primary');
-                        b.classList.add('btn-outline');
-                    }
-                });
-
-                // NOW: Trigger the main filtering/sorting pipeline
-                applyAdvancedFilters();
-            }
-
-            // Function to toggle category
-            function toggleCategory(category) {
-                if (category === 'all') {
-                    selectedCategories.clear();
-                    selectedCategories.add('all');
-                } else {
-                    if (selectedCategories.has('all')) {
-                        selectedCategories.delete('all');
-                    }
-
-                    if (selectedCategories.has(category)) {
-                        selectedCategories.delete(category);
-                        if (selectedCategories.size === 0) {
-                            selectedCategories.add('all');
-                        }
-                    } else {
-                        selectedCategories.add(category);
-                    }
-                }
-                applyFilter();
-            }
-
-            // Map click events
-            filterBtns.forEach(btn => {
-                // Remove old event listener by cloning or just overriding (we'll override logic inside)
-                // Since we are replacing the block, we define new listeners.
-                btn.onclick = (e) => {
-                    e.preventDefault(); // invalid link if any
-                    toggleCategory(btn.getAttribute('data-filter'));
-                };
-            });
-
-            // Sort Filter Event
-            const sortFilter = document.getElementById('sortFilter');
-            if (sortFilter) {
-                sortFilter.addEventListener('change', () => {
-                    applyAdvancedFilters();
-                });
-            }
-
-            // Check URL parameters on load
-            const urlParams = new URLSearchParams(window.location.search);
-            const category = urlParams.get('category');
-
-            if (category) {
-                toggleCategory(category);
-            }
-
-            // Load dynamic houses from Firestore
-            loadDynamicHouses();
-        });
+        };
     </script>
-
 </body>
 
 </html>
