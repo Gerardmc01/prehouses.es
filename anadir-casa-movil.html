@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Casa Móvil T1</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            padding: 40px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+            max-width: 700px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e293b;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .loading {
+            background: #dbeafe;
+            color: #1e40af;
+            display: block;
+        }
+
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏡 Añadir Casa Móvil T1</h1>
+        <p style="color: #64748b; font-size: 1.1rem;">
+            Añade la segunda casa al catálogo
+        </p>
+
+        <button class="btn" id="btnAdd" onclick="addHouse()">
+            AÑADIR CASA MÓVIL T1
+        </button>
+
+        <div id="status" class="status"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9cOlnbxJv9t-bEgiPQJOPgj7gR0v5xwc",
+            authDomain: "prehouses-b224d.firebaseapp.com",
+            projectId: "prehouses-b224d",
+            storageBucket: "prehouses-b224d.firebasestorage.app",
+            messagingSenderId: "996192688774",
+            appId: "1:996192688774:web:00bdafc2e2ddc26bcd8f07",
+            measurementId: "G-0PL4DH2ZGL"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        async function addHouse() {
+            const statusEl = document.getElementById('status');
+            const btn = document.getElementById('btnAdd');
+
+            btn.disabled = true;
+            statusEl.className = 'status loading';
+            statusEl.style.display = 'block';
+            statusEl.innerHTML = '⏳ Añadiendo Casa Móvil T1...';
+
+            try {
+                const houseData = {
+                    title: "Casa Móvil T1",
+                    price: 0, // Precio a consultar
+                    area: 30, // Estimado para un estudio/tiny house
+                    rooms: 1,
+                    bathrooms: 1,
+                    location: "España",
+                    description: `Este hermoso estudio en el jardín tiene una gran terraza de madera y un gran terreno. Desde la terraza se puede disfrutar de una hermosa vista de los campos y la naturaleza, ¡para cambiar de escenario! En el tejado se instalaron paneles solares, lo que hace que la casa sea autosuficiente energéticamente.
+
+Al entrar en esta pequeña casa contenedor, encontrará una sala de estar agradable y luminosa, que incluye una zona de estar con sofá y estufa de leña para afrontar las frías noches de la región. La cocina está equipada con estufa, lavavajillas, fregadero y espacio de almacenamiento. También hay una pequeña mesa para dos personas.
+
+Luego hay un baño con una gran ducha, un inodoro y un mueble de almacenaje con lavabo. El dormitorio tiene una cama doble grande. El estudio del jardín ha sido equipado con numerosas ventanas y miradores, que permiten la entrada de luz natural durante todo el día.`,
+                    images: [
+                        "img/houses/casa_movil_t1_1.png",
+                        "img/houses/casa_movil_t1_2.png",
+                        "img/houses/casa_movil_t1_3.png",
+                        "img/houses/casa_movil_t1_4.png",
+                        "img/houses/casa_movil_t1_5.png"
+                    ],
+                    companyId: "casa_movil",
+                    companyName: "Casa Móvil",
+                    contactEmail: "info@casa-movil.es",
+                    contactPhone: "+34 654 06 96 53",
+                    companyWeb: "https://casa-movil.es/",
+                    companyAddress: "URB. PLAYA DE MATALASCAÑAS, PARCELA 21 DEL SECTOR G. 21730, ALMONTE, HUELVA",
+                    category: "movil",
+                    featured: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                const docRef = await db.collection('houses').add(houseData);
+
+                statusEl.className = 'status success';
+                statusEl.innerHTML = `
+                    ✅ ¡CASA AÑADIDA!<br><br>
+                    Casa Móvil T1 añadida correctamente<br><br>
+                    <small style="color: #64748b;">ID: ${docRef.id}</small><br><br>
+                    <a href="catalogo.html" style="color: #10b981; text-decoration: none; font-weight: 600;">
+                        Ver Catálogo →
+                    </a>
+                `;
+
+                console.log('✅ Casa añadida con ID:', docRef.id);
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                statusEl.className = 'status error';
+                statusEl.innerHTML = `❌ Error: ${error.message}`;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
