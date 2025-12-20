@@ -192,7 +192,7 @@
                                     </div>
                                     <div class="house-content">
                                         <div class="house-header">
-                                            <div class="house-price">${parseInt(house.price).toLocaleString()}€</div>
+                                            <div class="house-price">${typeof house.price === 'number' && house.price > 0 ? parseInt(house.price).toLocaleString('es-ES') + '€' : (house.price || 'Consultar')}</div>
                                         </div>
                                         <h3 class="house-title">${house.title}</h3>
                                         <div class="house-specs">

@@ -380,7 +380,7 @@
         function renderProperty() {
             document.title = `${currentHouse.title} | Prehouses`;
             document.getElementById('houseTitle').textContent = currentHouse.title;
-            document.getElementById('housePrice').textContent = currentHouse.price ? currentHouse.price.toLocaleString() + '€' : 'Consultar';
+            document.getElementById('housePrice').textContent = typeof currentHouse.price === 'number' && currentHouse.price > 0 ? currentHouse.price.toLocaleString('es-ES') + '€' : (currentHouse.price || 'Consultar');
             document.getElementById('houseArea').textContent = currentHouse.area + ' m²';
             document.getElementById('houseRooms').textContent = currentHouse.rooms;
             document.getElementById('houseBaths').textContent = currentHouse.bathrooms;
