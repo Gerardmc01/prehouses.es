@@ -870,14 +870,13 @@
                                 <i class="fa-solid fa-heart"></i>
                             </button>
                             <div class="house-image">
-                                <span class="house-badge" style="background: #10b981;">Nueva</span>
                                 <img src="${imgUrl}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400x300?text=Sin+Imagen'">
                             </div>
                             <div class="house-content">
                                 <div class="house-header">
+                                    <h3 class="house-title">${house.title}</h3>
                                     <div class="house-price">${typeof price === 'number' && price > 0 ? parseInt(price).toLocaleString('es-ES') + '€' : (price || 'Consultar')}</div>
                                 </div>
-                                <h3 class="house-title">${house.title}</h3>
                                 <div class="house-specs">
                                     <span><i class="fa-solid fa-ruler-combined"></i> ${area}m²</span>
                                     <span><i class="fa-solid fa-bed"></i> ${bedrooms} Hab</span>

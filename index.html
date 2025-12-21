@@ -163,58 +163,11 @@
             </p>
 
             <div class="house-grid" id="featuredHousesGrid">
-                <!-- Las casas se cargarán dinámicamente desde Firestore -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
+                    <p style="margin-top: 15px; color: var(--text-light);">Cargando casas destacadas...</p>
+                </div>
             </div>
-
-
-            <script>
-                document.addEventListener('DOMContentLoaded', async () => {
-                    const container = document.getElementById('featuredHousesGrid');
-                    try {
-                        // Get 3 latest houses form Firestore
-                        const snapshot = await db.collection('houses')
-                            .orderBy('createdAt', 'desc')
-                            .limit(3)
-                            .get();
-
-                        if (snapshot.empty) return; // Keep static fallback
-
-                        let html = '';
-                        snapshot.forEach(doc => {
-                            const house = doc.data();
-                            const img = Array.isArray(house.images) ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
-
-                            html += `
-                                <a href="detalle-casa.html?id=${doc.id}" class="house-card">
-                                    <div class="house-image">
-                                        <span class="house-badge" style="background: #10b981;">Novedad</span>
-                                        <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
-                                    </div>
-                                    <div class="house-content">
-                                        <div class="house-header">
-                                            <div class="house-price">${typeof house.price === 'number' && house.price > 0 ? parseInt(house.price).toLocaleString('es-ES') + '€' : (house.price || 'Consultar')}</div>
-                                        </div>
-                                        <h3 class="house-title">${house.title}</h3>
-                                        <div class="house-specs">
-                                            <span><i class="fa-solid fa-ruler-combined"></i> ${house.area}m²</span>
-                                            <span><i class="fa-solid fa-bed"></i> ${house.bedrooms || 2} Hab</span>
-                                            <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
-                                        </div>
-                                        <div class="house-footer">
-                                            <span class="btn btn-outline" style="width: 100%; text-align: center;">Ver Ficha Completa</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            `;
-                        });
-
-                        container.innerHTML = html;
-
-                    } catch (error) {
-                        console.error('Error loading featured houses:', error);
-                    }
-                });
-            </script>
 
             <div style="text-align: center; margin-top: 60px;">
                 <a href="catalogo.html" class="btn btn-primary">Ver Catálogo Completo <i
@@ -249,34 +202,38 @@
                         El portal líder de casas prefabricadas en España.
                         Encuentra tu hogar ideal hoy mismo.
                     </p>
-                    <div class="social-links" style="display: flex; gap: 15px; font-size: 1.2rem; margin-top: 10px;">
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="#" style="color: var(--text-light);"><i class="fa-brands fa-twitter"></i></a>
+                    <div class="social-links">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
                     </div>
                 </div>
-
                 <div class="footer-col">
-                    <h4>Explorar</h4>
+                    <h4>Navegación</h4>
                     <ul>
-                        <li><a href="catalogo.html">Casas de Hormigón</a></li>
-                        <li><a href="catalogo.html">Casas de Madera</a></li>
-                        <li><a href="catalogo.html">Casas Modulares</a></li>
-                        <li><a href="catalogo.html">Mobile Homes</a></li>
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="catalogo.html">Catálogo</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="acceso.html">Acceso</a></li>
                     </ul>
                 </div>
-
                 <div class="footer-col">
-                    <h4>Legal</h4>
+                    <h4>Legales</h4>
                     <ul>
-                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
-                        <li><a href="privacidad.html">Política de Privacidad</a></li>
+                        <li><a href="privacidad.html">Privacidad</a></li>
                         <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="empresas.html">Acceso Empresas</a></li>
+                        <li><a href="aviso-legal.html">Aviso Legal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fa-solid fa-envelope"></i> info@prehouses.es</li>
+                        <li><i class="fa-solid fa-location-dot"></i> Madrid, España</li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
+            <div class="footer-bottom">
                 <p>&copy; 2025 Prehouses. Todos los derechos reservados.</p>
             </div>
         </div>
@@ -286,6 +243,71 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
+
+    <script>
+        // Cargar casas destacadas después de que Firebase se inicialice
+        async function loadFeatured() {
+            const container = document.getElementById('featuredHousesGrid');
+            if (!container) return;
+
+            try {
+                // Obtenemos las casas directamente sin orderBy por ahora para asegurar que no falla por falta de índice
+                const snapshot = await db.collection('houses').limit(3).get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px;">
+                            <p style="color: var(--text-light);">Próximamente más casas destacadas.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let html = '';
+                snapshot.forEach(doc => {
+                    const house = doc.data();
+                    const img = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || 'https://via.placeholder.com/400');
+                    const priceDisplay = typeof house.price === 'number' && house.price > 0 ?
+                        new Intl.NumberFormat('es-ES').format(house.price) + '€' :
+                        (house.price || 'Consultar');
+
+                    html += `
+                        <a href="detalle-casa.html?id=${doc.id}" class="house-card">
+                            <div class="house-image">
+                                <img src="${img}" alt="${house.title}" onerror="this.src='https://via.placeholder.com/400'">
+                            </div>
+                            <div class="house-content">
+                                <div class="house-header">
+                                    <h3 class="house-title">${house.title}</h3>
+                                    <div class="house-price">${priceDisplay}</div>
+                                </div>
+                                <div class="house-specs">
+                                    <span><i class="fa-solid fa-ruler-combined"></i> ${house.area}m²</span>
+                                    <span><i class="fa-solid fa-bed"></i> ${house.rooms || house.bedrooms || 0} Hab</span>
+                                    <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baño</span>
+                                </div>
+                                <div class="house-footer">
+                                    <span class="btn btn-outline" style="width: 100%; text-align: center; font-size: 0.9rem;">Ver Detalles</span>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                });
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading featured houses:', error);
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Error al cargar las casas: ${error.message}</p>`;
+            }
+        }
+
+        // Ejecutar carga cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            // Un pequeño delay para asegurar que db (de firebase-config.js) esté disponible
+            setTimeout(loadFeatured, 500);
+        });
+    </script>
 
 </body>
 
