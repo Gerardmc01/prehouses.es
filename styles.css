@@ -2,21 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary: #234DD3;
-    --primary-dark: #1a3bb0;
-    --primary-light: #eef2ff;
+    --primary: #1E40AF;
+    --primary-glow: rgba(30, 64, 175, 0.4);
+    --primary-dark: #1e3a8a;
+    --primary-light: #eff6ff;
     --secondary: #0f172a;
-    --text-main: #334155;
+    --text-main: #1e293b;
     --text-light: #64748b;
-    --bg-body: #f8fafc;
-    --bg-white: #ffffff;
-    --glass: rgba(255, 255, 255, 0.95);
-    --glass-dark: rgba(15, 23, 42, 0.8);
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --radius: 16px;
-    --radius-sm: 8px;
+    --bg-body: #ffffff;
+    --bg-soft: #f8fafc;
+    --glass-white: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-premium: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+    --shadow-button: 0 10px 15px -3px rgba(30, 64, 175, 0.2);
+    --radius: 24px;
+    --radius-sm: 12px;
 }
 
 * {
@@ -94,12 +94,13 @@ img {
 }
 
 .section-title {
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: 800;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     color: var(--secondary);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
 }
 
 .section-subtitle {
@@ -133,13 +134,18 @@ img {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    color: var(--primary);
+    color: var(--secondary);
     display: flex;
     align-items: center;
-    gap: 10px;
-    letter-spacing: -0.03em;
+    gap: 12px;
+    letter-spacing: -0.04em;
+    transition: transform 0.3s ease;
+}
+
+.logo span {
+    color: var(--primary);
 }
 
 .nav-links {
@@ -250,31 +256,51 @@ img {
 }
 
 .hero h1 {
-    font-size: 4.5rem;
-    line-height: 1.1;
-    margin-bottom: 24px;
-    font-weight: 800;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    letter-spacing: -0.03em;
+    font-size: 5rem;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: white;
 }
 
 .hero h1 span {
-    color: #60a5fa;
-    /* Lighter blue for contrast on dark bg */
-    background: linear-gradient(135deg, #60a5fa 0%, #ffffff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    display: block;
+    color: white;
+    opacity: 0.9;
 }
 
 .hero p {
-    font-size: 1.35rem;
-    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.85);
     margin-bottom: 50px;
-    max-width: 700px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
     font-weight: 400;
+    line-height: 1.5;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-button);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -5px var(--primary-glow);
+}
+
+.ia-advisor-cta {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.ia-advisor-cta:hover {
+    background: rgba(255, 255, 255, 0.2) !important;
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
 /* Search Box Styled */
@@ -428,16 +454,17 @@ img {
     background: white;
     border-radius: var(--radius);
     overflow: hidden;
-    box-shadow: var(--shadow-md);
-    transition: all 0.4s ease;
-    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: var(--shadow-premium);
+    transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid #f1f5f9;
     display: flex;
     flex-direction: column;
 }
 
 .house-card:hover {
-    transform: translateY(-12px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-light);
 }
 
 .house-image {
@@ -477,16 +504,18 @@ img {
 }
 
 .house-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #000;
+    color: var(--secondary);
     line-height: 1.2;
+    letter-spacing: -0.02em;
 }
 
 .house-price {
     color: var(--primary);
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
 }
 
 .house-specs {
