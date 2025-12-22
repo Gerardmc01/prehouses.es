@@ -133,11 +133,11 @@
 
 <body>
 
-    <!-- Navbar -->
+                <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+                <img src="img/logo.png" alt="Prehouses Logo">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -145,8 +145,9 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
-                </li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
             <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                 <span></span>
@@ -164,49 +165,18 @@
             <li><a href="blog.html">Blog</a></li>
             <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                         class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-            <li><a href="acceso.html" class="btn btn-primary"
-                    style="width: 100%; margin-top: 20px; text-align: center;">Acceso</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
         </ul>
-    </div>
-
-    <!-- Main Content -->
-    <div class="access-page">
-        <div class="access-container">
-            <div class="access-header">
-                <h1>Selecciona tu Perfil</h1>
-                <p>Elige cómo quieres acceder a Prehouses</p>
-            </div>
-
-            <div class="access-grid">
-                <!-- User Card -->
-                <a href="usuarios.html" class="access-card">
-                    <div class="access-icon icon-user">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <h2>Soy Particular</h2>
-                    <p>Busco mi casa prefabricada ideal. Guarda favoritos, contacta con empresas y recibe ofertas
-                        exclusivas.</p>
-                    <span class="btn-access btn-user">Acceso Usuarios</span>
-                </a>
-
-                <!-- Business Card -->
-                <a href="empresas.html" class="access-card">
-                    <div class="access-icon icon-business">
-                        <i class="fa-solid fa-briefcase"></i>
-                    </div>
-                    <h2>Soy Empresa</h2>
-                    <p>Fabricante o distribuidor. Publica tus modelos, gestiona tus leads y aumenta tus ventas hoy
-                        mismo.</p>
-                    <span class="btn-access btn-business">Acceso Empresas</span>
-                </a>
-            </div>
-        </div>
     </div>
 
     <script>
         function toggleMobileMenu() {
-            document.getElementById('mobileMenu').classList.toggle('active');
-            document.querySelector('.mobile-menu-toggle').classList.toggle('active');
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
         }
     </script>
 </body>

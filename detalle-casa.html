@@ -243,11 +243,11 @@
 
 <body>
 
-    <!-- Navbar -->
+            <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+                <img src="img/logo.png" alt="Prehouses Logo">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -255,92 +255,40 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
-                </li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <div class="container detail-container">
-        <div class="detail-grid">
-
-            <!-- CONTENIDO IZQUIERDA -->
-            <div class="detail-main">
-                <div class="gallery-container">
-                    <div class="main-img-wrapper">
-                        <img id="mainImg" src="https://via.placeholder.com/1200x800" alt="Casa">
-                    </div>
-                    <div class="thumbnails" id="thumbGallery">
-                        <!-- Thumbs via JS -->
-                    </div>
-                </div>
-
-                <div class="property-brief">
-                    <h1 id="houseTitle">Cargando casa...</h1>
-                    <div class="property-price" id="housePrice">-</div>
-                </div>
-
-                <div class="quick-specs">
-                    <div class="spec-item">
-                        <span class="spec-label">Superficie</span>
-                        <span class="spec-value" id="houseArea">- m²</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Habitaciones</span>
-                        <span class="spec-value" id="houseRooms">-</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Baños</span>
-                        <span class="spec-value" id="houseBaths">-</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Ubicación</span>
-                        <span class="spec-value" id="houseLoc">-</span>
-                    </div>
-                </div>
-
-                <div class="description-text" id="houseDesc">
-                    <!-- Descripción -->
-                </div>
-            </div>
-
-            <!-- SIDEBAR DERECHA -->
-            <div class="detail-sidebar">
-                <div class="company-panel">
-                    <div class="company-logo">
-                        <i class="fa-solid fa-building"></i>
-                    </div>
-                    <div class="company-name" id="compName">Empresa S.A.</div>
-                    <div class="company-status">
-                        <i class="fa-solid fa-certificate"></i> Empresa Verificada
-                    </div>
-
-                    <div class="contact-actions">
-                        <a href="#" id="btnMail" class="btn-call">
-                            <i class="fa-solid fa-envelope"></i> Contactar Empresa
-                        </a>
-                        <a href="#" id="btnWeb" target="_blank" class="btn-web">
-                            <i class="fa-solid fa-globe"></i> Visitar Web
-                        </a>
-                    </div>
-
-                    <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 20px;">
-                        Menciona que vienes de <strong>Prehouses</strong> para recibir un trato preferencial.
-                    </p>
-
-                    <hr style="margin: 20px 0; border: none; border-top: 1px solid #f1f5f9;">
-
-                    <button class="fav-action" id="favBtn" onclick="toggleFavorite()">
-                        <i class="fa-regular fa-heart"></i> Añadir a Favoritos
-                    </button>
-                </div>
-            </div>
-
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Firebase Config -->
-    <script src="js/firebase-config.js"></script>
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const houseId = urlParams.get('id');

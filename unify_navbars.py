@@ -6,7 +6,7 @@ STANDARD_NAVBAR = """    <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+                <img src="img/logo.png" alt="Prehouses Logo">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -52,9 +52,9 @@ STANDARD_NAVBAR = """    <!-- Navbar -->
 def unify_navbars():
     files = [f for f in os.listdir('.') if f.endswith('.html')]
     
-    # Archivos que NO deben tener navbar público (admin, dashboards, login)
+    # Archivos que NO deben tener navbar público (admin, dashboards internos)
     skip_files = ['admin.html', 'dashboard-usuario.html', 'dashboard-empresa.html', 
-                  'secret-admin-login.html', 'usuarios.html', 'admin-fix.html',
+                  'secret-admin-login.html', 'admin-fix.html',
                   'publicar-casa.html', 'actualizar-tipo.html']
     
     # Regex para capturar desde <!-- Navbar --> hasta el cierre del script de toggleMobileMenu
@@ -70,26 +70,29 @@ def unify_navbars():
         if filename in skip_files or filename == 'index.html':
             continue
         
-        with open(filename, 'r', encoding='utf-8') as f:
-            content = f.read()
-        
-        # Buscar navbar
-        match = navbar_pattern.search(content)
-        if match:
-            # Reemplazar con el navbar estándar
-            new_content = content[:match.start()] + STANDARD_NAVBAR + content[match.end():]
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                content = f.read()
             
-            if new_content != content:
-                with open(filename, 'w', encoding='utf-8') as f:
-                    f.write(new_content)
-                updated_files.append(filename)
-                print(f"✅ Navbar unificado en: {filename}")
+            # Buscar navbar
+            match = navbar_pattern.search(content)
+            if match:
+                # Reemplazar con el navbar estándar
+                new_content = content[:match.start()] + STANDARD_NAVBAR + content[match.end():]
+                
+                if new_content != content:
+                    with open(filename, 'w', encoding='utf-8') as f:
+                        f.write(new_content)
+                    updated_files.append(filename)
+                    print(f"Updated: {filename}")
+                else:
+                    print(f"Already correct: {filename}")
             else:
-                print(f"ℹ️ {filename} ya tiene el navbar correcto.")
-        else:
-            print(f"⚠️ {filename} no tiene navbar (se omite).")
+                print(f"Skipped: {filename} (no navbar found)")
+        except Exception as e:
+            print(f"Error processing {filename}: {str(e)}")
     
-    print(f"\n✅ Resumen: {len(updated_files)} archivos actualizados con navbar unificado.")
+    print(f"\nDone: {len(updated_files)} files updated.")
 
 if __name__ == "__main__":
     unify_navbars()

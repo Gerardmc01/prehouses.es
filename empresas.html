@@ -148,11 +148,11 @@
 
 <body>
 
-    <!-- Navbar -->
+            <!-- Navbar -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <i class="fa-solid fa-house-chimney"></i> Prehouses
+                <img src="img/logo.png" alt="Prehouses Logo">
             </a>
             <ul class="nav-links">
                 <li><a href="index.html">Inicio</a></li>
@@ -160,89 +160,40 @@
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
                             class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
-                <li><a href="acceso.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso</a>
-                </li>
+                <li><a href="empresas.html">Acceso Empresas</a></li>
+                <li><a href="usuarios.html" class="btn btn-primary" style="padding: 10px 24px; color: white;">Acceso
+                        Usuarios</a></li>
             </ul>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
-    <div class="empresas-page">
-        <div class="empresas-container">
-            <div class="empresas-header">
-                <h1>Portal de Empresas</h1>
-                <p>Gestiona tu catálogo y conecta con miles de compradores</p>
-            </div>
-
-            <div class="form-toggle">
-                <button class="active" onclick="showForm('login')">Iniciar Sesión</button>
-                <button onclick="showForm('register')">Crear Cuenta</button>
-            </div>
-
-            <div id="errorMessage"
-                style="display:none; background:#fef2f2; color:#ef4444; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-size:0.9rem;">
-            </div>
-            <div id="successMessage"
-                style="display:none; background:#f0fdf4; color:#16a34a; padding:10px; border-radius:8px; margin-bottom:20px; text-align:center; font-size:0.9rem;">
-            </div>
-
-            <!-- LOGIN -->
-            <div id="loginForm" class="form-section active">
-                <form onsubmit="handleLogin(event)">
-                    <div class="input-group">
-                        <label>Email Corporativo</label>
-                        <input type="email" id="loginEmail" required class="input-field"
-                            placeholder="ejemplo@empresa.com">
-                    </div>
-                    <div class="input-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="loginPassword" required class="input-field" placeholder="••••••••">
-                    </div>
-                    <button type="submit" class="btn-submit">Entrar al Portal</button>
-                    <p style="text-align:center; margin-top:20px; font-size:0.9rem;">
-                        <a href="#" onclick="handleForgotPassword()"
-                            style="color: #64748b; text-decoration: none;">¿Olvidaste tu contraseña?</a>
-                    </p>
-                </form>
-            </div>
-
-            <!-- REGISTER -->
-            <div id="registerForm" class="form-section">
-                <form onsubmit="handleRegister(event)">
-                    <div class="input-group">
-                        <label>Nombre de la Empresa</label>
-                        <input type="text" id="registerName" required class="input-field"
-                            placeholder="Nombre Comercial">
-                    </div>
-                    <div class="input-group">
-                        <label>CIF / NIF</label>
-                        <input type="text" id="registerCIF" required class="input-field" placeholder="A12345678">
-                    </div>
-                    <div class="input-group">
-                        <label>Email Corporativo</label>
-                        <input type="email" id="registerEmail" required class="input-field"
-                            placeholder="contacto@empresa.com">
-                    </div>
-                    <div class="input-group">
-                        <label>Teléfono</label>
-                        <input type="tel" id="registerPhone" required class="input-field" placeholder="+34 600 000 000">
-                    </div>
-                    <div class="input-group">
-                        <label>Sitio Web (Opcional)</label>
-                        <input type="url" id="registerWebsite" class="input-field" placeholder="https://...">
-                    </div>
-                    <div class="input-group">
-                        <label>Contraseña</label>
-                        <input type="password" id="registerPassword" required class="input-field"
-                            placeholder="Mínimo 6 caracteres">
-                    </div>
-                    <button type="submit" class="btn-submit">Registrar Empresa</button>
-                </form>
-            </div>
-        </div>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="catalogo.html">Catálogo</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="asesor.html" style="color: var(--primary); font-weight: 600;"><i
+                        class="fa-solid fa-wand-magic-sparkles"></i> Asesor IA</a></li>
+            <li><a href="empresas.html">Acceso Empresas</a></li>
+            <li><a href="usuarios.html" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Acceso
+                    Usuarios</a></li>
+        </ul>
     </div>
 
-    <!-- Auth Logic -->
-    <script src="js/firebase-config.js"></script> <!-- Ensure this exists -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            menu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+    </script> <!-- Ensure this exists -->
     <script src="js/auth.js"></script>
 
     <script>

@@ -38,25 +38,25 @@ body {
     /* Keep dark slate */
 }
 
-/* Sidebar Branding Colors */
-.dash-sidebar.user-sidebar {
-    /* Default is fine */
-}
 
 .dash-logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: white;
     margin-bottom: 50px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     text-decoration: none;
+}
+
+.dash-logo img {
+    height: 45px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    /* Turns black logo white for dark sidebar */
 }
 
 .dash-logo i {
     color: #3b82f6;
-    /* Azul brillante */
+    font-size: 1.5rem;
 }
 
 .user-profile-mini {
@@ -754,8 +754,13 @@ body {
 }
 
 @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 .progress-percentage {

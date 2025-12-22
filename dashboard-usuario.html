@@ -69,8 +69,7 @@
         <!-- SIDEBAR -->
         <aside class="dash-sidebar">
             <a href="index.html" class="dash-logo">
-                <i class="fa-solid fa-house-chimney"></i>
-                <span>Prehouses</span>
+                <img src="img/logo.png" alt="Prehouses Logo">
             </a>
 
             <div class="user-profile-mini">
@@ -162,180 +161,187 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
-            <!-- ACCOUNT LEVEL SECTION -->
-            <div class="account-level-card" id="accountLevelSection">
-                <div class="account-level-header">
-                    <div class="level-avatar-container">
-                        <div class="level-avatar" id="levelAvatar">
-                            <i class="fa-solid fa-user"></i>
+            <<<<<<< HEAD <!-- ACCOUNT LEVEL SECTION -->
+                <div class="account-level-card" id="accountLevelSection">
+                    <div class="account-level-header">
+                        <div class="level-avatar-container">
+                            <div class="level-avatar" id="levelAvatar">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                            <div class="level-badge" id="levelBadge">1</div>
+                            <label class="upload-profile-btn" title="Subir foto de perfil">
+                                <i class="fa-solid fa-camera"></i>
+                                <input type="file" accept="image/*" onchange="handleProfileImageUpload(event)">
+                            </label>
                         </div>
-                        <div class="level-badge" id="levelBadge">1</div>
-                        <label class="upload-profile-btn" title="Subir foto de perfil">
-                            <i class="fa-solid fa-camera"></i>
-                            <input type="file" accept="image/*" onchange="handleProfileImageUpload(event)">
-                        </label>
+                        <div class="level-info">
+                            <div class="level-title">
+                                Nivel de Cuenta
+                                <span class="info-tooltip">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                    <div class="tooltip-content">
+                                        Tu Nivel de Cuenta indica tu fidelidad. Sube de nivel para que las empresas
+                                        sepan
+                                        que pueden confiar en un posible cliente como tú.
+                                    </div>
+                                </span>
+                            </div>
+                            <h2 class="level-number">Nivel <span id="currentLevel">1</span></h2>
+                        </div>
                     </div>
-                    <div class="level-info">
-                        <div class="level-title">
-                            Nivel de Cuenta
-                            <span class="info-tooltip">
-                                <i class="fa-solid fa-circle-info"></i>
-                                <div class="tooltip-content">
-                                    Tu Nivel de Cuenta indica tu fidelidad. Sube de nivel para que las empresas sepan
-                                    que pueden confiar en un posible cliente como tú.
+
+                    <div class="progress-container">
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar-fill" id="levelProgressBar" style="width: 0%"></div>
+                        </div>
+                        <div class="progress-percentage" id="levelProgressText">0% completado</div>
+                    </div>
+
+                    <div class="missions-grid" id="missionsGrid">
+                        <!-- Misiones se cargarán dinámicamente -->
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h4 class="mission-title">Verifica tu teléfono</h4>
+                                <div class="mission-status">
+                                    <i class="fa-solid fa-circle"></i>
                                 </div>
-                            </span>
+                            </div>
+                            <p class="mission-description">Añade y verifica tu número de teléfono para mayor seguridad
+                            </p>
+                            <div class="mission-progress-bar">
+                                <div class="mission-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="mission-progress-text">0% completado</div>
                         </div>
-                        <h2 class="level-number">Nivel <span id="currentLevel">1</span></h2>
+
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h4 class="mission-title">Da me gusta a 3 casas</h4>
+                                <div class="mission-status">
+                                    <i class="fa-solid fa-circle"></i>
+                                </div>
+                            </div>
+                            <p class="mission-description">Guarda 3 casas diferentes en tus favoritos</p>
+                            <div class="mission-progress-bar">
+                                <div class="mission-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="mission-progress-text">0 / 3 casas</div>
+                        </div>
+
+                        <div class="mission-card">
+                            <div class="mission-header">
+                                <h4 class="mission-title">Visita 3 días seguidos</h4>
+                                <div class="mission-status">
+                                    <i class="fa-solid fa-circle"></i>
+                                </div>
+                            </div>
+                            <p class="mission-description">Inicia sesión durante 3 días consecutivos</p>
+                            <div class="mission-progress-bar">
+                                <div class="mission-progress-fill" style="width: 0%"></div>
+                            </div>
+                            <div class="mission-progress-text">0 / 3 días</div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="progress-container">
-                    <div class="progress-bar-wrapper">
-                        <div class="progress-bar-fill" id="levelProgressBar" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-percentage" id="levelProgressText">0% completado</div>
-                </div>
-
-                <div class="missions-grid" id="missionsGrid">
-                    <!-- Misiones se cargarán dinámicamente -->
-                    <div class="mission-card">
-                        <div class="mission-header">
-                            <h4 class="mission-title">Verifica tu teléfono</h4>
-                            <div class="mission-status">
-                                <i class="fa-solid fa-circle"></i>
-                            </div>
-                        </div>
-                        <p class="mission-description">Añade y verifica tu número de teléfono para mayor seguridad</p>
-                        <div class="mission-progress-bar">
-                            <div class="mission-progress-fill" style="width: 0%"></div>
-                        </div>
-                        <div class="mission-progress-text">0% completado</div>
-                    </div>
-
-                    <div class="mission-card">
-                        <div class="mission-header">
-                            <h4 class="mission-title">Da me gusta a 3 casas</h4>
-                            <div class="mission-status">
-                                <i class="fa-solid fa-circle"></i>
-                            </div>
-                        </div>
-                        <p class="mission-description">Guarda 3 casas diferentes en tus favoritos</p>
-                        <div class="mission-progress-bar">
-                            <div class="mission-progress-fill" style="width: 0%"></div>
-                        </div>
-                        <div class="mission-progress-text">0 / 3 casas</div>
-                    </div>
-
-                    <div class="mission-card">
-                        <div class="mission-header">
-                            <h4 class="mission-title">Visita 3 días seguidos</h4>
-                            <div class="mission-status">
-                                <i class="fa-solid fa-circle"></i>
-                            </div>
-                        </div>
-                        <p class="mission-description">Inicia sesión durante 3 días consecutivos</p>
-                        <div class="mission-progress-bar">
-                            <div class="mission-progress-fill" style="width: 0%"></div>
-                        </div>
-                        <div class="mission-progress-text">0 / 3 días</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAVORITES SECTION -->
-            <div class="section-header">
-                <h2>Mis Casas Guardadas</h2>
-                <a href="catalogo.html" class="btn-dash btn-dash-primary">
-                    <i class="fa-solid fa-plus"></i> Explorar Más
-                </a>
-            </div>
-
-            <div id="favoritesList" class="dash-cards-grid">
-                <!-- Loading State -->
-                <div class="empty-dashboard">
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                    <p>Cargando tus casas...</p>
-=======
-            <!-- SECTION: FAVORITES -->
-            <div id="section-favorites" class="fw-section" style="display:none">
+                <!-- FAVORITES SECTION -->
                 <div class="section-header">
                     <h2>Mis Casas Guardadas</h2>
-                    <a href="catalogo.html" class="btn-dash btn-dash-primary"><i class="fa-solid fa-plus"></i> Explorar
-                        Más</a>
+                    <a href="catalogo.html" class="btn-dash btn-dash-primary">
+                        <i class="fa-solid fa-plus"></i> Explorar Más
+                    </a>
                 </div>
+
                 <div id="favoritesList" class="dash-cards-grid">
-                    <div class="empty-dashboard"><i class="fa-solid fa-spinner fa-spin"></i>
-                        <p>Cargando favoritos...</p>
-                    </div>
->>>>>>> 27acf479b91896a57132d85c2e602ad721789848
-                </div>
-            </div>
-
-            <!-- SECTION: ALERTS -->
-            <div id="section-alerts" class="fw-section" style="display:none">
-                <div class="section-header">
-                    <h2>Mis Alertas de Búsqueda</h2>
-                    <button onclick="createAlert()" class="btn-dash btn-dash-primary"><i class="fa-solid fa-plus"></i>
-                        Nueva Alerta</button>
-                </div>
-                <div id="alertsList">
+                    <!-- Loading State -->
                     <div class="empty-dashboard">
-                        <i class="fa-regular fa-bell-slash"></i>
-                        <p>No tienes alertas configuradas.</p>
-                        <p style="font-size: 0.9rem; margin-top: 5px;">Recibe avisos cuando publiquen casas en tu zona.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION: MESSAGES -->
-            <div id="section-messages" class="fw-section" style="display:none">
-                <div class="section-header">
-                    <h2>Historial de Consultas</h2>
-                </div>
-                <div id="consultasHistory"
-                    style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
-                    <div class="empty-dashboard">
-                        <p>Cargando mensajes...</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION: AI ASSISTANT -->
-            <div id="section-ai" class="fw-section" style="display:none; height: 80vh;">
-                <iframe src="asesor.html"
-                    style="width: 100%; height: 100%; border: none; border-radius: 16px; background: #f8fafc;"></iframe>
-            </div>
-
-            <!-- SECTION: SETTINGS -->
-            <div id="section-settings" class="fw-section" style="display:none">
-                <div class="dashboard-card" style="max-width: 600px;">
-                    <h3 style="margin-bottom: 20px; color: #0f172a;">Editar Perfil</h3>
-                    <form onsubmit="updateProfile(event)">
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nombre Completo</label>
-                            <input type="text" id="settingsName" class="dash-search"
-                                style="width: 100%; background: white;">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Cargando tus casas...</p>
+                        =======
+                        <!-- SECTION: FAVORITES -->
+                        <div id="section-favorites" class="fw-section" style="display:none">
+                            <div class="section-header">
+                                <h2>Mis Casas Guardadas</h2>
+                                <a href="catalogo.html" class="btn-dash btn-dash-primary"><i
+                                        class="fa-solid fa-plus"></i> Explorar
+                                    Más</a>
+                            </div>
+                            <div id="favoritesList" class="dash-cards-grid">
+                                <div class="empty-dashboard"><i class="fa-solid fa-spinner fa-spin"></i>
+                                    <p>Cargando favoritos...</p>
+                                </div>
+                                >>>>>>> 27acf479b91896a57132d85c2e602ad721789848
+                            </div>
                         </div>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email (No
-                                editable)</label>
-                            <input type="email" id="settingsEmail" disabled class="dash-search"
-                                style="width: 100%; background: #f1f5f9; color: #94a3b8;">
+
+                        <!-- SECTION: ALERTS -->
+                        <div id="section-alerts" class="fw-section" style="display:none">
+                            <div class="section-header">
+                                <h2>Mis Alertas de Búsqueda</h2>
+                                <button onclick="createAlert()" class="btn-dash btn-dash-primary"><i
+                                        class="fa-solid fa-plus"></i>
+                                    Nueva Alerta</button>
+                            </div>
+                            <div id="alertsList">
+                                <div class="empty-dashboard">
+                                    <i class="fa-regular fa-bell-slash"></i>
+                                    <p>No tienes alertas configuradas.</p>
+                                    <p style="font-size: 0.9rem; margin-top: 5px;">Recibe avisos cuando publiquen casas
+                                        en tu zona.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nueva Contraseña
-                                (Opcional)</label>
-                            <input type="password" id="settingsPass" placeholder="Dejar en blanco para mantener"
-                                class="dash-search" style="width: 100%; background: white;">
+
+                        <!-- SECTION: MESSAGES -->
+                        <div id="section-messages" class="fw-section" style="display:none">
+                            <div class="section-header">
+                                <h2>Historial de Consultas</h2>
+                            </div>
+                            <div id="consultasHistory"
+                                style="background: white; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden;">
+                                <div class="empty-dashboard">
+                                    <p>Cargando mensajes...</p>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-dash btn-dash-primary" style="width: 100%;">Guardar
-                            Cambios</button>
-                    </form>
-                </div>
-            </div>
+
+                        <!-- SECTION: AI ASSISTANT -->
+                        <div id="section-ai" class="fw-section" style="display:none; height: 80vh;">
+                            <iframe src="asesor.html"
+                                style="width: 100%; height: 100%; border: none; border-radius: 16px; background: #f8fafc;"></iframe>
+                        </div>
+
+                        <!-- SECTION: SETTINGS -->
+                        <div id="section-settings" class="fw-section" style="display:none">
+                            <div class="dashboard-card" style="max-width: 600px;">
+                                <h3 style="margin-bottom: 20px; color: #0f172a;">Editar Perfil</h3>
+                                <form onsubmit="updateProfile(event)">
+                                    <div style="margin-bottom: 15px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nombre
+                                            Completo</label>
+                                        <input type="text" id="settingsName" class="dash-search"
+                                            style="width: 100%; background: white;">
+                                    </div>
+                                    <div style="margin-bottom: 15px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email (No
+                                            editable)</label>
+                                        <input type="email" id="settingsEmail" disabled class="dash-search"
+                                            style="width: 100%; background: #f1f5f9; color: #94a3b8;">
+                                    </div>
+                                    <div style="margin-bottom: 20px;">
+                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Nueva
+                                            Contraseña
+                                            (Opcional)</label>
+                                        <input type="password" id="settingsPass"
+                                            placeholder="Dejar en blanco para mantener" class="dash-search"
+                                            style="width: 100%; background: white;">
+                                    </div>
+                                    <button type="submit" class="btn-dash btn-dash-primary" style="width: 100%;">Guardar
+                                        Cambios</button>
+                                </form>
+                            </div>
+                        </div>
 
         </main>
     </div>
