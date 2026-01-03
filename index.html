@@ -70,8 +70,9 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <h1>Encuentra tu<span>Casa Prefabricada</span></h1>
-            <p>La mayor selección de viviendas modernas y eficientes en España. Compara modelos de los mejores
+            <h1 id="dynHeroTitle">Encuentra tu<span>Casa Prefabricada</span></h1>
+            <p id="dynHeroDesc">La mayor selección de viviendas modernas y eficientes en España. Compara modelos de los
+                mejores
                 fabricantes en un solo lugar.</p>
 
             <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
@@ -88,19 +89,19 @@
             <div class="trust-bar"
                 style="margin-top: 80px; display: flex; justify-content: center; gap: 60px; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 40px;">
                 <div class="trust-item" style="text-align: left;">
-                    <div style="font-size: 1.8rem; font-weight: 800; color: white;">+100</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: white;" id="dynTrust1">+100</div>
                     <div
                         style="font-size: 0.8rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">
                         Modelos</div>
                 </div>
                 <div class="trust-item" style="text-align: left;">
-                    <div style="font-size: 1.8rem; font-weight: 800; color: white;">50+</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: white;" id="dynTrust2">50+</div>
                     <div
                         style="font-size: 0.8rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">
                         Fabricantes</div>
                 </div>
                 <div class="trust-item" style="text-align: left;">
-                    <div style="font-size: 1.8rem; font-weight: 800; color: white;">100%</div>
+                    <div style="font-size: 1.8rem; font-weight: 800; color: white;" id="dynTrust3">100%</div>
                     <div
                         style="font-size: 0.8rem; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;">
                         Verificado</div>
@@ -254,6 +255,39 @@
     <script src="js/firebase-config.js"></script>
 
     <script>
+        // Cargar contenido dinámico de la página
+        async function loadDynamicContent() {
+            try {
+                const doc = await db.collection('settings').doc('pageContent').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    const titleEl = document.getElementById('dynHeroTitle');
+                    const descEl = document.getElementById('dynHeroDesc');
+                    const t1 = document.getElementById('dynTrust1');
+                    const t2 = document.getElementById('dynTrust2');
+                    const t3 = document.getElementById('dynTrust3');
+
+                    if (titleEl && data.heroTitle1 && data.heroTitle2) {
+                        titleEl.innerHTML = `${data.heroTitle1}<span>${data.heroTitle2}</span>`;
+                    }
+                    if (descEl && data.heroDesc) descEl.textContent = data.heroDesc;
+                    if (t1 && data.trustVal1) t1.textContent = data.trustVal1;
+                    if (t2 && data.trustVal2) t2.textContent = data.trustVal2;
+                    if (t3 && data.trustVal3) t3.textContent = data.trustVal3;
+
+                    // Fondo Hero Dinámico
+                    if (data.heroBgUrl) {
+                        const heroSec = document.querySelector('.hero');
+                        if (heroSec) {
+                            heroSec.style.backgroundImage = `linear-gradient(rgba(15, 23, 42, 0.4), rgba(15, 23, 42, 0.6)), url('${data.heroBgUrl}')`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error loading dynamic content:", error);
+            }
+        }
+
         // Cargar casas destacadas después de que Firebase se inicialice
         async function loadFeatured() {
             const container = document.getElementById('featuredHousesGrid');
@@ -314,7 +348,10 @@
         // Ejecutar carga cuando el DOM esté listo
         document.addEventListener('DOMContentLoaded', () => {
             // Un pequeño delay para asegurar que db (de firebase-config.js) esté disponible
-            setTimeout(loadFeatured, 500);
+            setTimeout(() => {
+                loadDynamicContent();
+                loadFeatured();
+            }, 500);
         });
     </script>
 

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Dashboard | Prehouses</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="favicon_prehouses_1764872622091.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root {
+            --sidebar-bg: #0f172a;
+            --sidebar-text: #94a3b8;
+            --sidebar-text-active: #ffffff;
+            --sidebar-hover: #1e293b;
+            --page-bg: #f8fafc;
+            --primary: #1E40AF;
+        }
+
+        body {
+            background-color: var(--page-bg);
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            width: 100%;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            text-align: left;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .nav-item:hover {
+            color: white;
+            background-color: var(--sidebar-hover);
+        }
+
+        .nav-item.active {
+            color: var(--sidebar-text-active);
+            background-color: var(--primary);
+            border-left: 4px solid #60a5fa;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+            width: calc(100% - 280px);
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e3a8a;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .stat-card h3 {
+            margin: 0;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo-text">
+                <i class="fa-solid fa-house-chimney" style="color: #60a5fa;"></i> Prehouses
+            </a>
+        </div>
+        <nav class="nav-menu">
+            <button class="nav-item active" onclick="switchSection('dashboard')">
+                <i class="fa-solid fa-chart-pie"></i> Resumen
+            </button>
+            <button class="nav-item" onclick="switchSection('content')">
+                <i class="fa-solid fa-pen-nib"></i> Editar Web (Sin Código)
+            </button>
+            <button class="nav-item" onclick="switchSection('houses')">
+                <i class="fa-solid fa-home"></i> Gestionar Casas
+            </button>
+            <button class="nav-item" onclick="switchSection('leads')">
+                <i class="fa-solid fa-envelope"></i> Mensajes/Leads
+            </button>
+            <a href="index.html" class="nav-item" style="margin-top: auto; color: #94a3b8;">
+                <i class="fa-solid fa-eye"></i> Ver Web Pública
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1 class="page-title" id="pageTitle">Master Dashboard</h1>
+            <p style="color: #64748b;">Control total de Prehouses.es</p>
+        </header>
+
+        <!-- DASHBOARD -->
+        <div id="section-dashboard" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Casas Activas</h3>
+                    <div class="value" id="statHouses">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Leads Totales</h3>
+                    <div class="value" id="statLeads">-</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Empresas</h3>
+                    <div class="value" id="statCompanies">-</div>
+                </div>
+            </div>
+            <div class="section-card">
+                <div class="section-title">¿Qué quieres hacer hoy?</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <button class="btn btn-primary" onclick="switchSection('content')">Actualizar Textos de la
+                        Home</button>
+                    <button class="btn btn-primary" onclick="window.location.href='publicar-casa.html'">Publicar Nueva
+                        Casa</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EDITAR CONTENIDO (ELEMENTOR-LIKE) -->
+        <div id="section-content" class="content-section">
+            <div class="section-card">
+                <div class="section-title">
+                    Editor de Textos Portada
+                    <button class="btn btn-success" onclick="saveContent()">Guardar Cambios</button>
+                </div>
+                <form id="editForm">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Título Hero 1</label>
+                            <input type="text" id="hero1">
+                        </div>
+                        <div class="form-group">
+                            <label>Título Hero 2 (Destacado)</label>
+                            <input type="text" id="hero2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción Hero</label>
+                        <textarea id="heroDesc" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen de Fondo (URL)</label>
+                        <input type="text" id="heroBg">
+                    </div>
+                    <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div class="form-group"><label>Cifra 1</label><input type="text" id="t1"></div>
+                        <div class="form-group"><label>Cifra 2</label><input type="text" id="t2"></div>
+                        <div class="form-group"><label>Cifra 3</label><input type="text" id="t3"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- GESTIONAR CASAS -->
+        <div id="section-houses" class="content-section">
+            <div class="section-card">
+                <div class="section-title">Catálogo de Casas <button class="btn btn-primary"
+                        onclick="window.location.href='publicar-casa.html'">+ Añadir Casa</button></div>
+                <div id="housesTable">Cargando...</div>
+            </div>
+        </div>
+
+        <!-- LEADS -->
+        <div id="section-leads" class="content-section">
+            <div class="section-card">
+                <div class="section-title">Últimos Mensajes</div>
+                <div id="leadsTable">Cargando...</div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/firebase-config.js"></script>
+    <script>
+        function switchSection(id) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById('section-' + id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            if (id === 'content') loadContent();
+            if (id === 'houses') loadHouses();
+            if (id === 'leads') loadLeads();
+        }
+
+        async function loadContent() {
+            const doc = await db.collection('settings').doc('pageContent').get();
+            if (doc.exists) {
+                const d = doc.data();
+                document.getElementById('hero1').value = d.heroTitle1 || '';
+                document.getElementById('hero2').value = d.heroTitle2 || '';
+                document.getElementById('heroDesc').value = d.heroDesc || '';
+                document.getElementById('heroBg').value = d.heroBgUrl || '';
+                document.getElementById('t1').value = d.trustVal1 || '';
+                document.getElementById('t2').value = d.trustVal2 || '';
+                document.getElementById('t3').value = d.trustVal3 || '';
+            }
+        }
+
+        async function saveContent() {
+            const data = {
+                heroTitle1: document.getElementById('hero1').value,
+                heroTitle2: document.getElementById('hero2').value,
+                heroDesc: document.getElementById('heroDesc').value,
+                heroBgUrl: document.getElementById('heroBg').value,
+                trustVal1: document.getElementById('t1').value,
+                trustVal2: document.getElementById('t2').value,
+                trustVal3: document.getElementById('t3').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            await db.collection('settings').doc('pageContent').set(data, { merge: true });
+            alert('¡Web actualizada!');
+        }
+
+        async function loadHouses() {
+            const snap = await db.collection('houses').orderBy('createdAt', 'desc').get();
+            let html = '<table><tr><th>Casa</th><th>Precio</th><th>Acción</th></tr>';
+            snap.forEach(doc => {
+                const h = doc.data();
+                html += `<tr><td>${h.title}</td><td>${h.price}€</td><td><button onclick="deleteHouse('${doc.id}')" style="color:red; border:none; background:none; cursor:pointer;">Borrar</button></td></tr>`;
+            });
+            html += '</table>';
+            document.getElementById('housesTable').innerHTML = html;
+        }
+
+        async function deleteHouse(id) {
+            if (confirm('¿Seguro?')) {
+                await db.collection('houses').doc(id).delete();
+                loadHouses();
+            }
+        }
+
+        async function loadLeads() {
+            const snap = await db.collection('leads').orderBy('createdAt', 'desc').get();
+            let html = '<table><tr><th>Nombre</th><th>Mensaje</th><th>Casa</th></tr>';
+            snap.forEach(doc => {
+                const l = doc.data();
+                html += `<tr><td>${l.userName || l.name}</td><td>${l.message || ''}</td><td>${l.houseTitle || ''}</td></tr>`;
+            });
+            html += '</table>';
+            document.getElementById('leadsTable').innerHTML = html;
+        }
+
+        // Stats para la home del dashboard
+        async function loadStats() {
+            const h = await db.collection('houses').get();
+            const l = await db.collection('leads').get();
+            const c = await db.collection('users').where('userType', '==', 'empresa').get();
+            document.getElementById('statHouses').textContent = h.size;
+            document.getElementById('statLeads').textContent = l.size;
+            document.getElementById('statCompanies').textContent = c.size;
+        }
+
+        loadStats();
+    </script>
+</body>
+
+</html>

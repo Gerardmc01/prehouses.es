@@ -477,6 +477,9 @@
             <button class="nav-item" onclick="switchSection('leads')">
                 <i class="fa-solid fa-envelope"></i> Leads / Mensajes
             </button>
+            <button class="nav-item" onclick="switchSection('content')">
+                <i class="fa-solid fa-pen-to-square"></i> Editar Contenido
+            </button>
             <button class="nav-item logout-btn" onclick="logout()">
                 <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
             </button>
@@ -573,15 +576,53 @@
             </div>
         </div>
 
-        <!-- LEADS SECTION -->
-        <div id="section-leads" class="content-section">
+        <!-- CONTENT SECTION -->
+        <div id="section-content" class="content-section">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title-sm">Leads y Mensajes</div>
+                    <div class="section-title-sm">Editar Textos de la Web</div>
+                    <button class="btn-sm btn-success-sm" onclick="saveSiteContent()">Guardar Cambios</button>
                 </div>
-                <div style="overflow-x: auto;">
-                    <div id="leadsListTable">Cargando mensajes...</div>
-                </div>
+
+                <form id="contentForm" style="display: grid; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Título Hero (Línea
+                            1)</label>
+                        <input type="text" id="heroTitle1"
+                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Título Hero (Línea 2 -
+                            Destacado)</label>
+                        <input type="text" id="heroTitle2"
+                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Descripción Hero</label>
+                        <textarea id="heroDesc" rows="3"
+                            style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit;"></textarea>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 10px 0;">
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Trust Bar: +100</label>
+                            <input type="text" id="trustVal1"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Trust Bar: 50+</label>
+                            <input type="text" id="trustVal2"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Trust Bar: 100%</label>
+                            <input type="text" id="trustVal3"
+                                style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -618,7 +659,8 @@
                 'users': 'Usuarios',
                 'companies': 'Empresas',
                 'houses': 'Casas',
-                'leads': 'Leads'
+                'leads': 'Leads',
+                'content': 'Editar Contenido'
             };
             document.getElementById('currentSectionName').textContent = sectionNames[sectionId];
 
@@ -627,6 +669,7 @@
             if (sectionId === 'companies') loadCompanies();
             if (sectionId === 'houses') loadHouses();
             if (sectionId === 'leads') loadLeads();
+            if (sectionId === 'content') loadSiteContent();
         }
 
         // Auth Logic
@@ -935,6 +978,59 @@
 
             } catch (error) {
                 console.error("Error loading stats", error);
+            }
+        }
+
+        // --- CONTENT MANAGEMENT FUNCTIONS ---
+
+        async function loadSiteContent() {
+            try {
+                const doc = await db.collection('settings').doc('pageContent').get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('heroTitle1').value = data.heroTitle1 || 'Encuentra tu';
+                    document.getElementById('heroTitle2').value = data.heroTitle2 || 'Casa Prefabricada';
+                    document.getElementById('heroDesc').value = data.heroDesc || 'La mayor selección de viviendas modernas y eficientes en España...';
+                    document.getElementById('heroBgUrl').value = data.heroBgUrl || '';
+                    document.getElementById('trustVal1').value = data.trustVal1 || '+100';
+                    document.getElementById('trustVal2').value = data.trustVal2 || '50+';
+                    document.getElementById('trustVal3').value = data.trustVal3 || '100%';
+                    document.getElementById('contactEmail').value = data.contactEmail || 'info@prehouses.es';
+                    document.getElementById('contactWhatsapp').value = data.contactWhatsapp || '';
+                } else {
+                    // Default values
+                    document.getElementById('heroTitle1').value = 'Encuentra tu';
+                    document.getElementById('heroTitle2').value = 'Casa Prefabricada';
+                    document.getElementById('heroDesc').value = 'La mayor selección de viviendas modernas y eficientes en España...';
+                    document.getElementById('trustVal1').value = '+100';
+                    document.getElementById('trustVal2').value = '50+';
+                    document.getElementById('trustVal3').value = '100%';
+                }
+            } catch (error) {
+                console.error("Error loading content", error);
+            }
+        }
+
+        async function saveSiteContent() {
+            const data = {
+                heroTitle1: document.getElementById('heroTitle1').value,
+                heroTitle2: document.getElementById('heroTitle2').value,
+                heroDesc: document.getElementById('heroDesc').value,
+                heroBgUrl: document.getElementById('heroBgUrl').value,
+                trustVal1: document.getElementById('trustVal1').value,
+                trustVal2: document.getElementById('trustVal2').value,
+                trustVal3: document.getElementById('trustVal3').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                contactWhatsapp: document.getElementById('contactWhatsapp').value,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            try {
+                await db.collection('settings').doc('pageContent').set(data, { merge: true });
+                alert('✅ ¡Cambios guardados! Ahora se reflejarán en toda la web.');
+            } catch (error) {
+                console.error("Error saving content", error);
+                alert('❌ Error al guardar los cambios.');
             }
         }
 
