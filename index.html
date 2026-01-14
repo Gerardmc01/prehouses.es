@@ -5,122 +5,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO -->
-    <title>Prehouses | Encuentra tu casa prefabricada ideal</title>
+    <!-- SEO & Premium Metas -->
+    <title>PREHOUSES | Arquitectura Modular & Casas de Lujo</title>
     <meta name="description"
-        content="El portal líder de casas prefabricadas modulares en España. Compara precios, modelos y fabricantes.">
+        content="Descubra la mayor colección de casas prefabricadas de lujo en España. Diseño arquitectónico, eficiencia extrema y vanguardia modular.">
 
     <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome -->
+    <!-- Font Awesome Pro-ish Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header class="header">
+    <!-- Header / Navbar Luxury -->
+    <header class="navbar">
         <div class="container nav-container">
             <a href="index.html" class="logo">
                 PRE<span>HOUSES</span>
             </a>
             <nav>
                 <ul class="nav-menu">
-                    <li><a href="catalogo.html" class="nav-link">Catálogo</a></li>
-                    <li><a href="asesor.html" class="nav-link">Asesor IA</a></li>
-                    <li><a href="acceso.html" class="nav-link">Acceso</a></li>
-                    <li><a href="publicar-casa.html" class="btn-publish">Anunciar gratis</a></li>
+                    <li><a href="catalogo.html" class="active">Colección</a></li>
+                    <li><a href="asesor.html">Asesor IA</a></li>
+                    <li><a href="blog.html">Arquitectura</a></li>
+                    <li><a href="publicar-casa.html" class="btn-cta">Publicar Modelo</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Master Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1 class="hero-title">Encuentra tu casa prefabricada ideal</h1>
+            <div class="hero-content animate-up">
+                <span class="hero-tag">Vanguardia Modular 2025</span>
+                <h1 class="hero-title">La nueva era de la <span class="luxury-serif">vivienda de lujo</span></h1>
+                <p class="hero-description">Arquitectura prefabricada de alto standing. Diseño a medida, eficiencia
+                    energética A+ y materiales nobles.</p>
 
-            <div class="search-container">
-                <div class="search-tabs">
-                    <div class="search-tab active">Venta</div>
-                    <div class="search-tab">Fabricantes</div>
-                    <div class="search-tab">Terrenos</div>
-                </div>
-                <div class="search-main">
-                    <div class="search-input-wrapper">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <input type="text" class="search-input" placeholder="Ciudad, provincia o fabricante...">
+                <div class="search-wrapper">
+                    <div class="search-field">
+                        <i class="fa-solid fa-house-chimney"></i>
+                        <input type="text" placeholder="¿Qué tipo de casa busca?">
                     </div>
-                    <button class="btn-search">Buscar</button>
+                    <div class="search-field">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <select>
+                            <option value="">Toda España</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="barcelona">Barcelona</option>
+                            <option value="marbella">Marbella / Costa del Sol</option>
+                            <option value="islas">Islas Baleares</option>
+                        </select>
+                    </div>
+                    <button class="btn-explore">Explorar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grand Hero Background Image (Generated Luxury Piece) -->
+        <div style="position: absolute; top: 0; right: 0; width: 60%; height: 100%; z-index: 1;">
+            <div
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, var(--bg-offwhite) 8%, transparent); z-index: 2;">
+            </div>
+            <img src="luxury_prefab_hero_2025_1768410666162.png" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- Luxury Categories Showcase -->
+    <section class="section-spacing">
+        <div class="container">
+            <div style="margin-bottom: 60px; text-align: center;">
+                <span
+                    style="color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.8rem;">Estilos
+                    Arquitectónicos</span>
+                <h2 style="font-size: 3rem; margin-top: 10px;">Excelencia en <span class="luxury-serif">cada
+                        detalle</span></h2>
+            </div>
+
+            <div class="cat-luxury-grid">
+                <a href="catalogo.html?tipo=hormigon" class="cat-luxury-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1600585154340-be6199fbfd0b?auto=format&fit=crop&w=800&q=80">
+                    <div class="cat-luxury-content">
+                        <h3>Hormigón Visto</h3>
+                        <p>Solidez y minimalismo brutalista.</p>
+                    </div>
+                </a>
+                <a href="catalogo.html?tipo=madera" class="cat-luxury-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80">
+                    <div class="cat-luxury-content">
+                        <h3>Madera Nórdica</h3>
+                        <p>Calidez y sostenibilidad extrema.</p>
+                    </div>
+                </a>
+                <a href="catalogo.html?tipo=estilo-ibicenco" class="cat-luxury-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80">
+                    <div class="cat-luxury-content">
+                        <h3>Estilo Ibicenco</h3>
+                        <p>Muros blancos y luz mediterránea.</p>
+                    </div>
+                </a>
+                <a href="catalogo.html?tipo=minimalista" class="cat-luxury-item">
+                    <img
+                        src="https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80">
+                    <div class="cat-luxury-content">
+                        <h3>Minimalismo Puro</h3>
+                        <p>Líneas limpias y espacios abiertos.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Luxury Collection -->
+    <section class="section-spacing" style="background-color: var(--bg-offwhite);">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px;">
+                <div>
+                    <h2 style="font-size: 2.5rem;">Viviendas <span class="luxury-serif">Seleccionadas</span></h2>
+                    <p style="color: var(--text-muted); margin-top: 10px;">Modelos de autor con entrega llave en mano en
+                        toda España.</p>
+                </div>
+                <a href="catalogo.html"
+                    style="font-weight: 700; color: var(--primary); border-bottom: 2px solid var(--primary);">Ver
+                    colección completa</a>
+            </div>
+
+            <div id="featuredHousesGrid" class="grid-luxury">
+                <!-- Se carga vía Firebase con el nuevo diseño Luxury -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2.5rem; color: var(--primary);"></i>
+                    <p style="margin-top: 20px; font-weight: 500; color: var(--text-muted);">Comisariando las mejores
+                        piezas...</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories -->
-    <section class="section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">¿Qué estás buscando?</h2>
+    <!-- Experience / Brand Section -->
+    <section class="section-spacing">
+        <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;">
+            <div
+                style="border-radius: var(--radius-lg); overflow: hidden; height: 600px; box-shadow: var(--shadow-premium);">
+                <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&w=1000&q=80"
+                    style="width: 100%; height: 100%; object-fit: cover;">
             </div>
-
-            <div class="cat-grid">
-                <a href="catalogo.html?tipo=hormigon" class="cat-card">
-                    <i class="fa-solid fa-cubes"></i>
-                    <h3>Hormigón</h3>
-                    <p>Estructuras sólidas y duraderas.</p>
-                </a>
-                <a href="catalogo.html?tipo=madera" class="cat-card">
-                    <i class="fa-solid fa-tree"></i>
-                    <h3>Madera</h3>
-                    <p>Eficiencia y diseño natural.</p>
-                </a>
-                <a href="catalogo.html?tipo=acero" class="cat-card">
-                    <i class="fa-solid fa-bolt"></i>
-                    <h3>Acero</h3>
-                    <p>Construcción rápida y moderna.</p>
-                </a>
-                <a href="catalogo.html?tipo=movil" class="cat-card">
-                    <i class="fa-solid fa-caravan"></i>
-                    <h3>Mobile Homes</h3>
-                    <p>Libertad y movilidad absoluta.</p>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Properties -->
-    <section class="section" style="background-color: var(--bg-soft);">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Viviendas destacadas</h2>
-                <a href="catalogo.html" class="section-link">Ver todas <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-
-            <div id="featuredHousesGrid" class="prop-grid">
-                <!-- Data loaded via Firebase JS -->
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2rem; color: var(--primary);"></i>
-                    <p style="margin-top: 15px; color: var(--text-light);">Cargando casas destacadas...</p>
+            <div>
+                <span
+                    style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;">Excelencia
+                    Prehouses</span>
+                <h2 style="font-size: 3.5rem; margin: 20px 0 30px;">Arquitectura que <span class="luxury-serif">redefine
+                        el hogar</span></h2>
+                <p style="font-size: 1.15rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 40px;">
+                    No solo catalogamos casas; seleccionamos obras de ingeniería modular. Cada fabricante en nuestra
+                    plataforma ha pasado un riguroso proceso de auditoría de calidad, garantizando materiales de lujo y
+                    plazos de entrega exactos.
+                </p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <h4 style="font-size: 2rem; color: var(--primary);">A+</h4>
+                        <p style="font-weight: 600; font-size: 0.9rem;">Eficiencia Energética</p>
+                    </div>
+                    <div>
+                        <h4 style="font-size: 2rem; color: var(--primary);">6 Meses</h4>
+                        <p style="font-weight: 600; font-size: 0.9rem;">Plazo Medio de Entrega</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- Elegant Footer -->
+    <footer class="luxury-footer">
         <div class="container">
-            <div class="footer-grid">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <h2>PRE<span>HOUSES</span></h2>
+                    <p>La plataforma líder en el mercado de la vivienda modular de alto standing en España.</p>
+                    <div style="margin-top: 30px; display: flex; gap: 20px;">
+                        <a href="#" style="color: white; font-size: 1.2rem;"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" style="color: white; font-size: 1.2rem;"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                </div>
                 <div class="footer-col">
-                    <h4 style="font-size: 1.25rem; font-weight: 800; color: white; margin-bottom: 20px;">PREHOUSES</h4>
-                    <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6;">La plataforma de referencia para el
-                        sector de la vivienda modular en España.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Prehouses</h4>
+                    <h4>Navegación</h4>
                     <ul>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li><a href="catalogo.html">Catálogo</a></li>
-                        <li><a href="asesor.html">Asesor IA</a></li>
+                        <li><a href="catalogo.html">Colección 2025</a></li>
+                        <li><a href="asesor.html">Asesor Personal IA</a></li>
+                        <li><a href="blog.html">Arquitectura & Diseño</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -132,20 +207,20 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Sedes</h4>
+                    <h4>Contacto</h4>
                     <ul>
-                        <li style="color: #94a3b8; font-size: 0.9rem;">Madrid, España</li>
-                        <li style="color: #94a3b8; font-size: 0.9rem;">info@prehouses.es</li>
+                        <li>info@prehouses.es</li>
+                        <li>Madrid, España</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2025 PREHOUSES. Todos los derechos reservados.
+                &copy; 2025 PREHOUSES MODULAR ARCHITECTURE. EXCELLENCE IN EVERY MODULE.
             </div>
         </div>
     </footer>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase Logic with Luxury UI Sync -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
@@ -160,8 +235,8 @@
 
                 if (snapshot.empty) {
                     container.innerHTML = `
-                        <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: white; border-radius: 12px; border: 1px solid var(--border);">
-                            <p style="color: var(--text-light);">No hay casas destacadas en este momento.</p>
+                        <div style="grid-column: 1/-1; text-align: center; padding: 60px; background: white; border-radius: var(--radius-lg); border: 1px solid var(--border-light);">
+                            <p style="color: var(--text-muted);">Próximamente nuevas incorporaciones a la colección destacada.</p>
                         </div>
                     `;
                     return;
@@ -170,27 +245,30 @@
                 let html = '';
                 snapshot.forEach(doc => {
                     const house = doc.data();
-                    const img = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || 'https://via.placeholder.com/400x300');
+                    const img = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || 'https://images.unsplash.com/photo-1600585154340-be6199fbfd0b?auto=format&fit=crop&w=1000&q=80');
                     const priceDisplay = typeof house.price === 'number' && house.price > 0 ?
                         new Intl.NumberFormat('es-ES').format(house.price) + '€' :
                         (house.price || 'Consultar');
 
                     html += `
-                        <article class="prop-card">
+                        <article class="card-luxury">
                             <a href="detalle-casa.html?id=${doc.id}">
-                                <div class="prop-img-wrapper">
-                                    <img src="${img}" class="prop-img" alt="${house.title}">
-                                    <span class="prop-badge">Destacado</span>
-                                    <div class="prop-fav"><i class="fa-regular fa-heart"></i></div>
+                                <div class="card-media">
+                                    <img src="${img}" alt="${house.title}">
+                                    <div class="card-overlay">
+                                        <span class="tag-premium">Pieza Exclusiva</span>
+                                    </div>
                                 </div>
-                                <div class="prop-content">
-                                    <div class="prop-price">${priceDisplay}</div>
-                                    <h3 class="prop-title">${house.title}</h3>
-                                    <div class="prop-location"><i class="fa-solid fa-location-dot"></i> ${house.location || 'España'}</div>
-                                    <div class="prop-specs">
-                                        <span><i class="fa-solid fa-ruler-combined"></i> ${house.area} m²</span>
-                                        <span><i class="fa-solid fa-bed"></i> ${house.rooms || house.bedrooms || 0} hab.</span>
-                                        <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} b.</span>
+                                <div class="card-body">
+                                    <div class="card-price">${priceDisplay}</div>
+                                    <h3 class="card-title">${house.title}</h3>
+                                    <div style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; display: flex; align-items: center; gap: 6px;">
+                                        <i class="fa-solid fa-location-dot" style="color: var(--primary);"></i> ${house.location || 'Localización Premium'}
+                                    </div>
+                                    <div class="card-meta">
+                                        <span><i class="fa-solid fa-expand"></i> ${house.area} m²</span>
+                                        <span><i class="fa-solid fa-bed"></i> ${house.rooms || house.bedrooms || 0} Dorm.</span>
+                                        <span><i class="fa-solid fa-bath"></i> ${house.bathrooms || 1} Baños</span>
                                     </div>
                                 </div>
                             </a>
@@ -201,8 +279,8 @@
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error('Error loading featured houses:', error);
-                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Error: ${error.message}</p>`;
+                console.error('Error:', error);
+                container.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: red;">Error en la carga de colección.</p>`;
             }
         }
 
