@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prehouses | Buscador de Casas Prefabricadas en España</title>
+    <title>Prehouses | Encuentra tu Casa Prefabricada Ideal en España</title>
     <meta name="description"
-        content="Encuentra y compara las mejores casas prefabricadas en España. Buscador de modelos, precios y fabricantes.">
+        content="El buscador nº1 de casas prefabricadas en España. Compara más de 500 modelos, precios y fabricantes líderes del sector.">
 
     <link rel="stylesheet" href="styles.css">
     <!-- Iconos -->
@@ -15,128 +15,195 @@
 
 <body>
 
-    <!-- Navegación Simple -->
-    <header>
+    <!-- Professional Header -->
+    <header class="header">
         <div class="container nav-flex">
-            <a href="index.html" class="logo">PREHOUSES</a>
+            <a href="index.html" class="logo">
+                PRE<span>HOUSES</span>
+            </a>
             <nav class="nav-links">
                 <a href="catalogo.html">Catálogo</a>
                 <a href="asesor.html">Asesor IA</a>
-                <a href="blog.html">Blog</a>
+                <a href="blog.html">Guías</a>
+                <a href="publicar-casa.html" class="btn-primary">Publicar Casa</a>
             </nav>
         </div>
     </header>
 
-    <!-- Área de Búsqueda -->
-    <section class="search-hero">
+    <!-- Impactful Hero Section -->
+    <section class="hero">
         <div class="container">
-            <h1>Buscador de casas prefabricadas</h1>
+            <div class="hero-content">
+                <h1>Encuentra la casa de <br> tus sueños en minutos</h1>
+                <p>El primer buscador inteligente de viviendas prefabricadas y modulares en España.</p>
 
-            <div class="main-search">
-                <div class="search-input-group">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput"
-                        placeholder="¿Qué estás buscando? (ej: hormigón, madera, Madrid...)">
-                </div>
-                <button class="btn-search" onclick="handleSearch()">Buscar</button>
-            </div>
-
-            <div class="quick-filters">
-                <a href="catalogo.html?tipo=hormigon" class="filter-tag">Hormigón</a>
-                <a href="catalogo.html?tipo=madera" class="filter-tag">Madera</a>
-                <a href="catalogo.html?tipo=modulares" class="filter-tag">Modulares</a>
-                <a href="catalogo.html?tipo=baratas" class="filter-tag">Económicas</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Resultados / Listas -->
-    <section class="results-section">
-        <div class="container">
-            <h2 class="section-title">Modelos en España</h2>
-
-            <div id="featuredHousesGrid" class="house-list">
-                <!-- Cargado con JS -->
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">
-                    <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; margin-bottom: 12px;"></i>
-                    <p>Cargando modelos destacados...</p>
+                <div class="search-box">
+                    <div class="search-field">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Ej: Hormigón, Madera, Madrid...">
+                    </div>
+                    <div class="search-field">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <select id="regionInput" style="border:none; background:transparent; width:100%; outline:none;">
+                            <option value="">Toda España</option>
+                            <option value="madrid">Madrid</option>
+                            <option value="catalunya">Cataluña</option>
+                            <option value="andalucia">Andalucía</option>
+                            <option value="valencia">Comunitat Valenciana</option>
+                        </select>
+                    </div>
+                    <button class="btn-search" onclick="handleSearch()">Buscar ahora</button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pie de Página -->
-    <footer>
+    <!-- Why Prehouses Secion -->
+    <section class="section" style="background-color: var(--bg-soft);">
         <div class="container">
-            <p>&copy; 2025 PREHOUSES - El portal de la vivienda prefabricada en España</p>
-            <div style="margin-top: 12px; display: flex; justify-content: center; gap: 20px;">
-                <a href="privacidad.html" style="color: inherit; text-decoration: none;">Privacidad</a>
-                <a href="cookies.html" style="color: inherit; text-decoration: none;">Cookies</a>
-                <a href="aviso-legal.html" style="color: inherit; text-decoration: none;">Aviso Legal</a>
+            <div class="section-head">
+                <h2>¿Por qué elegir Prehouses?</h2>
+                <p>Simplificamos el proceso de encontrar tu nuevo hogar modular.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <h3>+500 Modelos</h3>
+                    <p>La base de datos más grande de España actualizada semanalmente.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3>Fabricantes Verificados</h3>
+                    <p>Solo trabajamos con empresas con experiencia y solvencia contrastada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <h3>Asesoría IA</h3>
+                    <p>Nuestro asistente inteligente te ayuda a elegir el mejor material y diseño.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties Grid -->
+    <section class="section">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px;">
+                <h2 style="font-size: 2.25rem; font-weight: 800;">Destacados de la semana</h2>
+                <a href="catalogo.html"
+                    style="color: var(--primary); font-weight: 700; border-bottom: 2px solid var(--primary);">Ver todo
+                    el catálogo</a>
+            </div>
+
+            <div id="featuredHousesGrid" class="house-grid">
+                <!-- Se carga vía Firebase JS -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 100px;">
+                    <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--primary);"></i>
+                    <p style="margin-top: 20px; color: var(--text-muted); font-weight: 500;">Conectando con la base de
+                        datos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real Estate Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>PRE<span>HOUSES</span></h3>
+                    <p>Líderes en el mercado de la vivienda modular y prefabricada en España desde 2024.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Portal</h4>
+                    <ul>
+                        <li><a href="catalogo.html">Buscador</a></li>
+                        <li><a href="asesor.html">Asesor IA</a></li>
+                        <li><a href="blog.html">Guía de Compra</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="nosotros.html">Quiénes somos</a></li>
+                        <li><a href="contacto.html">Contacto</a></li>
+                        <li><a href="anunciate.html">Para Fabricantes</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Información</h4>
+                    <ul>
+                        <li><a href="privacidad.html">Privacidad</a></li>
+                        <li><a href="terminos.html">Términos</a></li>
+                        <li><a href="cookies.html">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2025 PREHOUSES. Todos los derechos reservados. Expertos en tecnología modular.
             </div>
         </div>
     </footer>
 
-    <!-- Firebase -->
+    <!-- Firebase Logic -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="js/firebase-config.js"></script>
 
     <script>
         function handleSearch() {
-            const query = document.getElementById('searchInput').value;
-            window.location.href = `catalogo.html?q=${encodeURIComponent(query)}`;
+            const q = document.getElementById('searchInput').value;
+            const r = document.getElementById('regionInput').value;
+            window.location.href = `catalogo.html?q=${encodeURIComponent(q)}&region=${r}`;
         }
 
-        async function loadHouses() {
-            const container = document.getElementById('featuredHousesGrid');
-            if (!container) return;
+        async function loadFeatured() {
+            const grid = document.getElementById('featuredHousesGrid');
+            if (!grid) return;
 
             try {
-                const snapshot = await db.collection('houses').limit(6).get();
-
+                const snapshot = await db.collection('houses').limit(3).get();
                 if (snapshot.empty) {
-                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se han encontrado modelos.</p>';
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay casas destacadas actualmente.</p>';
                     return;
                 }
 
                 let html = '';
                 snapshot.forEach(doc => {
                     const house = doc.data();
-                    const img = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || 'https://via.placeholder.com/400x300?text=Prehouses');
-                    const price = typeof house.price === 'number' ? new Intl.NumberFormat('es-ES').format(house.price) + '€' : house.price;
+                    const img = Array.isArray(house.images) && house.images.length > 0 ? house.images[0] : (house.image || 'https://via.placeholder.com/600x400');
+                    const priceDisplay = typeof house.price === 'number' ? new Intl.NumberFormat('es-ES').format(house.price) + '€' : house.price;
 
                     html += `
-                        <article class="house-item">
-                            <a href="detalle-casa.html?id=${doc.id}" style="text-decoration: none; color: inherit;">
-                                <img src="${img}" class="house-img" alt="${house.title}">
-                                <div class="house-content">
-                                    <div class="house-price">${price}</div>
+                        <article class="house-card">
+                            <a href="detalle-casa.html?id=${doc.id}">
+                                <img src="${img}" alt="${house.title}" loading="lazy">
+                                <div class="house-body">
+                                    <div class="house-price">${priceDisplay}</div>
                                     <h3 class="house-title">${house.title}</h3>
-                                    <p class="house-loc">${house.location || 'España'}</p>
-                                    <div class="house-features">
-                                        <span>${house.area} m²</span>
-                                        <span>${house.rooms || house.bedrooms || 0} hab.</span>
-                                        <span>${house.bathrooms} b.</span>
+                                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px;">
+                                        <i class="fa-solid fa-location-dot"></i> ${house.location || 'Consultar ubicación'}
+                                    </p>
+                                    <div class="house-info">
+                                        <span><i class="fa-solid fa-ruler-combined"></i> ${house.area} m²</span>
+                                        <span><i class="fa-solid fa-bed"></i> ${house.rooms || house.bedrooms || 0} Hab.</span>
+                                        <span><i class="fa-solid fa-bath"></i> ${house.bathrooms} B.</span>
                                     </div>
                                 </div>
                             </a>
                         </article>
                     `;
                 });
-
-                container.innerHTML = html;
-
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error al cargar los datos.</p>';
+                grid.innerHTML = html;
+            } catch (e) {
+                console.error(e);
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error al conectar con la colección.</p>';
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(loadHouses, 300);
-
-            // Permitir buscar con Enter
+            setTimeout(loadFeatured, 300);
             document.getElementById('searchInput').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleSearch();
             });
